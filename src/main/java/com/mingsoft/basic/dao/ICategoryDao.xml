@@ -204,6 +204,15 @@
 	<select id="queryChildren" resultMap="resultMap"
 		parameterType="com.mingsoft.basic.entity.CategoryEntity">
 		select * from category where category_id=#{categoryId}
+		<if test="categoryModelId &gt; 0">
+			and category_modelId=#{categoryModelId}
+		</if>
+		<if test="categoryAppId &gt; 0">
+			and category_appid=#{categoryAppId}
+		</if>
+		<if test="categoryDictId &gt; 0">
+			and CATEGORY_DICT_ID=#{categoryDictId}
+		</if>
 		<if test="categoryParentId != null">
 			or CATEGORY_PARENT_ID like '${categoryParentId},${categoryId}%'
 		</if>

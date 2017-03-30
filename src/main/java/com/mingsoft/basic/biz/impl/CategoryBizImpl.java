@@ -206,11 +206,15 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	@Override
 	public synchronized int[] queryChildrenCategoryIds(int categoryId, int appId, int modelId) {
 		// TODO Auto-generated method stub
-		List<CategoryEntity> list = categoryDao.queryChildrenCategoryId(categoryId, appId, modelId);
+		CategoryEntity category = new CategoryEntity();
+		category.setCategoryAppId(appId);
+		category.setCategoryModelId(modelId);
+		category.setCategoryId(categoryId);
+		List<CategoryEntity> list = categoryDao.queryChildren(category);
 		int[] ids = new int[list.size()];
 		for (int i = 0; i < list.size(); i++) {
-			CategoryEntity category = list.get(i);
-			ids[i] = category.getCategoryId();
+			CategoryEntity _category = list.get(i);
+			ids[i] = _category.getCategoryId();
 		}
 		return ids;
 	}
@@ -288,7 +292,12 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	@Override
 	public List<CategoryEntity> queryChildrenCategory(int categoryId, int appId, int modelId) {
 		// TODO Auto-generated method stub
-		return categoryDao.queryChildrenCategoryId(categoryId, appId, modelId);
+		CategoryEntity category = new CategoryEntity();
+		category.setCategoryAppId(appId);
+		category.setCategoryModelId(modelId);
+		category.setCategoryId(categoryId);
+		
+		return categoryDao.queryChildren(category);
 	}
 
 	@Override
