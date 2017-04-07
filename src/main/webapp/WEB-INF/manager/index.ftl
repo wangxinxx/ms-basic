@@ -139,7 +139,7 @@
     {{/if}}
     </script>
     <script id="ms-menu-child-tmpl" type="text/x-jquery-tmpl">
-        <li><a href="javascript:void(0)" data-title='${modelTitle}' data-url='${modelUrl}' data-id='${modelId}'><!--span class="caret"></span-->${modelTitle}</a></li>
+        <li><a style="cursor: pointer;"  data-title='${modelTitle}' data-url='${modelUrl}' data-id='${modelId}'><!--span class="caret"></span-->${modelTitle}</a></li>
     </script>
     </#noparse>
     

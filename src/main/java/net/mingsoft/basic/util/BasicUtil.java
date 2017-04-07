@@ -43,6 +43,24 @@ public class BasicUtil {
 	}
 	
 	/**
+	 * 根据模块编码获得模块编号
+	 * 
+	 * @param code
+	 *            编码
+	 * @return 返回模块编号，如果没有返回0
+	 */
+	public static int getModelCodeId(String code) {
+		com.mingsoft.basic.biz.IModelBiz modelBiz = (com.mingsoft.basic.biz.IModelBiz) SpringUtil
+				.getBean(SpringUtil.getRequest().getServletContext(), "modelBiz");
+		ModelEntity model = modelBiz.getEntityByModelCode(code);
+		if (model != null) {
+			return model.getModelId();
+		}
+		return 0;
+	}
+
+	
+	/**
 	 * 获取当前请求的mcode编码 ，根据后台的菜单设置决定
 	 * @return 不存在返回0
 	 */

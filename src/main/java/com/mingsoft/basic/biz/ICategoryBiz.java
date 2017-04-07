@@ -226,7 +226,6 @@ public interface ICategoryBiz extends IBaseBiz {
 	 * @return appId 应用编号
 	 * @return 返回子分类id集合
 	 */
-	@Deprecated
 	public int[] queryChildrenCategoryIds(int categoryId, int appId, int modelId);
 
 	/**
