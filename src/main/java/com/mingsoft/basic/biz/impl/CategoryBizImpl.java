@@ -78,6 +78,14 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	@Override
 	public int saveCategory(CategoryEntity categoryEntity) {
 		// TODO Auto-generated method stub
+		if(categoryEntity.getCategoryCategoryId()>0) {
+			CategoryEntity category = this.getCategory(categoryEntity.getCategoryCategoryId());
+			if(StringUtil.isBlank(category.getCategoryParentId())) {
+				categoryEntity.setCategoryParentId(categoryEntity.getCategoryCategoryId()+"");
+			} else {
+				categoryEntity.setCategoryParentId(category.getCategoryParentId()+","+categoryEntity.getCategoryCategoryId());
+			}
+		}
 		categoryDao.saveEntity(categoryEntity);
 		return saveEntity(categoryEntity);
 	}
@@ -104,6 +112,14 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	@Override
 	public void updateCategory(CategoryEntity categoryEntity) {
 		// TODO Auto-generated method stub
+		if(categoryEntity.getCategoryCategoryId()>0) {
+			CategoryEntity category = this.getCategory(categoryEntity.getCategoryCategoryId());
+			if(StringUtil.isBlank(category.getCategoryParentId())) {
+				categoryEntity.setCategoryParentId(categoryEntity.getCategoryCategoryId()+"");
+			} else {
+				categoryEntity.setCategoryParentId(category.getCategoryParentId()+","+categoryEntity.getCategoryCategoryId());
+			}
+		}
 		categoryDao.updateEntity(categoryEntity);
 		updateEntity(categoryEntity);
 	}
