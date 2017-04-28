@@ -1,6 +1,7 @@
 
 package net.mingsoft.basic.util;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -507,7 +508,24 @@ public class BasicUtil {
 	 */
 	public static String getRealPath(String filePath) {
 		HttpServletRequest request = SpringUtil.getRequest();
-		return request.getServletContext().getRealPath("/")+filePath;
+		
+		String path = request.getServletContext().getRealPath("/");//该方法存在平台因素，存在有时后面有斜杠有时会没有
+		String last = path.charAt(path.length()-1)+""; //取最后一个字符串，判断是否存在斜杠
+		String frist = filePath.charAt(0)+""; //取第一个字符串，判断用户传递过来的参数是否有斜杠
+		if(last.equals(File.separator)) { 
+			if(frist.equals("\\") || frist.equals("/")) {//当前平台可以获取到最后的斜杠，那么就判断一下用户传递的参数是否有斜杠，有就截取掉
+				path=path+filePath.substring(1);
+			} else {
+				path=path+filePath; //当前平台可以获取到最后的斜杠，用户传递的参数没有斜杠，就直接返回
+			}
+		} else {
+			if(frist.equals("\\") || frist.equals("/")) {//当前平台没有斜杠，用户传递的参数有斜杠，有就放回
+				path=path+filePath;
+			} else {
+				path=path+File.separator+filePath; //平台也米有斜杠，参数也没有斜杠，增加拼接放回
+			}
+		}
+		return path;
 	}
 
 	/**

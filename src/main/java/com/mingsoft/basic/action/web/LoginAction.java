@@ -187,11 +187,12 @@ public class LoginAction extends BaseAction {
 					setSession(request, SessionConstEnum.MANAGER_SESSION, managerSession);
 				} else {
 					if (!(_manager.getManagerRoleID() == Const.DEFAULT_SYSTEM_MANGER_ROLE_ID)) {
+						LOG.debug("roleId: "+_manager.getManagerRoleID());
 						this.outJson(response, ModelCode.ADMIN_LOGIN, false, this.getResString("err.not.exist",this.getResString("manager")));
 					} else {
 						setSession(request, SessionConstEnum.MANAGER_SESSION, managerSession);
 					}
-				}
+				} 
 				BeanUtils.copyProperties(_manager, managerSession);
 				if (systemSkin != null) {
 					managerSession.setSystemSkin(systemSkin);
