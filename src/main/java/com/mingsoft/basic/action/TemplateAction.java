@@ -162,7 +162,7 @@ public class TemplateAction extends BaseAction {
 						_pathName = files(currFile, style, _pathName);
 						list.add(_pathName + currFile.getName());
 					}
-				} else if (currFile.isDirectory()) {
+				} else if (currFile.isDirectory() && !currFile.getName().equalsIgnoreCase(IParserRegexConstant.MOBILE)) {
 					files(list, currFile, style);
 				}
 			}
