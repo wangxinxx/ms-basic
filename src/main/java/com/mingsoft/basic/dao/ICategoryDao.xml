@@ -208,10 +208,6 @@
 		parameterType="com.mingsoft.basic.entity.CategoryEntity">
 		select * from category 
 		<where>
-			<if test="categoryId &gt; 0">
-				and category_id=#{categoryId}
-			</if>
-
 			<if test="categoryModelId &gt; 0">
 				and category_modelId=#{categoryModelId}
 			</if>
@@ -221,13 +217,19 @@
 			<if test="categoryDictId &gt; 0">
 				and CATEGORY_DICT_ID=#{categoryDictId}
 			</if>
+			and
+			(
 			<if test="categoryParentId != null">
 				or CATEGORY_PARENT_ID like
-				'${categoryParentId},${categoryId}%'
+				'%${categoryParentId}%'
 			</if>
 			<if test="categoryParentId == null">
-				or CATEGORY_PARENT_ID like '${categoryId}%'
+				find_in_set('${categoryId}',CATEGORY_PARENT_ID)
 			</if>
+			<if test="categoryId &gt; 0">
+				or category_id=#{categoryId}
+			</if>
+			)
 			and category_del=0
 		</where>
 
