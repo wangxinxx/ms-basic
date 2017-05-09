@@ -220,7 +220,7 @@
 			and
 			(
 			<if test="categoryParentId != null">
-				or CATEGORY_PARENT_ID like
+				CATEGORY_PARENT_ID like
 				'%${categoryParentId}%'
 			</if>
 			<if test="categoryParentId == null">
