@@ -95,6 +95,7 @@ public abstract class IGeneralParser extends IParser {
 	 * 模块编号
 	 */
 	protected int modelId;
+	
 
 	public static final String REQUEST_PARAM = "request", MODEL_ID = "modelId", CUR_COLUMNID = "curColumnId",
 			PREVIOUS = "previous", NEXT = "next", CUR_PAGE_NO = "curPageNo", LIST_LINK_PATH = "listLinkPath";
@@ -246,6 +247,9 @@ public abstract class IGeneralParser extends IParser {
 				}
 				if (o instanceof Map) {
 					this.map = (Map) o;
+					if (!StringUtil.isBlank(map.get(MOBILE) )) {
+						mobilePath = map.get(MOBILE)+"";
+					}
 				}
 			}
 		}
