@@ -247,9 +247,6 @@ public abstract class IGeneralParser extends IParser {
 				}
 				if (o instanceof Map) {
 					this.map = (Map) o;
-					if (!StringUtil.isBlank(map.get(MOBILE) )) {
-						mobilePath = map.get(MOBILE)+"";
-					}
 				}
 			}
 		}
