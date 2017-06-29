@@ -239,7 +239,7 @@ public class BasicUtil {
 	 * 
 	 * @return ip地址
 	 */
-	public String getIp() {
+	public static String getIp() {
 		HttpServletRequest request = SpringUtil.getRequest();
 		String ipAddress = null;
 		// ipAddress = this.getRequest().getRemoteAddr();
