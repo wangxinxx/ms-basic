@@ -66,7 +66,10 @@ public abstract class BaseServlet extends HttpServlet {
 	/*
 	 * log4j日志记录
 	 */
+	@Deprecated
 	public Logger logger = Logger.getLogger(this.getClass());
+	
+	public Logger LOG = Logger.getLogger(this.getClass());
 
 	/**
 	 * 执行清理操作
