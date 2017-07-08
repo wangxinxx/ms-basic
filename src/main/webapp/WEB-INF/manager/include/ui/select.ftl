@@ -23,7 +23,7 @@
 		<#include "common-attributes.ftl"/><#rt/>
 		><#rt/>
 			<#if default?has_content>
-			<option value="">${default}</option>
+			<option value="<#if value?has_content>${value}</#if>">${default}</option>
 			</#if>
 			<#if list?is_sequence><#--LIST-->
 				<#if listKey!="" && listValue!="">
