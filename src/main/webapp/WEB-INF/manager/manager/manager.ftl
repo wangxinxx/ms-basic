@@ -183,7 +183,7 @@
 		$("#updateButton").text("更新");	
 		//找到点击的id
 		var managerId =  $(this).attr("data-id");
-		URL="${basePath}/manager/manager/"+managerId+"/edit.do";
+		URL="${managerPath}/manager/"+managerId+"/edit.do";
 		$.ajax({
 			type: "post",
 			dataType:"json",
