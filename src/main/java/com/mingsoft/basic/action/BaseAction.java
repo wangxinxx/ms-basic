@@ -286,6 +286,7 @@ public abstract class BaseAction extends com.mingsoft.base.action.BaseAction {
 	 *            HttpServletRequest对象
 	 * @return 返回当前模块编号，没找到返回0
 	 */
+	@Deprecated
 	protected int getModelCodeId(HttpServletRequest request) {
 		Object obj = this.getSession(request, SessionConstEnum.MODEL_ID_SESSION);
 		if (obj != null) {
