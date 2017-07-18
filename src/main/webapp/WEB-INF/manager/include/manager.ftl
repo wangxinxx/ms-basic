@@ -31,8 +31,8 @@
 </#macro>
 
 <#--左侧菜单-->
-<#macro contentMenu>
-   <div class="ms-content-menu">
+<#macro contentMenu style="">
+   <div class="ms-content-menu" style="${style}">
    		<#nested/>
     </div>
 </#macro>
