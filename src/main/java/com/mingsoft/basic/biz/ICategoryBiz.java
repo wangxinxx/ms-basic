@@ -239,18 +239,6 @@ public interface ICategoryBiz extends IBaseBiz {
 	 */
 	public List<CategoryEntity> queryByAppIdOrModelId(Integer appId, Integer modelId);
 
-	/**
-	 * 递归获取父栏目，
-	 * 
-	 * @param appId
-	 *            应用编号
-	 * @param modelId
-	 *            模块编号
-	 * @param categoryId
-	 *            可选
-	 * @return 返回分类集合
-	 */
-	public List<CategoryEntity> queryParent(int appId, int modelId, Integer categoryId);
 
 	/**
 	 * 主要用于属性查询

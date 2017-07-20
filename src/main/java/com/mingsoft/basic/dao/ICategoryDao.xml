@@ -237,12 +237,6 @@
 	</select>
 
 
-	<!-- 根据栏目编号活取所有的父级别编号 -->
-	<select id="queryParentIds" resultType="String">
-		select
-		func_parent_category(#{categoryId})
-	</select>
-
 	<!-- 根据分类ID批量查询分类实体,并按照字段压入顺序排序开始 -->
 	<select id="queryByDescription" resultMap="resultMap"
 		parameterType="list">

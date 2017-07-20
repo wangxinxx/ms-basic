@@ -256,27 +256,6 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		return categoryDao.queryByAppIdOrModelId(appId, modelId);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.mingsoft.basic.biz.ICategoryBiz#queryParent(int, int,
-	 * java.lang.Integer)
-	 */
-	@Override
-	public List<CategoryEntity> queryParent(int appId, int modelId, Integer categoryId) {
-		// TODO Auto-generated method stub
-		// 先查出父ids
-		String ids = categoryDao.queryParentIds(categoryId);
-		if (!StringUtil.isBlank(ids)) {
-			List list = new ArrayList();
-			String[] _ids = ids.split(",");
-			for (int i = 0; i < _ids.length; i++) {
-				list.add(Integer.parseInt(_ids[i]));
-			}
-			return categoryDao.queryBatchCategoryById(list);
-		}
-		return null;
-	}
 
 	@Override
 	public List<CategoryEntity> queryByDescription(int appId, int modelId, String categoryDescription) {

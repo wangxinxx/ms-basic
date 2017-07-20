@@ -139,12 +139,6 @@ public interface ICategoryDao extends IBaseDao {
 	@Deprecated
 	public List<CategoryEntity> queryChildrenCategoryIdByModelId(@Param("categoryId")Integer categoryId,@Param("appId")int appId,@Param("modelId")int modelId);
 
-	/**
-	 * 递归活取父栏目，
-	 * @param categoryId 
-	 * @return  返回父类id，格式 1,3,4,5
-	 */
-	public String queryParentIds(int categoryId);
 	
 	
 	/**
