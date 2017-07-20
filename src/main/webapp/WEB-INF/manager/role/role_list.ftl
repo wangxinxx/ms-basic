@@ -28,7 +28,7 @@
 					            </td>
 					            <input type="hidden" name="${role.roleId?c?default(0)}" />
 					            <td>${role.roleId?c?default(0)}</td>
-			            		<td><a href="${managerPath}/role/${role.roleId}/edit.do">${role.roleName?default("匿名")}</a></td>
+			            		<td><a href="${managerPath}/role/${role.roleId}/edit.do" target="_self">${role.roleName?default("匿名")}</a></td>
 					          </tr>
 				           </#list>
 						<#else>
