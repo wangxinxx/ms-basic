@@ -39,8 +39,8 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
-import net.mingsoft.elasticsearch.mapping.BaseMapping;
-import net.mingsoft.elasticsearch.search.IBaseSearch;
+import net.mingsoft.base.elasticsearch.mapping.BaseMapping;
+import net.mingsoft.base.elasticsearch.search.IBaseSearch;
 
 /**
  * 
