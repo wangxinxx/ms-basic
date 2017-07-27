@@ -40,7 +40,7 @@ import net.mingsoft.basic.bean.EUListBean;
  */
 @Controller
 @RequestMapping("/${managerPath}/basic/people")
-public class PeopleAction extends net.mingsoft.basic.action.BaseAction{
+public class PeopleAction extends com.mingsoft.basic.action.BaseAction{
 	
 	/**
 	 * 注入通用用户与信息一对多表业务层

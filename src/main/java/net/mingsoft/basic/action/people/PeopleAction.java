@@ -33,7 +33,7 @@ import net.mingsoft.basic.util.BasicUtil;
  */
 @Controller("peoplePeopleAction")
 @RequestMapping("/people/basic/people")
-public class PeopleAction extends net.mingsoft.people.action.BaseAction{
+public class PeopleAction extends com.mingsoft.basic.action.BaseAction{
 	
 	/**
 	 * 注入通用用户与信息一对多表业务层

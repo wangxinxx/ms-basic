@@ -33,7 +33,7 @@ import net.mingsoft.basic.util.BasicUtil;
  */
 @Controller("webCityAction")
 @RequestMapping("/basic/city")
-public class CityAction extends net.mingsoft.basic.action.BaseAction{
+public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	
 	/**
 	 * 注入省市县镇村数据业务层
