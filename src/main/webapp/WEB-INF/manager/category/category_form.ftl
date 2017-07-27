@@ -13,7 +13,7 @@
 								<@ms.uploadImg path="upload/${manager_session.basicId?default('0')}/app/" inputName="categorySmallImg" size="15" filetype="" msg=""  maxSize="1" imgs="${category.categorySmallImg?default('')}" />
 				    		</@ms.formRow>
 				    		<#if category.categoryLevel gt 0>
-					    		<@ms.formRow label="缩略图" width="300">
+					    		<@ms.formRow label="关联父分类" width="300">
 					            	<@ms.inputTree  
 					            		treeId="inputTree" 
 					            		json="${listCategory?default('')}" 
