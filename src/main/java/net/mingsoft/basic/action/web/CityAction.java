@@ -117,11 +117,11 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	@RequestMapping("/get")
 	@ResponseBody
 	public void get(@ModelAttribute CityEntity city,HttpServletResponse response, HttpServletRequest request,ModelMap model){
-		if(city.getId()<=0) {
+		if(StringUtil.isBlank(city.getId())) {
 			this.outJson(response, null, false, getResString("err.error", this.getResString("id")));
 			return;
 		}
-		CityEntity _city = (CityEntity)cityBiz.getEntity(city.getId());
+		CityEntity _city = (CityEntity)cityBiz.getEntity(Integer.parseInt(city.getId()));
 		this.outJson(response, _city);
 	}
 	

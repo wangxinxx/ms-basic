@@ -16,10 +16,6 @@ public class CityEntity extends BaseEntity {
 	private static final long serialVersionUID = 1501138049606L;
 	
 	/**
-	 * 主键编号
-	 */
-	private Integer id; 
-	/**
 	 * 省／直辖市／自治区级id
 	 */
 	private Long provinceId; 
@@ -61,9 +57,6 @@ public class CityEntity extends BaseEntity {
 	private String villageName; 
 	
 	public CityEntity(){}
-	public CityEntity(Integer id) {
-	this.id = id;	
-	}
 	
 	public CityEntity(Long provinceId) {
 		this.provinceId = provinceId;	
@@ -106,19 +99,6 @@ public class CityEntity extends BaseEntity {
 	}
 	
 		
-	/**
-	 * 设置主键编号
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	/**
-	 * 获取主键编号
-	 */
-	public Integer getId() {
-		return this.id;
-	}
 	
 	/**
 	 * 设置省／直辖市／自治区级id

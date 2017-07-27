@@ -33,9 +33,6 @@ public class PeopleEntity extends BaseEntity {
 	private Date bpDatetime; 
 	
 	public PeopleEntity(){}
-	public PeopleEntity(Integer bpId) {
-	this.bpId = bpId;	
-	}
 	
 	public PeopleEntity(Integer bpBasicId) {
 		this.bpBasicId = bpBasicId;	

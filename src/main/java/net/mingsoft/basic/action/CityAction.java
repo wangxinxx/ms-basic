@@ -101,8 +101,8 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@RequestMapping("/form")
 	public String form(@ModelAttribute CityEntity city,HttpServletResponse response,HttpServletRequest request,ModelMap model){
-		if(city.getId() != null){
-			BaseEntity cityEntity = cityBiz.getEntity(city.getId());			
+		if(StringUtil.isBlank(city.getId())){
+			BaseEntity cityEntity = cityBiz.getEntity(Integer.parseInt(city.getId()));			
 			model.addAttribute("cityEntity",cityEntity);
 		}
 		
@@ -142,11 +142,11 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	@RequestMapping("/get")
 	@ResponseBody
 	public void get(@ModelAttribute CityEntity city,HttpServletResponse response, HttpServletRequest request,ModelMap model){
-		if(city.getId()<=0) {
+		if(StringUtil.isBlank(city.getId())) {
 			this.outJson(response, null, false, getResString("err.error", this.getResString("id")));
 			return;
 		}
-		CityEntity _city = (CityEntity)cityBiz.getEntity(city.getId());
+		CityEntity _city = (CityEntity)cityBiz.getEntity(Integer.parseInt(city.getId()));
 		this.outJson(response, _city);
 	}
 	
@@ -203,7 +203,7 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	public void delete(@RequestBody List<CityEntity> citys,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[citys.size()];
 		for(int i = 0;i<citys.size();i++){
-			ids[i] = citys.get(i).getId();
+			ids[i] = Integer.parseInt(citys.get(i).getId());
 		}
 		cityBiz.delete(ids);		
 		this.outJson(response, true);
