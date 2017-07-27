@@ -31,7 +31,7 @@ import net.mingsoft.basic.util.BasicUtil;
  * 创建日期：2017-7-27 14:47:29<br/>
  * 历史修订：<br/>
  */
-@Controller("peoplePeopleAction")
+@Controller("basicPeoplePeopleAction")
 @RequestMapping("/people/basic/people")
 public class PeopleAction extends com.mingsoft.basic.action.BaseAction{
 	
