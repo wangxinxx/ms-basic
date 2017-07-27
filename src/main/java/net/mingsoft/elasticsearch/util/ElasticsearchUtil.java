@@ -20,6 +20,7 @@ The MIT License (MIT) * Copyright (c) 2017 铭飞科技(mingsoft.net)
  */
 package net.mingsoft.elasticsearch.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.elasticsearch.mapping.BaseMapping;
 import net.mingsoft.elasticsearch.search.IBaseSearch;
 
@@ -62,35 +64,94 @@ public class ElasticsearchUtil {
 	 * @param base
 	 *            mapping实体
 	 */
-	public static void saveOrUpdate(ElasticsearchTemplate elasticsearchTemplate, String id, BaseMapping base) {
+	public static void saveOrUpdate(String id, BaseMapping base) {
+		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate)SpringUtil.getBean("elasticsearchTemplate");
 		IndexQuery indexQuery = new IndexQueryBuilder().withId(id).withObject(base).build();
 		elasticsearchTemplate.index(indexQuery);
 	}
 
 	/**
+	 * 新增&更新搜索引擎数据
+	 * 
+	 * @param elasticsearchTemplate
+	 *            搜索引擎模板对象，通常由spring提供
+	 * @param bases
+	 *            BaseMapping 对象集合 
+	 */
+	public static void saveOrUpdate( List<BaseMapping> bases) {
+		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate)SpringUtil.getBean("elasticsearchTemplate");
+		List<IndexQuery> indexQueries = new ArrayList<IndexQuery>();
+		for (int i = 0; i < bases.size(); i++) {
+			IndexQuery indexQuery = new IndexQueryBuilder().withId(bases.get(i).getId()).withObject(bases.get(i))
+					.build();
+			indexQueries.add(indexQuery);
+		}
+		if(indexQueries.size()>0) {
+			elasticsearchTemplate.bulkIndex(indexQueries);
+		}
+	}
+
+	/**
 	 * 搜索
-	 * @param baseSearch 搜索search对象
-	 * @param keyword 关键字
-	 * @param field 过滤字段与比重
-	 * @param orderBy 排序字段
-	 * @param order 排序方式
-	 * @param pageNumber 当前页码
-	 * @param pageSize 一页显示数量
+	 * 
+	 * @param baseSearch
+	 *            搜索search对象
+	 * @param keyword
+	 *            关键字
+	 * @param field
+	 *            过滤字段与比重
+	 * @param orderBy
+	 *            排序字段
+	 * @param order
+	 *            排序方式
+	 * @param pageNumber
+	 *            当前页码
+	 * @param pageSize
+	 *            一页显示数量
 	 * @return
 	 */
-	public static List<BaseMapping> search(IBaseSearch baseSearch, String keyword, Map<String, Float> field,String orderBy,SortOrder order,Integer pageNumber, Integer pageSize) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List<BaseMapping> search(IBaseSearch baseSearch, String keyword, Map<String, Float> field,
+			String orderBy, SortOrder order, Integer pageNumber, Integer pageSize) {
+		Page<BaseMapping> page = baseSearch
+				.search(ElasticsearchUtil.buildSearchQuery(keyword, field, orderBy, order, pageNumber, pageSize));
+		return page.getContent();
+	}
+
+	/**
+	 * 组织SearchQuery
+	 * 
+	 * @param keyword
+	 *            关键字
+	 * @param field
+	 *            过滤字段与比重
+	 * @param orderBy
+	 *            排序字段
+	 * @param order
+	 *            排序方式
+	 * @param pageNumber
+	 *            当前页码
+	 * @param pageSize
+	 *            一页显示数量
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "static-access" })
+	public static SearchQuery buildSearchQuery(String keyword, Map<String, Float> field, String orderBy,
+			SortOrder order, Integer pageNumber, Integer pageSize) {
 		FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery();
 		Iterator keys = field.keySet().iterator();
-		while(keys.hasNext()) {
+		while (keys.hasNext()) {
 			String fieldName = String.valueOf(keys.next());
-			functionScoreQueryBuilder.add(QueryBuilders.matchPhraseQuery(fieldName, keyword),ScoreFunctionBuilders.weightFactorFunction(1000));
+			functionScoreQueryBuilder.add(QueryBuilders.matchPhraseQuery(fieldName, keyword),
+					ScoreFunctionBuilders.weightFactorFunction(1000));
 		}
 		functionScoreQueryBuilder.scoreMode("sum").setMinScore(10.0F);
 		// 分页参数
+
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder).withSort(SortBuilders.fieldSort(orderBy).order(order.DESC))
-				.build();
-		Page<BaseMapping> page = baseSearch.search(sq);
-		return page.getContent();
+		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder)
+				.withSort(SortBuilders.fieldSort(orderBy).order(order.DESC)).build();
+		return sq;
 	}
+
 }
