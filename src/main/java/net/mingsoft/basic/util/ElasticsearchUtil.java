@@ -18,7 +18,7 @@ The MIT License (MIT) * Copyright (c) 2017 铭飞科技(mingsoft.net)
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package net.mingsoft.elasticsearch.util;
+package net.mingsoft.basic.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +39,6 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
-import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.elasticsearch.mapping.BaseMapping;
 import net.mingsoft.elasticsearch.search.IBaseSearch;
 
