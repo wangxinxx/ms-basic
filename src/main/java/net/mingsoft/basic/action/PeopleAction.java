@@ -2,6 +2,7 @@ package net.mingsoft.basic.action;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
@@ -45,7 +46,7 @@ public class PeopleAction extends com.mingsoft.basic.action.BaseAction{
 	/**
 	 * 注入通用用户与信息一对多表业务层
 	 */	
-	@Autowired
+	@Resource(name="basicPeopleBizImpl")
 	private IPeopleBiz peopleBiz;
 	
 	/**
