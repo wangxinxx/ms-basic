@@ -7,24 +7,6 @@
 		<result column="bp_basic_id" property="bpBasicId" /><!--信息编号 -->
 		<result column="bp_people_id" property="bpPeopleId" /><!--用户编号 -->
 		<result column="bp_datetime" property="bpDatetime" /><!--创建时间 -->
-		<association property="basic" javaType="com.mingsoft.basic.entity.BasicEntity">
-			<id column="BASIC_ID" property="basicId"/>
-			<result column="BASIC_TITLE" property="basicTitle" />
-			<result column="BASIC_DESCRIPTION" property="basicDescription" />
-			<result column="BASIC_THUMBNAILS" property="basicThumbnails" />
-			<result column="BASIC_HIT" property="basicHit" />
-			<result column="BASIC_DATETIME" property="basicDateTime" />
-			<result column="BASIC_UPDATETIME" property="basicUpdateTime" />
-			<result column="BASIC_PEOPLEID" property="basicPeopleId" />
-			<result column="BASIC_CATEGORYID" property="basicCategoryId" />
-			<result column="BASIC_APPID" property="basicAppId" />
-			<association property="product" javaType="net.mingsoft.mall.entity.ProductEntity">
-				<result column="product_price" property="productPrice" />	<!-- 产品价格 -->
-				<result column="product_linkUrl" property="productLinkUrl" />		<!-- 产品链接 -->
-				<result column="product_cost_price" property="productCostPrice" />		<!-- 产品原价 -->
-				<result column="product_shelf" property="productShelf" />		<!-- 产品是否下架 -->
-			</association>
-		</association>
 	</resultMap>
 	
 	<!--保存-->	
@@ -43,34 +25,6 @@
 		</trim>
 	</insert>
 	
-	<!--更新-->	
-	<update id="updateEntity" parameterType="net.mingsoft.basic.entity.PeopleEntity">
-		update basic_people
-		<set>
-			<if test="bpBasicId != null">bp_basic_id=#{bpBasicId},</if>			
-			<if test="bpPeopleId != null">bp_people_id=#{bpPeopleId},</if>			
-			<if test="bpDatetime != null">bp_datetime=#{bpDatetime},</if>			
-		</set>
-		where bp_id = #{bpId}
-	</update>
-	
-	<!--根据id获取-->	
-	<select id="getEntity" resultMap="resultMap" parameterType="int">
-		select * from basic_people where bp_id=#{bpId}
-	</select>
-	
-	<!--根据实体获取-->
-	<select id="getByEntity" resultMap="resultMap" parameterType="net.mingsoft.basic.entity.PeopleEntity">
-		select * from basic_people 
-		<where>
-			<if test="bpBasicId != null"> and bp_basic_id=#{bpBasicId} </if>				
-			<if test="bpPeopleId != null"> and bp_people_id=#{bpPeopleId} </if>				
-			<if test="bpDatetime != null"> and bp_datetime=#{bpDatetime} </if>				
-		</where>
-		limit 0,1
-	</select>	
-	
-	
 	<!--删除-->	
 	<delete id="deleteEntity" parameterType="int">
 		delete from basic_people  where bp_id=#{bpId}
@@ -84,21 +38,5 @@
 			open="(" separator="," close=")">#{item}</foreach>
 		</where>
 	</delete>
-	<!--查询全部-->	
-	<select id="queryAll" resultMap="resultMap">
-		select * from basic_people order by bp_id desc
-	</select>
-	<!--条件查询-->	
-	<select id="query" resultMap="resultMap">
-		SELECT * FROM basic_people
-		LEFT JOIN basic ON bp_basic_id = BASIC_ID
-		LEFT JOIN mall_product ON BASIC_ID = product_basicID AND product_appID = BASIC_APPID  
-		<where>	
-				and BASIC_APPID = #{basicAppId}
-				and product_shelf = #{productShelf}
-				<if test="bpPeopleId &gt; 0"> and bp_people_id=#{bpPeopleId} </if>				
-		</where>		
-		order by bp_id desc
-	</select>
 	
 </mapper>
