@@ -108,7 +108,7 @@ public class ElasticsearchUtil {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map search(IBaseSearch baseSearch, String field, SearchBean search) {
-		MatchQueryBuilder mqb = QueryBuilders.matchQuery(field, search.getKeyworkd());
+		MatchQueryBuilder mqb = QueryBuilders.matchQuery(field, search.getKeyword());
 		Pageable pageable = new PageRequest(search.getPageNumber()-1, search.getPageSize());
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withSort(SortBuilders.fieldSort(search.getOrderBy()).order(search.getOrder().equalsIgnoreCase("asc")?SortOrder.ASC:SortOrder.DESC)).withQuery(mqb).build();
 		Page p = baseSearch.search(sq);
