@@ -15,4 +15,12 @@ import net.mingsoft.basic.entity.PeopleEntity;
  */
 public interface IPeopleBiz extends IBaseBiz {
 
+	/**
+	 * 读取用户预览记录
+	 * @param appId 应用编号
+	 * @param modelId 模块编号
+	 * @param peopleId 用户编号
+	 * @return
+	 */
+	List queryByPeople(int appId,int modelId,int peopleId);
 }

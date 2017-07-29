@@ -25,12 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -40,6 +40,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
 import net.mingsoft.base.elasticsearch.bean.BaseMapping;
+import net.mingsoft.base.elasticsearch.bean.SearchBean;
 import net.mingsoft.base.elasticsearch.search.IBaseSearch;
 
 /**
@@ -64,7 +65,8 @@ public class ElasticsearchUtil {
 	 *            mapping实体
 	 */
 	public static void saveOrUpdate(String id, BaseMapping base) {
-		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate)SpringUtil.getBean("elasticsearchTemplate");
+		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate) SpringUtil
+				.getBean("elasticsearchTemplate");
 		IndexQuery indexQuery = new IndexQueryBuilder().withId(id).withObject(base).build();
 		elasticsearchTemplate.index(indexQuery);
 	}
@@ -75,17 +77,18 @@ public class ElasticsearchUtil {
 	 * @param elasticsearchTemplate
 	 *            搜索引擎模板对象，通常由spring提供
 	 * @param bases
-	 *            BaseMapping 对象集合 
+	 *            BaseMapping 对象集合
 	 */
-	public static void saveOrUpdate( List<BaseMapping> bases) {
-		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate)SpringUtil.getBean("elasticsearchTemplate");
+	public static void saveOrUpdate(List<BaseMapping> bases) {
+		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate) SpringUtil
+				.getBean("elasticsearchTemplate");
 		List<IndexQuery> indexQueries = new ArrayList<IndexQuery>();
 		for (int i = 0; i < bases.size(); i++) {
 			IndexQuery indexQuery = new IndexQueryBuilder().withId(bases.get(i).getId()).withObject(bases.get(i))
 					.build();
 			indexQueries.add(indexQuery);
 		}
-		if(indexQueries.size()>0) {
+		if (indexQueries.size() > 0) {
 			elasticsearchTemplate.bulkIndex(indexQueries);
 		}
 	}
@@ -110,11 +113,11 @@ public class ElasticsearchUtil {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<BaseMapping> search(IBaseSearch baseSearch, String keyword, Map<String, Float> field,
-			String orderBy, SortOrder order, Integer pageNumber, Integer pageSize) {
-		Page<BaseMapping> page = baseSearch
-				.search(ElasticsearchUtil.buildSearchQuery(keyword, field, orderBy, order, pageNumber, pageSize));
-		return page.getContent();
+	public static List<BaseMapping> search(IBaseSearch baseSearch, String field, SearchBean search) {
+		MatchQueryBuilder mqb = QueryBuilders.matchQuery(field, search.getKeyworkd());
+		Pageable pageable = new PageRequest(search.getPageNumber(), search.getPageSize());
+		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withSort(SortBuilders.fieldSort(search.getOrderBy()).order(search.getOrder().equalsIgnoreCase("asc")?SortOrder.ASC:SortOrder.DESC)).withQuery(mqb).build();
+		return baseSearch.search(sq).getContent();
 	}
 
 	/**
@@ -141,14 +144,15 @@ public class ElasticsearchUtil {
 		Iterator keys = field.keySet().iterator();
 		while (keys.hasNext()) {
 			String fieldName = String.valueOf(keys.next());
-			functionScoreQueryBuilder.add(QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery(fieldName, keyword)),
+			functionScoreQueryBuilder.add(
+					QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery(fieldName, keyword)),
 					ScoreFunctionBuilders.weightFactorFunction(1000));
 		}
-//		functionScoreQueryBuilder.scoreMode("sum").setMinScore(1.2F);
+		// functionScoreQueryBuilder.scoreMode("sum").setMinScore(1.2F);
 		// 分页参数
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		
+
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder)
 				.withSort(SortBuilders.fieldSort(orderBy).order(order.DESC)).build();
 		return sq;

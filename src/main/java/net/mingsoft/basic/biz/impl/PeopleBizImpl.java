@@ -20,7 +20,7 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技
  */
 
 package net.mingsoft.basic.biz.impl;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mingsoft.base.biz.impl.BaseBizImpl;
@@ -36,23 +36,28 @@ import net.mingsoft.basic.dao.IPeopleDao;
 
 /**
  * 通用用户与信息一对多表管理持久化层
+ * 
  * @author 伍晶晶
- * @version 
- * 版本号：100<br/>
- * 创建日期：2017-7-27 14:47:29<br/>
- * 历史修订：<br/>
+ * @version 版本号：100<br/>
+ *          创建日期：2017-7-27 14:47:29<br/>
+ *          历史修订：<br/>
  */
- @Service("basicPeopleBizImpl")
+@Service("basicPeopleBizImpl")
 public class PeopleBizImpl extends BaseBizImpl implements IPeopleBiz {
 
-	
-	 @Resource(name="IBasicPeopleDao")
-	private IPeopleDao peopleDao;
-	
-	
-		@Override
+	@Resource(name = "IBasicPeopleDao")
+	private net.mingsoft.basic.dao.IPeopleDao peopleDao;
+
+	@Override
 	protected IBaseDao getDao() {
 		// TODO Auto-generated method stub
 		return peopleDao;
-	} 
+	}
+
+	@Override
+	public List queryByPeople(int appId, int modelId, int peopleId) {
+		// TODO Auto-generated method stub
+		return peopleDao.queryByPeople(appId,modelId,peopleId);
+	}
+
 }
