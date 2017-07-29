@@ -39,7 +39,7 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
-import net.mingsoft.base.elasticsearch.mapping.BaseMapping;
+import net.mingsoft.base.elasticsearch.bean.BaseMapping;
 import net.mingsoft.base.elasticsearch.search.IBaseSearch;
 
 /**
@@ -141,13 +141,14 @@ public class ElasticsearchUtil {
 		Iterator keys = field.keySet().iterator();
 		while (keys.hasNext()) {
 			String fieldName = String.valueOf(keys.next());
-			functionScoreQueryBuilder.add(QueryBuilders.matchPhraseQuery(fieldName, keyword),
+			functionScoreQueryBuilder.add(QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery(fieldName, keyword)),
 					ScoreFunctionBuilders.weightFactorFunction(1000));
 		}
-		functionScoreQueryBuilder.scoreMode("sum").setMinScore(10.0F);
+//		functionScoreQueryBuilder.scoreMode("sum").setMinScore(1.2F);
 		// 分页参数
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder)
 				.withSort(SortBuilders.fieldSort(orderBy).order(order.DESC)).build();
 		return sq;
