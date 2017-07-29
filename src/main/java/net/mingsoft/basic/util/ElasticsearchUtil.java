@@ -100,18 +100,10 @@ public class ElasticsearchUtil {
 	 * 
 	 * @param baseSearch
 	 *            搜索search对象
-	 * @param keyword
-	 *            关键字
 	 * @param field
-	 *            过滤字段与比重
-	 * @param orderBy
-	 *            排序字段
-	 * @param order
-	 *            排序方式
-	 * @param pageNumber
-	 *            当前页码
-	 * @param pageSize
-	 *            一页显示数量
+	 *            搜索字段
+	 * @param search
+	 *            搜索bean,包含分页、关键字等搜索信息
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
