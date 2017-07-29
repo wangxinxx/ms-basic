@@ -4,6 +4,7 @@ import com.mingsoft.base.dao.IBaseDao;
 import com.mingsoft.util.*;
 import java.util.*;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import net.mingsoft.basic.entity.PeopleEntity;
@@ -18,4 +19,6 @@ import net.mingsoft.basic.entity.PeopleEntity;
  */
 @Component("IBasicPeopleDao")
 public interface IPeopleDao extends IBaseDao {
+
+	List queryByPeople(@Param("appId")int appId, @Param("modelId")int modelId, @Param("peopleId")int peopleId);
 }
