@@ -21,6 +21,7 @@ The MIT License (MIT) * Copyright (c) 2017 铭飞科技(mingsoft.net)
 package net.mingsoft.basic.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -113,11 +115,21 @@ public class ElasticsearchUtil {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<BaseMapping> search(IBaseSearch baseSearch, String field, SearchBean search) {
+	public static Map search(IBaseSearch baseSearch, String field, SearchBean search) {
 		MatchQueryBuilder mqb = QueryBuilders.matchQuery(field, search.getKeyworkd());
-		Pageable pageable = new PageRequest(search.getPageNumber(), search.getPageSize());
+		Pageable pageable = new PageRequest(search.getPageNumber()-1, search.getPageSize());
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withSort(SortBuilders.fieldSort(search.getOrderBy()).order(search.getOrder().equalsIgnoreCase("asc")?SortOrder.ASC:SortOrder.DESC)).withQuery(mqb).build();
-		return baseSearch.search(sq).getContent();
+		Page p = baseSearch.search(sq);
+		Pager pager = new Pager();
+		pager.setCurrentPage(p.getNumber());
+		pager.setPageSize(p.getSize());
+		pager.setTotalCount(p.getTotalElements());
+		pager.setTotalPage(p.getTotalPages());
+		Map map = new HashMap();
+		map.put("data", p.getContent());
+		map.put("page", pager);
+		//System.out.println(net.mingsoft.base.util.JSONObject.toJSONString(p));
+		return map;
 	}
 
 	/**
@@ -152,10 +164,56 @@ public class ElasticsearchUtil {
 		// 分页参数
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder)
 				.withSort(SortBuilders.fieldSort(orderBy).order(order.DESC)).build();
+		
 		return sq;
 	}
 
+}
+
+class Pager {
+	
+	private int currentPage = 1;
+	
+	private int pageSize;
+	
+	private int totalPage;
+	
+	private long totalCount;
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getTotalPage() {
+		return totalPage;
+	}
+
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+
+	public long getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
+	}
+	
+	
+	
 }

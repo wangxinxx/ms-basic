@@ -19,6 +19,12 @@ import net.mingsoft.basic.entity.PeopleEntity;
  */
 @Component("IBasicPeopleDao")
 public interface IPeopleDao extends IBaseDao {
-
+	/**
+	 * 读取用户预览记录
+	 * @param appId 应用编号
+	 * @param modelId 模块编号
+	 * @param peopleId 用户编号
+	 * @return
+	 */
 	List queryByPeople(@Param("appId")int appId, @Param("modelId")int modelId, @Param("peopleId")int peopleId);
 }
