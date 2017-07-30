@@ -123,4 +123,42 @@
 		order by id desc
 	</select>
 	
+	<!--查询省／直辖市／自治区-->	
+	<select id="queryProvince" resultMap="resultMap">
+		SELECT distinct city.province_id,city.province_name from city;
+	</select>
+	
+	<!--查询市-->	
+	<select id="queryCity" resultMap="resultMap">
+		SELECT distinct city.city_id,city.city_name from city
+		<where>
+			<if test="provinceId != null"> and province_id=#{provinceId} </if>	
+		</where>
+	</select>
+	
+	<!--查询区／县-->	
+	<select id="queryCounty" resultMap="resultMap">
+		SELECT distinct city.county_id,city.county_name from city
+		<where>
+			<if test="cityId != null"> and city_id=#{cityId} </if>	
+		</where>
+	</select>
+	
+	<!--查询街道／镇-->	
+	<select id="queryTown" resultMap="resultMap">
+		SELECT distinct city.town_id,city.town_name from city
+		<where>
+			<if test="countyId != null"> and county_id=#{countyId} </if>
+		</where>
+	</select>
+	
+	<!--查询街道／镇-->	
+	<select id="queryVillage" resultMap="resultMap">
+		SELECT distinct city.village_id,city.village_name from city
+		<where>
+			<if test="townId != null"> and town_id=#{townId} </if>		
+		</where>
+	</select>
+	
+	
 </mapper>
