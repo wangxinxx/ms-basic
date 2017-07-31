@@ -120,7 +120,7 @@
 				<if test="villageId != null"> and village_id=#{villageId} </if>				
 				<if test="villageName != null and villageName != ''"> and village_name=#{villageName} </if>				
 		</where>		
-		order by id desc
+		order by id
 	</select>
 	
 	<!--查询省／直辖市／自治区-->	

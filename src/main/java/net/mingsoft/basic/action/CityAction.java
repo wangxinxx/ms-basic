@@ -255,6 +255,7 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	/** 
 	 * 更新省市县镇村数据信息省市县镇村数据
 	 * @param tier 输入需要的层级。省／市／县／镇／村 
+	 * tier：省市层级、整型<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * id: 主键编号<br/>
@@ -270,9 +271,9 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 * villageName: 村委会名称<br/>
 	 * }</dd><br/>
 	 */
-	@RequestMapping("/city")
+	@RequestMapping("/queryByTier")
 	@ResponseBody	 
-	public void city(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
+	public void queryByTier(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
 		List<CityBean> cityList = (List<CityBean>) cityBiz.queryByTier(tier);
 		this.outJson(response, JSONArray.toJSON(cityList));
 	}

@@ -1,16 +1,19 @@
 <@ms.html5>
 	<@ms.nav title="省市县镇村数据管理"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
-			<@ms.searchFormButton>
-				 <@ms.queryButton onclick="search()"/> 
-			</@ms.searchFormButton>			
+		<@ms.text label="省" name="provinceName" value=""  width="240px;" placeholder="请输入省／直辖市／自治区级名称" />
+		<@ms.text label="市" name="cityName" value=""  width="240px;" placeholder="请输入市级名称" />
+		<@ms.text label="县" name="countyName" value=""  width="240px;" placeholder="请输入县／区级名称" />
+		<@ms.text label="镇" name="townName" value=""  width="240px;" placeholder="请输入街道／镇级名称" />
+		<@ms.text label="村" name="villageName" value=""  width="240px;" placeholder="请输入村委会名称" />
+		<@ms.searchFormButton>
+			 <@ms.queryButton onclick="search()"/> 
+		</@ms.searchFormButton>			
 	</@ms.searchForm>
 	<@ms.panel>
 		<div id="toolbar">
 			<@ms.panelNav>
 				<@ms.buttonGroup>
-					<@ms.addButton id="addCityBtn"/>
-					<@ms.delButton id="delCityBtn"/>
 				</@ms.buttonGroup>
 			</@ms.panelNav>
 		</div>
@@ -44,105 +47,26 @@
 			toolbar: "#toolbar",
 	    	columns: [{ checkbox: true},
 				    	{
-				        	field: 'id',
-				        	title: '主键编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?id="+row.id;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'provinceId',
-				        	title: '省／直辖市／自治区级id',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?provinceId="+row.provinceId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
 				        	field: 'provinceName',
 				        	title: '省／直辖市／自治区级名称',
-				        	width:'64',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?provinceName="+row.provinceName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'cityId',
-				        	title: '市级id ',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?cityId="+row.cityId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	align: 'center'
+				    	},{
 				        	field: 'cityName',
 				        	title: '市级名称',
-				        	width:'64',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?cityName="+row.cityName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'countyId',
-				        	title: '县／区级id',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?countyId="+row.countyId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	align: 'center'
+				    	},{
 				        	field: 'countyName',
 				        	title: '县／区级名称',
-				        	width:'64',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?countyName="+row.countyName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'townId',
-				        	title: '街道／镇级id',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?townId="+row.townId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	align: 'center'
+				    	},{
 				        	field: 'townName',
 				        	title: '街道／镇级名称',
-				        	width:'64',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?townName="+row.townName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'villageId',
-				        	title: '村委会id',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?villageId="+row.villageId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	align: 'center'
+				    	},{
 				        	field: 'villageName',
 				        	title: '村委会名称',
-				        	width:'64',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/city/form.do?villageName="+row.villageName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	}			]
+				        	align: 'center'
+				    	}]
 	    })
 	})
 	//增加按钮

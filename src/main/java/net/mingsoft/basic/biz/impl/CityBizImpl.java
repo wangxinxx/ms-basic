@@ -135,9 +135,10 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		//数据组织返回格式
 		List<CityBean> cityBeanList = new ArrayList<>();
 		if(tier >= 1){
-			CityBean provinceBean = new CityBean();
+			
 			//遍历省级数据，组织第一级
 			for (Long provinceKey : province.keySet()) {
+				CityBean provinceBean = new CityBean();
 			    String provinceName = province.get(provinceKey);  
 			    provinceBean.setProvinceId(provinceKey);
 			    provinceBean.setProvinceName(provinceName);

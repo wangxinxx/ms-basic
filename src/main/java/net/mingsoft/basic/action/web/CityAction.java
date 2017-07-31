@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import net.mingsoft.basic.bean.CityBean;
 import net.mingsoft.basic.biz.ICityBiz;
 import net.mingsoft.basic.entity.CityEntity;
 import com.mingsoft.util.PageUtil;
@@ -222,6 +225,33 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 		cityBiz.updateEntity(city);
 		this.outJson(response, city);
 	}
+	
+	/** 
+	 * 更新省市县镇村数据信息省市县镇村数据
+	 * @param tier 输入需要的层级。省／市／县／镇／村 
+	 * tier：省市层级、整型<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>{ <br/>
+	 * id: 主键编号<br/>
+	 * provinceId: 省／直辖市／自治区级id<br/>
+	 * provinceName: 省／直辖市／自治区级名称<br/>
+	 * cityId: 市级id <br/>
+	 * cityName: 市级名称<br/>
+	 * countyId: 县／区级id<br/>
+	 * countyName: 县／区级名称<br/>
+	 * townId: 街道／镇级id<br/>
+	 * townName: 街道／镇级名称<br/>
+	 * villageId: 村委会id<br/>
+	 * villageName: 村委会名称<br/>
+	 * }</dd><br/>
+	 */
+	@RequestMapping("/queryByTier")
+	@ResponseBody	 
+	public void queryByTier(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
+		List<CityBean> cityList = (List<CityBean>) cityBiz.queryByTier(tier);
+		this.outJson(response, JSONArray.toJSON(cityList));
+	}
+	
 	
 		
 }
