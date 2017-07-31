@@ -10,6 +10,10 @@ import net.mingsoft.basic.entity.CityEntity;
  */
 public class CityBean extends CityEntity{
 	/**
+	 * 父级id
+	 */
+	private Long parentId;
+	/**
 	 * 省，直辖市，自治区
 	 */
 	private List<Object> provinceList;
@@ -58,6 +62,12 @@ public class CityBean extends CityEntity{
 	}
 	public void setVillageList(List<Object> villageList) {
 		this.villageList = villageList;
+	}
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 	
 	

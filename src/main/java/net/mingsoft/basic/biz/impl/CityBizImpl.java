@@ -135,11 +135,11 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		//数据组织返回格式
 		List<CityBean> cityBeanList = new ArrayList<>();
 		if(tier >= 1){
-			
 			//遍历省级数据，组织第一级
 			for (Long provinceKey : province.keySet()) {
 				CityBean provinceBean = new CityBean();
 			    String provinceName = province.get(provinceKey);  
+			    
 			    provinceBean.setProvinceId(provinceKey);
 			    provinceBean.setProvinceName(provinceName);
 			    provinceBean.setCityList(new ArrayList<>());
@@ -192,6 +192,131 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				}
 				cityBeanList.add(provinceBean);
 			}  
+		}
+		return cityBeanList;
+	}
+	
+	@Override
+	public List<CityBean> queryByTierToTree(int tier) {
+		List<CityEntity> cityList = cityDao.queryAll();
+		Map<Long,String> province = new HashMap<>();
+		Map<Long,Map<Long,String>> city = new HashMap<>();
+		Map<Long,Map<Long,String>> county = new HashMap<>();
+		Map<Long,Map<Long,String>> town = new HashMap<>();
+		Map<Long,Map<Long,String>> village = new HashMap<>();
+		for(CityEntity cityEntity : cityList){
+			//组织省级／市级／县级／镇级／村级数据，并保存。
+			if(tier>=1){	
+				//组织省、自治区、直辖市的数据
+				if(province.get(cityEntity.getProvinceId()) == null){
+					province.put(cityEntity.getProvinceId(), cityEntity.getProvinceName());
+				}
+				if(tier>=2){
+					//组织市的数据
+					if(city.get(cityEntity.getProvinceId()) != null){		//如果当前map中已包含当前省级，那么最近向value中填充市级数据。
+						city.get(cityEntity.getProvinceId()).put(cityEntity.getCityId(), cityEntity.getCityName());
+					}else{		//否则，直接添加省级，并将当前市数据填充进value
+						Map<Long,String> tempCity = new HashMap<>();
+						tempCity.put(cityEntity.getCityId(), cityEntity.getCityName());
+						city.put(cityEntity.getProvinceId(), tempCity);
+					}
+					if(tier>=3){
+						//组织县、区的数据
+						if(county.get(cityEntity.getCityId()) != null){
+							county.get(cityEntity.getCityId()).put(cityEntity.getCountyId(), cityEntity.getCountyName());
+						}else{
+							Map<Long,String> tempCounty = new HashMap<>();
+							tempCounty.put(cityEntity.getCountyId(), cityEntity.getCountyName());
+							county.put(cityEntity.getCityId(), tempCounty);
+						}
+						if(tier>=4){
+							//组织镇、街道的数据
+							if(town.get(cityEntity.getCountyId()) != null){
+								town.get(cityEntity.getCountyId()).put(cityEntity.getTownId(), cityEntity.getTownName());
+							}else{
+								Map<Long,String> tempTown = new HashMap<>();
+								tempTown.put(cityEntity.getTownId(), cityEntity.getTownName());
+								town.put(cityEntity.getCountyId(), tempTown);
+							}
+							if(tier>=5){
+								//组织村的数据
+								if(village.get(cityEntity.getTownId()) != null){
+									village.get(cityEntity.getTownId()).put(cityEntity.getVillageId(), cityEntity.getVillageName());
+								}else{
+									Map<Long,String> tempVillage = new HashMap<>();
+									tempVillage.put(cityEntity.getVillageId(), cityEntity.getVillageName());
+									village.put(cityEntity.getTownId(), tempVillage);
+								}
+							}
+						}
+					}
+					
+				}
+			}
+			
+		}
+		CityBean cityBean = new CityBean();
+		List<CityBean> cityBeanList = new ArrayList<>();
+		//组织省的数据
+		if(tier>=1){
+			for(Long provinceId : province.keySet()){
+				cityBean = new CityBean();
+				cityBean.setProvinceId(provinceId);
+				cityBean.setProvinceName(province.get(provinceId));
+				cityBeanList.add(cityBean);
+			}
+		}
+		//组织市的数据，父级id为省id
+		if(tier>=2){
+			for(Long provinceId : city.keySet()){
+				Map<Long,String> _city = city.get(provinceId) ;
+				for(Long cityId : _city.keySet()){
+					cityBean = new CityBean();
+					cityBean.setCityId(cityId);
+					cityBean.setCityName(_city.get(cityId));
+					cityBean.setParentId(provinceId);
+					cityBeanList.add(cityBean);
+				}
+			}
+		}
+		//组织县的数据，父id为市id
+		if(tier>=3){
+			for(Long cityId : county.keySet()){
+				Map<Long,String> _county = county.get(cityId) ;
+				for(Long countyId : _county.keySet()){
+					cityBean = new CityBean();
+					cityBean.setCountyId(countyId);
+					cityBean.setCountyName(_county.get(countyId));
+					cityBean.setParentId(cityId);
+					cityBeanList.add(cityBean);
+				}
+			}
+		}
+		//组织镇的数据，父id为县id
+		if(tier>=4){
+			for(Long countyId : town.keySet()){
+				Map<Long,String> _town = county.get(countyId) ;
+				for(Long townId : _town.keySet()){
+					cityBean = new CityBean();
+					cityBean.setTownId(townId);
+					cityBean.setTownName(_town.get(townId));
+					cityBean.setParentId(countyId);
+					cityBeanList.add(cityBean);
+				}
+			}
+		}
+		//组织村的数据，父id为镇id
+		if(tier>=5){
+			for(Long countyId : village.keySet()){
+				Map<Long,String> _village = county.get(countyId) ;
+				for(Long villageId : _village.keySet()){
+					cityBean = new CityBean();
+					cityBean.setVillageId(villageId);
+					cityBean.setVillageName(_village.get(villageId));
+					cityBean.setParentId(countyId);
+					cityBeanList.add(cityBean);
+				}
+			}
 		}
 		return cityBeanList;
 	}
