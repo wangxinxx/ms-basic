@@ -1,9 +1,10 @@
 <@ms.html5>
 	<@ms.nav title="字典表管理"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
-			<@ms.searchFormButton>
-				 <@ms.queryButton onclick="search()"/> 
-			</@ms.searchFormButton>			
+		<@ms.text label="类型" name="dictType" value=""  width="240px;" placeholder="请输入类型" />
+		<@ms.searchFormButton>
+			 <@ms.queryButton onclick="search()"/> 
+		</@ms.searchFormButton>			
 	</@ms.searchForm>
 	<@ms.panel>
 		<div id="toolbar">
@@ -25,8 +26,8 @@
 		</table>
 	</@ms.panel>
 	
-	<@ms.modal  modalName="delDict" title="授权数据删除" >
-		<@ms.modalBody>删除此授权
+	<@ms.modal  modalName="delDict" title="数据删除" >
+		<@ms.modalBody>是否删除所选中的数据
 			<@ms.modalButton>
 				<!--模态框按钮组-->
 				<@ms.button  value="确认删除？"  id="deleteDictBtn"  />
