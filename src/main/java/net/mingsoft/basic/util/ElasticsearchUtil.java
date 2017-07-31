@@ -112,7 +112,7 @@ public class ElasticsearchUtil {
 		Pageable pageable = new PageRequest(search.getPageNumber()-1, search.getPageSize());
 		SearchQuery sq = new NativeSearchQueryBuilder().withPageable(pageable).withSort(SortBuilders.fieldSort(search.getOrderBy()).order(search.getOrder().equalsIgnoreCase("asc")?SortOrder.ASC:SortOrder.DESC)).withQuery(mqb).build();
 		Page p = baseSearch.search(sq);
-		Pager pager = new Pager();
+		ElasticsearchUtil.Pager pager = new ElasticsearchUtil.Pager();
 		pager.setCurrentPage(p.getNumber());
 		pager.setPageSize(p.getSize());
 		pager.setTotalCount(p.getTotalElements());
@@ -161,51 +161,53 @@ public class ElasticsearchUtil {
 		
 		return sq;
 	}
+	
+	public static class Pager {
+		
+		private int currentPage = 1;
+		
+		private int pageSize;
+		
+		private int totalPage;
+		
+		private long totalCount;
+
+		public int getCurrentPage() {
+			return currentPage;
+		}
+
+		public void setCurrentPage(int currentPage) {
+			this.currentPage = currentPage;
+		}
+
+		public int getPageSize() {
+			return pageSize;
+		}
+
+		public void setPageSize(int pageSize) {
+			this.pageSize = pageSize;
+		}
+
+		public int getTotalPage() {
+			return totalPage;
+		}
+
+		public void setTotalPage(int totalPage) {
+			this.totalPage = totalPage;
+		}
+
+		public long getTotalCount() {
+			return totalCount;
+		}
+
+		public void setTotalCount(long totalCount) {
+			this.totalCount = totalCount;
+		}
+		
+		
+		
+	}
+
 
 }
 
-class Pager {
-	
-	private int currentPage = 1;
-	
-	private int pageSize;
-	
-	private int totalPage;
-	
-	private long totalCount;
-
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotalPage() {
-		return totalPage;
-	}
-
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
-	}
-
-	public long getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(long totalCount) {
-		this.totalCount = totalCount;
-	}
-	
-	
-	
-}
