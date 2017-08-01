@@ -256,19 +256,13 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 * 更新省市县镇村数据信息省市县镇村数据
 	 * @param tier 输入需要的层级。省／市／县／镇／村 
 	 * tier：省市层级、整型<br/>
+	 * type:数据格式，tree为树形，其他的为行数据，但是有父级id
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
-	 * id: 主键编号<br/>
-	 * provinceId: 省／直辖市／自治区级id<br/>
-	 * provinceName: 省／直辖市／自治区级名称<br/>
-	 * cityId: 市级id <br/>
-	 * cityName: 市级名称<br/>
-	 * countyId: 县／区级id<br/>
-	 * countyName: 县／区级名称<br/>
-	 * townId: 街道／镇级id<br/>
-	 * townName: 街道／镇级名称<br/>
-	 * villageId: 村委会id<br/>
-	 * villageName: 村委会名称<br/>
+	 * id: 城市编号<br/>
+	 * parentId: 父级城市编号<br/>
+	 * name: 城市名称<br/>
+	 * childrensList: 子城市数据 <br/>
 	 * }</dd><br/>
 	 */
 	@RequestMapping("/queryForTree")
