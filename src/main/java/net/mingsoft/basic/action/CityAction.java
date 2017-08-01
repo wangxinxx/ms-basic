@@ -273,15 +273,9 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@RequestMapping("/queryForTree")
 	@ResponseBody	 
-	public void queryForTree(@RequestParam(value="tier",required=true) int tier, @RequestParam(value="type",required=true) String type,HttpServletResponse response,HttpServletRequest request) {
-		if(tier<0 || tier>5){
-			this.outJson(response, false);
-			return;
-		}
-		if(!type.equals(CityEntity.CityEnum.TREE_FREIGHT.toString()) && !type.equals(CityEntity.CityEnum.TREE_MALL.toString())){
-			this.outJson(response, false);
-			return;
-		}
+	public void queryForTree(HttpServletResponse response,HttpServletRequest request) {
+		int tier = BasicUtil.getInt("tier");
+		String type = BasicUtil.getString("type");
 		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(tier,type);
 		this.outJson(response, JSONArray.toJSON(cityList));
 	}

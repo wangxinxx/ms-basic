@@ -75,6 +75,10 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 	}
 	@Override
 	public List<CityBean> queryForTree(int tier,String type) {
+		//如果输入的数字不是1～5，那么默认4级
+		if(tier<=0 || tier > 5){
+			tier = 4;
+		}
 		List<CityEntity> cityList = cityDao.queryAll();
 		Map<Long,String> province = new HashMap<>();
 		Map<Long,Map<Long,String>> city = new HashMap<>();
@@ -133,9 +137,9 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 			
 		}
 		List<CityBean> cityBeanList = new ArrayList<>();
-		if(CityEntity.CityEnum.TREE_MALL.toString().equals(type)){
+		if("tree".equals(type)){
 			//数据组织返回格式
-			if(tier >= 1){
+			if(tier >= 1){//树类型
 				//遍历省级数据，组织第一级
 				for (Long provinceKey : province.keySet()) {
 					CityBean provinceBean = new CityBean();
@@ -193,7 +197,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 					cityBeanList.add(provinceBean);
 				}  
 			}
-		}else if(CityEntity.CityEnum.TREE_FREIGHT.toString().equals(type)){
+		}else{//行数据类型
 			CityBean cityBean = new CityBean();
 			//组织省的数据
 			if(tier>=1){

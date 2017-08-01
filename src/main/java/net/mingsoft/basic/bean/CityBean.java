@@ -30,7 +30,7 @@ public class CityBean {
 	private Long parentId;
 	
 	/**
-	 * 省，直辖市，自治区
+	 * 子城市数据集合
 	 */
 	private List<CityBean> childrensList;
 
