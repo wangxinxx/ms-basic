@@ -1,74 +1,69 @@
 package net.mingsoft.basic.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import net.mingsoft.basic.entity.CityEntity;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 城市数据格式bean
  * @author qiu
  *
  */
-public class CityBean extends CityEntity{
+
+public class CityBean {
+	
+	
+	/**
+	 * 城市id
+	 */
+	private Long id;
+	
+	/**
+	 * 城市名称
+	 */
+	private String name;
+	
 	/**
 	 * 父级id
 	 */
 	private Long parentId;
+	
 	/**
 	 * 省，直辖市，自治区
 	 */
-	private List<Object> provinceList;
-	/**
-	 * 市
-	 */
-	private List<Object> cityList;
-	/**
-	 * 区，县
-	 */
-	private List<Object> countyList;
-	/**
-	 * 镇，街道
-	 */
-	private List<Object> townList;
-	/**
-	 * 村
-	 */
-	private List<Object> villageList;
-	public List<Object> getProvinceList() {
-		return provinceList;
+	private List<CityBean> childrensList;
+
+	public Long getId() {
+		return id;
 	}
-	public void setProvinceList(List<Object> provinceList) {
-		this.provinceList = provinceList;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public List<Object> getCityList() {
-		return cityList;
+
+	public String getName() {
+		return name;
 	}
-	public void setCityList(List<Object> cityList) {
-		this.cityList = cityList;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public List<Object> getCountyList() {
-		return countyList;
-	}
-	public void setCountyList(List<Object> countyList) {
-		this.countyList = countyList;
-	}
-	public List<Object> getTownList() {
-		return townList;
-	}
-	public void setTownList(List<Object> townList) {
-		this.townList = townList;
-	}
-	public List<Object> getVillageList() {
-		return villageList;
-	}
-	public void setVillageList(List<Object> villageList) {
-		this.villageList = villageList;
-	}
+
 	public Long getParentId() {
 		return parentId;
 	}
+
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
-	
-	
+
+	public List<CityBean> getChildrensList() {
+		return childrensList;
+	}
+
+	public void setChildrensList(List<CityBean> childrensList) {
+		this.childrensList = childrensList;
+	}
+
 }

@@ -271,36 +271,18 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 * villageName: 村委会名称<br/>
 	 * }</dd><br/>
 	 */
-	@RequestMapping("/queryByTier")
+	@RequestMapping("/queryForTree")
 	@ResponseBody	 
-	public void queryByTier(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
-		List<CityBean> cityList = (List<CityBean>) cityBiz.queryByTier(tier);
-		this.outJson(response, JSONArray.toJSON(cityList));
-	}
-	
-	/** 
-	 * 更新省市县镇村数据信息省市县镇村数据
-	 * @param tier 输入需要的层级。省／市／县／镇／村 
-	 * tier：省市层级、整型<br/>
-	 * <dt><span class="strong">返回</span></dt><br/>
-	 * <dd>{ <br/>
-	 * id: 主键编号<br/>
-	 * provinceId: 省／直辖市／自治区级id<br/>
-	 * provinceName: 省／直辖市／自治区级名称<br/>
-	 * cityId: 市级id <br/>
-	 * cityName: 市级名称<br/>
-	 * countyId: 县／区级id<br/>
-	 * countyName: 县／区级名称<br/>
-	 * townId: 街道／镇级id<br/>
-	 * townName: 街道／镇级名称<br/>
-	 * villageId: 村委会id<br/>
-	 * villageName: 村委会名称<br/>
-	 * }</dd><br/>
-	 */
-	@RequestMapping("/queryByTierToTree")
-	@ResponseBody	 
-	public void queryByTierToTree(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
-		List<CityBean> cityList = (List<CityBean>) cityBiz.queryByTierToTree(tier);
+	public void queryForTree(@RequestParam(value="tier",required=true) int tier, @RequestParam(value="type",required=true) String type,HttpServletResponse response,HttpServletRequest request) {
+		if(tier<0 || tier>5){
+			this.outJson(response, false);
+			return;
+		}
+		if(!type.equals(CityEntity.CityEnum.TREE_FREIGHT.toString()) && !type.equals(CityEntity.CityEnum.TREE_MALL.toString())){
+			this.outJson(response, false);
+			return;
+		}
+		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(tier,type);
 		this.outJson(response, JSONArray.toJSON(cityList));
 	}
 	

@@ -245,10 +245,18 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 * villageName: 村委会名称<br/>
 	 * }</dd><br/>
 	 */
-	@RequestMapping("/queryByTier")
+	@RequestMapping("/queryForTree")
 	@ResponseBody	 
-	public void queryByTier(@RequestParam(value="tier",required=true) int tier, HttpServletResponse response,HttpServletRequest request) {
-		List<CityBean> cityList = (List<CityBean>) cityBiz.queryByTier(tier);
+	public void queryForTree(@RequestParam(value="tier",required=true) int tier,@RequestParam(value="type",required=true) String type, HttpServletResponse response,HttpServletRequest request) {
+		if(tier<0 || tier>5){
+			this.outJson(response, false);
+			return;
+		}
+		if(!type.equals(CityEntity.CityEnum.TREE_FREIGHT.toString()) && !type.equals(CityEntity.CityEnum.TREE_MALL.toString())){
+			this.outJson(response, false);
+			return;
+		}
+		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(tier,type);
 		this.outJson(response, JSONArray.toJSON(cityList));
 	}
 	

@@ -60,13 +60,5 @@ public interface ICityBiz extends IBaseBiz {
 	 * @param tier 层级数，整型。
 	 * @return
 	 */
-	public List<CityBean> queryByTier(int tier);
-	
-	/**
-	 * 根据层级，来确定返回多少级数,tree-column
-	 * @param tier 层级数，整型。
-	 * @return
-	 */
-	public List<CityBean> queryByTierToTree(int tier);
-
+	public List<CityBean> queryForTree(int tier,String type);
 }

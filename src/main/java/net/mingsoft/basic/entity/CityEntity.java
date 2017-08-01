@@ -1,5 +1,6 @@
 package net.mingsoft.basic.entity;
 
+import com.mingsoft.base.constant.e.BaseEnum;
 import com.mingsoft.base.entity.BaseEntity;
 import java.util.Date;
 
@@ -239,5 +240,28 @@ public class CityEntity extends BaseEntity {
 	public String getVillageName() {
 		return this.villageName;
 	}
+	
+	
+	public enum CityEnum implements BaseEnum{
+		TREE_MALL(1,"mall"),
+		TREE_FREIGHT(2,"freight");
+		CityEnum(int id,String value){
+			this.id = id;
+			this.value = value;
+		}
+		
+		private int id;
+		private String value;
+		@Override
+		public int toInt() {
+			// TODO Auto-generated method stub
+			return this.id;
+		}
+		public String toString() {
+			// TODO Auto-generated method stub
+			return this.value;
+		}
+		
+	}  
 	
 }
