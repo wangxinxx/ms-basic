@@ -251,28 +251,6 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 		this.outJson(response, JSONObject.toJSONString(city));
 	}
 	
-	
-	/** 
-	 * 更新省市县镇村数据信息省市县镇村数据
-	 * @param tier 输入需要的层级。省／市／县／镇／村 
-	 * tier：省市层级、整型<br/>
-	 * type:数据格式，tree为树形，其他的为行数据，但是有父级id
-	 * <dt><span class="strong">返回</span></dt><br/>
-	 * <dd>{ <br/>
-	 * id: 城市编号<br/>
-	 * parentId: 父级城市编号<br/>
-	 * name: 城市名称<br/>
-	 * childrensList: 子城市数据 <br/>
-	 * }</dd><br/>
-	 */
-	@RequestMapping("/queryForTree")
-	@ResponseBody	 
-	public void queryForTree(HttpServletResponse response,HttpServletRequest request) {
-		int tier = BasicUtil.getInt("tier");
-		String type = BasicUtil.getString("type");
-		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(tier,type);
-		this.outJson(response, JSONArray.toJSON(cityList));
-	}
-	
+		
 		
 }

@@ -75,10 +75,6 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 	}
 	@Override
 	public List<CityBean> queryForTree(int tier,String type) {
-		//如果输入的数字不是1～5，那么默认4级
-		if(tier<=0 || tier > 5){
-			tier = 4;
-		}
 		List<CityEntity> cityList = cityDao.queryAll();
 		Map<Long,String> province = new HashMap<>();
 		Map<Long,Map<Long,String>> city = new HashMap<>();
