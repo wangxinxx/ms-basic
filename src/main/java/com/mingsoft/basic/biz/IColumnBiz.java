@@ -91,13 +91,6 @@ public interface IColumnBiz extends ICategoryBiz {
 	 */
 	public List<ColumnEntity> queryAll(int appId,int modelId);
 	
-	/**
-	 * 通过站点Id查询栏目的同级栏目和他的父级栏目（包括他的间接父栏目知道顶级栏目）的同级栏目集合
-	 * @param categoryId 栏目ID
-	 * @param columnWebsiteId 站点Id
- 	 * @return 栏目集合
-	 */
-	public List<ColumnEntity> queryColumnChildListRecursionByWebsiteId(int categoryId,int columnWebsiteId );
 	
 	/**
 	 * 通过栏目ID查询该栏目同级栏目
@@ -129,13 +122,6 @@ public interface IColumnBiz extends ICategoryBiz {
 	 */
 	public int[] queryChildIdsByColumnId(int columnId,int appId);
 	
-	/**
-	 * 根据栏目属性查询栏目站点id为columnWebsiteId的栏目集合
-	 * @param columnType 栏目属性
-	 * @param columnWebsiteId 栏目所属站点ID
-	 * @return 栏目集合
-	 */
-	public List <ColumnEntity> queryColumnListBycolumnType(int columnType,int columnWebsiteId);
 	
 	/**
 	 * 通过栏目ID查询栏目对应节点路径上的父级栏目集合
@@ -152,19 +138,6 @@ public interface IColumnBiz extends ICategoryBiz {
 	 */
 	public int queryColumnChildListCountByWebsiteId(int categoryCategoryId,int columnWebsiteId);
 	
-	/**
-	 * 通过管理员ID和模块ID查询订单类型集合
-	 * @param categoryManagerId 管理员ID
-	 * @param categoryModelId 模块ID
-	 * @return 订单集合
-	 */
-	public List<BasicEntity> queryCategoryByManagerIdAndModelId(int categoryManagerId, int categoryModelId);
 	
-	/**
-	 * 查询同级栏目
-	 * @param columnId
-	 * @return 订单集合
-	 */
-	public List<ColumnEntity> querSibListByColumnId(int columnId);
 
 }

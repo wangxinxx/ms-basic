@@ -36,12 +36,6 @@ import com.mingsoft.basic.entity.BasicCategoryEntity;
 public interface IBasicCategoryBiz extends IBaseBiz{
 	
 	/**
-	 * 批量更新基础分类关联表
-	 * @param basicCategoryList 基础分类列表实体
-	 */
-	void updateBatch(List<BasicCategoryEntity> basicCategoryList);
-	
-	/**
 	 * 根据baiscId查询基础分类关联信息
 	 * @param bcBasicId 基础basicId
 	 * @return 返回基础分类关联列表信息

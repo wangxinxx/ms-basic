@@ -47,13 +47,6 @@ public class BasicCategoryBizImpl extends BaseBizImpl implements IBasicCategoryB
 	@Autowired
 	private IBasicCategoryDao basicCategoryDao;
 	
-	
-	@Override
-	public void updateBatch(List<BasicCategoryEntity> basicCategoryList) {
-		// TODO Auto-generated method stub
-		basicCategoryDao.updateBatch(basicCategoryList);
-	}
-
 	/**
 	 * 获取分类关联持久化层
 	 * @return basicCategoryDao 返回分类关联持久化层

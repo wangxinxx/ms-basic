@@ -157,7 +157,7 @@ public class BasicAction extends BaseAction {
 	 */
 	@RequestMapping("/{basicId}/edit")
 	public String edit(@PathVariable int basicId, HttpServletRequest request) {
-		BasicEntity basic = basicBiz.getBasicEntity(basicId);
+		BasicEntity basic = basicBiz.getBasic(basicId);
 		request.setAttribute("basic", basic);
 		return view("/basic/basic");
 	}

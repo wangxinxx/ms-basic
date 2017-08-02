@@ -51,17 +51,12 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 	@Autowired
 	private IBasicDao basicDao;
 
-	@Override
-	public int count(int categoryId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+    
     @Override
-	public int count(int categoryId, String keyWord) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public void deleteBasic(int basicId) {
+        basicDao.deleteEntity(basicId);
+        deleteEntity(basicId);
+    }
     
     @Override
 	public void deleteBasic(int[] basicIds) {
@@ -71,13 +66,7 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 	}
     
     @Override
-    public void deleteBasic(int basicId) {
-        basicDao.deleteEntity(basicId);
-        deleteEntity(basicId);
-    }
-    
-    @Override
-    public BasicEntity getBasicEntity(int basicId){
+    public BasicEntity getBasic(int basicId){
     	return (BasicEntity) basicDao.getEntity(basicId);
     }
     
@@ -91,11 +80,6 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 		return basicDao;
 	}
 
-	@Override
-	public List<BasicEntity> getPreviousAndNext(int basicId) {
-		// TODO Auto-generated method stub
-		return basicDao.getPreviousAndNext(basicId);
-	}
 
 	@Override
 	public List<BasicEntity> query(int categoryId) {
@@ -103,11 +87,6 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 		return basicDao.query(null,categoryId, null, null, null, null, null,null,null);
 	}
 
-	@Override
-	public List<BasicEntity> query(int categoryId, String keyWord) {
-		// TODO Auto-generated method stub
-		return basicDao.query(null,categoryId, keyWord, null, null, null, null,null,null);
-	}
 
 	@Override
 	public List<BasicEntity> query(Integer appId,Integer categoryId, String keyWord, PageUtil page,Integer modelId,Map where) {
@@ -135,12 +114,6 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 	public void updateHit(int basicId, Integer num) {
 		// TODO Auto-generated method stub
 		  basicDao.updateHit(basicId, num);
-	}
-
-	@Override
-	public void updateHit(int basicId) {
-		// TODO Auto-generated method stub
-		basicDao.updateHit(basicId, null);
 	}
 
     

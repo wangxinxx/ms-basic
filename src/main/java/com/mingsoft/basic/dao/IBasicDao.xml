@@ -130,13 +130,6 @@
 	</select>
 	<!-- 根据ID查询结束 -->
 	
-	<!-- 获取当前文章basicId的上一篇与下一篇开始 -->
-	<select id="getPreviousAndNext" parameterType="int" resultMap="resultMap">
-	 (select * from basic  where BASIC_ID    &lt;  #{basicId} order by BASIC_ID asc limit 1)
-		union all
-	(select * from basic  where BASIC_ID &gt; #{basicId} order by BASIC_ID asc limit 1)
-	</select>
-	<!-- 获取当前文章basicId的上一篇与下一篇结束 -->
 
 	<!-- 更新文章点击次数 -->
 	<update id="updateHit">

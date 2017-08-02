@@ -14,14 +14,6 @@
 		</foreach>
 	</insert>
 	
-	<!--向基础分类表中批量更新数据  -->
-	<update id="updateBatch" >  
-	    replace into basic_category (bc_basic_Id,bc_category_id) values
-	    <foreach collection="list" item="item" index="index" separator=",">  
-	         (#{item.bcBasicId},#{item.bcCategoryId})
-	    </foreach>
-	</update> 
-	
 	<!-- 更加basicId删除数据 -->
 	<update id="deleteEntity" parameterType="int">  
 	   delete from basic_category where bc_basic_Id=#{bcBasicId}
@@ -47,15 +39,4 @@
 			as temp where cun=#{categoryIdsSize};
 	</select>
 	
-	<!-- 根据分类id集合和分类id集合的长度去查询符合条件的basicId集合 -->
-	<select id="getCountByCategoryId" resultType="java.util.Arrays"> 
-			select count(bc_basic_id)  from basic_category 
-			<if test="categoryIds!=null">
-				where bc_category_id in
-			 	<foreach collection="categoryIds" item="item" index="index" 
-			open="(" separator="," close=")">#{item}</foreach>
-			</if>
-			GROUP BY bc_basic_id
-			
-	</select>
 </mapper>

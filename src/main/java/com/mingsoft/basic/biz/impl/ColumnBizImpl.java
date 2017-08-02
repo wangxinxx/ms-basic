@@ -122,26 +122,6 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 		return columnDao.queryByAppIdAndModelId(appId, modelId);
 	}
 
-	/**
-	 * 通过站点Id查询栏目的同级栏目和他的父级栏目（包括他的间接父栏目直到顶级栏目）的同级栏目集合
-	 * 
-	 * @param categoryId
-	 *            栏目ID
-	 * @param columnWebsiteId
-	 *            站点Id
-	 * @return 栏目集合
-	 */
-	public List<ColumnEntity> queryColumnChildListRecursionByWebsiteId(int categoryId, int columnWebsiteId) {
-
-		List<ColumnEntity> list = new ArrayList<ColumnEntity>();
-		ColumnEntity columnEntity = (ColumnEntity) (columnDao.getEntity(categoryId));
-		if (columnEntity != null) {
-			int categoryCategoryId = columnEntity.getCategoryCategoryId();
-			queryExpansionColumnListByWebsiteId(categoryCategoryId, list, columnWebsiteId);
-		}
-
-		return list;
-	}
 
 	/**
 	 * 通过栏目的站点ID查询该站点下的栏目的父栏目Id为categoryCategoryId子栏目
@@ -235,19 +215,6 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 		return ret;
 	}
 
-	/**
-	 * 根据栏目属性查询栏目站点id为columnWebsiteId的栏目集合
-	 * 
-	 * @param columnType
-	 *            栏目属性
-	 * @param columnWebsiteId
-	 *            栏目所属站点ID
-	 * @return 栏目集合
-	 */
-	public List<ColumnEntity> queryColumnListBycolumnType(int columnType, int columnWebsiteId) {
-
-		return columnDao.queryColumnListBycolumnType(columnType, columnWebsiteId);
-	}
 
 	/**
 	 * 用递归通过栏目ID查询栏目的父级栏目,将查询结果装入List集合中
@@ -296,32 +263,6 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 		return columnDao.queryColumnChildListCountByWebsiteId(categoryCategoryId, columnWebsiteId);
 	}
 
-	/**
-	 * 通过管理员ID和模块ID查询订单类型集合
-	 * 
-	 * @param categoryManagerId
-	 *            管理员ID
-	 * @param categoryModelId
-	 *            模块ID
-	 * @return 返回订单集合
-	 */
-	public List<BasicEntity> queryCategoryByManagerIdAndModelId(int categoryManagerId, int categoryModelId) {
-		return columnDao.queryCategoryByManagerIdAndModelId(categoryManagerId, categoryModelId);
-	}
 
-	@Override
-	public List<ColumnEntity> querSibListByColumnId(int columnId) {
-		// TODO Auto-generated method stub
-		ColumnEntity columnEntity = (ColumnEntity) columnDao.getEntity(columnId);
-		List<ColumnEntity> list = null;
-		if (columnEntity != null) {
-			if (columnEntity.getCategoryId() != 0) {
-				list = columnDao.queryColumnByCategoryIdAndWebsiteIdAndModelId(columnEntity.getCategoryId(),
-						columnEntity.getColumnWebsiteId(), null, null);
-			}
-
-		}
-		return list;
-	}
 
 }

@@ -109,14 +109,6 @@
 	</select>
 	<!-- 根据ID查询结束 -->
 	
-	<!-- 根据ID查询开始 -->
-	<select id="queryCategoryByManagerIdAndModelId" resultMap="categoryResultMap">
-		select
-		<include refid="category_column_list"/>
-		from category where category_managerid = #{categoryManagerId} and category_modelid = #{categoryModelId};
-		
-	</select>
-	<!-- 根据ID查询结束 -->
 	
 	<!-- 根据站点ID查询栏目集开始 -->
 	<select id="queryColumnListByWebsiteId" resultMap="resultMap" >
@@ -147,13 +139,6 @@
 	</select>
 	<!-- 根据栏目id查询其子栏目Id的集合结束 -->
 	
-	<!-- 根据栏目属性查询站点ID为columnWebsiteId栏目集开始 -->
-	<select id="queryColumnListBycolumnType" resultMap="resultMap" >
-		select
-		<include refid="column_list"/>
-		from cms_column co left join category ca on ca.category_id=co.column_categoryid where co.column_websiteid=#{columnWebsiteId} and co.column_type=#{columnType} <include refid="where_modelcode"/>;
-	</select>
-	<!-- 根据栏目属性查询站点ID为columnWebsiteId栏目集结束 -->
 	
 	<!-- 根据站点Id查询栏目，返回该父栏目ID为categoryCategoryId的栏目集合数目统计开始 -->
 	<select id="queryColumnChildListCountByWebsiteId" resultType="int" >

@@ -36,11 +36,6 @@ import com.mingsoft.basic.entity.BasicCategoryEntity;
  */
 public interface IBasicCategoryDao extends IBaseDao{
 	
-	/**
-	 * 批量更新基础分类关联表
-	 * @param basicCategoryList 基础分类列表实体
-	 */
-	void updateBatch(List<BasicCategoryEntity> basicCategoryList);
 	
 	/**
 	 * 根据baiscId查询基础分类关联信息
@@ -57,10 +52,4 @@ public interface IBasicCategoryDao extends IBaseDao{
 	 */
 	List<Integer> queryBasicIdsByCategoryId(@Param("categoryIds")int[] categoryIds,@Param("categoryIdsSize")int categoryIdsSize);
 	
-	/**
-	 * 根据分类id集合去查询符合条件的总数
-	 * @param categoryIds
-	 * @return 返回basicId的list<Integer>集合
-	 */
-	List getCountByCategoryId(@Param("categoryIds")int[] categoryIds);
 }
