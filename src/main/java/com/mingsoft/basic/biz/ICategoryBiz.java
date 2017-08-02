@@ -153,5 +153,14 @@ public interface ICategoryBiz extends IBaseBiz {
 	 *            类别实体
 	 */
 	public void updateCategory(CategoryEntity categoryEntity);
+	
+	/**
+	 * 根据ID批量查询分类实体
+	 * 
+	 * @param listId
+	 *            ID集合
+	 * @return 返回分类实体集合
+	 */
+	public List<CategoryEntity> queryBatchCategoryById(List<Integer> listId);
 
 }

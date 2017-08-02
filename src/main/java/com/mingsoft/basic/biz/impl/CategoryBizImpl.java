@@ -224,4 +224,11 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		}
 		return ids;
 	}
+	
+
+	@Override
+	public List<CategoryEntity> queryBatchCategoryById(List<Integer> listId) {
+		// TODO Auto-generated method stub
+		return categoryDao.queryBatchCategoryById(listId);
+	}
 }

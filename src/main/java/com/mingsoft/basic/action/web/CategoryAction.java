@@ -75,20 +75,6 @@ public class CategoryAction extends BaseAction{
 	}
 	
 	/**
-	 * 获取指定站点下的省份数据
-	 * @param request HttpServletRequest对象
-	 * @param response HttpServletResponse对象
-	 */
-	@RequestMapping("/queryProvince")
-	@ResponseBody
-	public void queryProvince(HttpServletRequest request, HttpServletResponse response){
-		int appId = this.getAppId(request);
-		//获取省数据
-		List<CategoryEntity>listProvince = categoryBiz.queryByAppIdOrModelId(appId,this.getModelCodeId(request,com.mingsoft.basic.constant.ModelCode.CITY));
-		this.outJson(response,JSONObject.toJSONStringWithDateFormat(listProvince,"yyyy-MM-dd HH:mm:ss"));
-	}
-	
-	/**
 	 * 根据指定分类id查询其子分类
 	 * @param categoryId 分类id
 	 * @param request HttpServletRequest对象
@@ -101,18 +87,5 @@ public class CategoryAction extends BaseAction{
 			List<CategoryEntity> list = this.categoryBiz.queryChilds(category);
 			this.outJson(response, JSONObject.toJSONStringWithDateFormat(list,"yyyy-MM-dd HH:mm:ss"));
 		}
-	}
-	
-	/**
-	 * 城市
-	 * @param categoryId 分类id
-	 * @param request HttpServletRequest对象
-	 * @param response HttpServletResponse对象
-	 */
-	@RequestMapping("/city")
-	@ResponseBody
-	public void city(HttpServletRequest request, HttpServletResponse response){
-		List list = this.categoryBiz.queryByAppIdOrModelId(BasicUtil.getAppId(), this.getModelCodeId(request, GlobalModelCodelEnum.CITY));
-		this.outJson(response, list);
 	}
 }
