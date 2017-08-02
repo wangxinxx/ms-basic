@@ -63,6 +63,17 @@ public interface ICategoryBiz extends IBaseBiz {
 
 
 	/**
+	 * 根据ID批量查询分类实体
+	 * 
+	 * @param listId
+	 *            ID集合
+	 * @return 返回分类实体集合
+	 */
+	public List<CategoryEntity> queryBatchCategoryById(List<Integer> listId);
+
+
+
+	/**
 	 * 根据应用编号与模块编号查询分类
 	 * 
 	 * @param appId
@@ -73,14 +84,13 @@ public interface ICategoryBiz extends IBaseBiz {
 	 */
 	public List<CategoryEntity> queryByAppIdOrModelId(Integer appId, Integer modelId);
 
-
-
 	/**
 	 * 根据字典查询机构
 	 * @param category
 	 * @return
 	 */
 	List queryByDictId(CategoryEntity category);
+	
 
 	/**
 	 * 分页查询</br>
@@ -98,7 +108,7 @@ public interface ICategoryBiz extends IBaseBiz {
 	 */
 	@Deprecated
 	public List queryByPageList(CategoryEntity category, PageUtil page, String orderBy, boolean order);
-	
+
 
 	/**
 	 * 查询当前分类下面的子分类
@@ -111,7 +121,6 @@ public interface ICategoryBiz extends IBaseBiz {
 	 */
 	@Deprecated
 	public List<CategoryEntity> queryChildrenCategory(int categoryId, int appId, int modelId);
-
 
 	/**
 	 * 已过期，使用当前分类的categorys获取当前子类
@@ -134,6 +143,7 @@ public interface ICategoryBiz extends IBaseBiz {
 	 */
 	public List<CategoryEntity> queryChilds(CategoryEntity category);
 
+
 	/**
 	 * 添加类别</br>
 	 * 有拓展表继承时使用</br>
@@ -143,8 +153,7 @@ public interface ICategoryBiz extends IBaseBiz {
 	 * @return 返回类别ID
 	 */
 	public int saveCategory(CategoryEntity categoryEntity);
-
-
+	
 	/**
 	 * 类别更新</br>
 	 * 有拓展表继承时使用</br>
@@ -153,14 +162,5 @@ public interface ICategoryBiz extends IBaseBiz {
 	 *            类别实体
 	 */
 	public void updateCategory(CategoryEntity categoryEntity);
-	
-	/**
-	 * 根据ID批量查询分类实体
-	 * 
-	 * @param listId
-	 *            ID集合
-	 * @return 返回分类实体集合
-	 */
-	public List<CategoryEntity> queryBatchCategoryById(List<Integer> listId);
 
 }

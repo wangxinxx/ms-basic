@@ -257,15 +257,6 @@
 		</where>
 	</select>
 
-	<select id="queryByCategoryTitle" resultMap="resultMap">
-		select * from category
-		<where>
-			CATEGORY_TITLE in
-			<foreach collection="titles" item="item" index="index" open="("
-				separator="," close=")">#{item}</foreach>
-			and category_del=0
-		</where>
-	</select>
 
 	<!-- 根据分类ID查询子分类开始 -->
 	<select id="queryChilds" resultMap="resultMap">
@@ -299,62 +290,6 @@
 	</select>
 	<!-- 查询分类数量，可以使用条件结束 -->
 
-	<!-- 根据模块ID查询分类信息开始 -->
-	<select id="queryByModelId" resultMap="resultMap">
-		select category_id,category_title,category_categoryid
-		from category c
-		where category_modelId=#{category.categoryModelId}
-		<if test="category.categoryCategoryId>0">
-			and category_categoryid=#{category.categoryCategoryId}
-		</if>
-		and category_del=0
-		order by category_sort asc;
-	</select>
-	<!-- 根据模块ID查询分类信息结束 -->
-
-	<!-- 根据名称和模块ID查询分类ID集合开始(课表数据采集使用) -->
-	<select id="queryCategoryIdByTitle" resultType="int">
-		select
-		category_id from category c where category_title=#{categoryTitle}
-		and
-		category_modelid=#{categoryModelId} and category_del=0;
-	</select>
-	<!-- 根据名称查询分类ID集合结束 -->
-
-	<!-- 根据分类标题和模块ID查询指定分类模块下的第三级数据(课表调用) -->
-	<select id="queryCategoryIdByCategoryTitle" resultType="int">
-		select
-		cp.category_id from category c
-		left join category cf on
-		category_id=cf.category_categoryid
-		left join category cp on
-		cf.category_id=cp.category_categoryid
-		where
-		category_title=#{categoryTitle} and
-		category_modelId=#{fatherModelId}
-		and
-		cf.category_modelId=#{sonModelId} and
-		cp.category_modelId=#{sonModelId};
-	</select>
-	<!-- 根据分类标题和模块ID查询指定分类模块下的第三级数据(课表调用) -->
-
-	<!-- 根据分类标题和模块ID查询指定分类模块下的第三级数据(课表调用) -->
-	<select id="queryCategoryIdByCategoryId" resultType="int">
-		select
-		cp.category_id from category c
-		left join category cf on
-		category_id=cf.category_categoryid
-		left join category cp on
-		cf.category_id=cp.category_categoryid
-		where
-		category_id=#{categoryId}
-		and
-		category_modelId=#{fatherModelId}
-		and
-		cf.category_modelId=#{sonModelId} and
-		cp.category_modelId=#{sonModelId};
-	</select>
-	<!-- 根据分类标题和模块ID查询指定分类模块下的第三级数据(课表调用) -->
 
 	<!-- 根据分类ID批量查询分类实体,并按照字段压入顺序排序开始 -->
 	<select id="queryBatchCategoryById" resultMap="resultMap"
@@ -386,21 +321,5 @@
 	</select>
 	<!-- 根据应用编号或模块编号查询分类结束 -->
 
-	<!-- 查询当前分类的子分类 -->
-	<select id="queryChildrenCategoryId" resultMap="resultMap">
-		select * from category
-		<where>
-			<if test="appId!=null">
-				and category_appId=#{appId}
-			</if>
-			<if test="modelId!=null">
-				and category_modelId=#{modelId}
-			</if>
-			<if test="categoryId!=null">
-				and CATEGORY_CATEGORYID=#{categoryId}
-			</if>
-			and category_del=0
-		</where>
-	</select>
 
 </mapper>
