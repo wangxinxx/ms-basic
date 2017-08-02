@@ -15,10 +15,4 @@ import com.mingsoft.basic.entity.DictEntity;
  */
 public interface IDictBiz extends IBaseBiz {
 
-	/**
-	 * 查询
-	 * @param dict 字典表
-	 * @return
-	 */
-	List query(DictEntity dict);
 }

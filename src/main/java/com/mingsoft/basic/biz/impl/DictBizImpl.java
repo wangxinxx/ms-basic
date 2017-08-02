@@ -54,9 +54,4 @@ public class DictBizImpl extends BaseBizImpl implements IDictBiz {
 		// TODO Auto-generated method stub
 		return dictDao;
 	} 
-	
-	@Override
-	public List query(DictEntity dict) {
-		return dictDao.query(dict);
-	}	
 }

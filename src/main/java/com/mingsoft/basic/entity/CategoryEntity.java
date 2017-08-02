@@ -49,14 +49,34 @@ public class CategoryEntity extends BaseEntity {
 	private int categoryCategoryId;
 
 	/**
+	 * 创建人
+	 */
+	private int categoryCreateBy;
+
+	/**
+	 * 创建时间
+	 */
+	private java.util.Date categoryCreateDate;
+
+	/**
 	 * 类别发布时间
 	 */
 	private Timestamp categoryDateTime;
 
 	/**
+	 * 删除状态
+	 */
+	private int categoryDel;
+
+	/**
 	 * 栏目描述
 	 */
 	private String categoryDescription;
+
+	/**
+	 * 字典对应编号
+	 */
+	private int categoryDictId;
 
 	/**
 	 * 类别的编号自增长id
@@ -72,70 +92,39 @@ public class CategoryEntity extends BaseEntity {
 	 * 发布用户编号(发布者编号)
 	 */
 	private int categoryManagerId;
-
 	/**
 	 * 所属模块编号
 	 */
 	private int categoryModelId;
-
-	/**
-	 * 缩略图
-	 */
-	private String categorySmallImg;
-
-	/**
-	 * 类别的排序
-	 */
-	private int categorySort;
-
-	/**
-	 * 类别的标题
-	 */
-	private String categoryTitle;
-	/**
-	 * 删除状态
-	 */
-	private int categoryDel;
 	/**
 	 * 父类型编号
 	 */
 	private String categoryParentId;
 	/**
-	 * 字典对应编号
+	 * 缩略图
 	 */
-	private int categoryDictId;
+	private String categorySmallImg;
 	/**
-	 * 创建人
+	 * 类别的排序
 	 */
-	private int categoryCreateBy;
+	private int categorySort;
 	/**
-	 * 创建时间
+	 * 类别的标题
 	 */
-	private java.util.Date categoryCreateDate;
-	/**
-	 * 更新时间
-	 */
-	private java.util.Date categoryUpdateDate;
+	private String categoryTitle;
 	/**
 	 * 更新人
 	 */
 	private int categoryUpdateBy;
+	/**
+	 * 更新时间
+	 */
+	private java.util.Date categoryUpdateDate;
 
 	/**
 	 * 一对多集合
 	 */
 	private List<CategoryEntity> childrenCategoryList;
-
-	public List<CategoryEntity> getChildrenCategoryList() {
-		if (childrenCategoryList == null) {
-			childrenCategoryList = new ArrayList<CategoryEntity>();
-		}
-		return childrenCategoryList;
-	}
-
-	public void setChildrenCategoryList(List<CategoryEntity> childrenCategoryList) {
-		this.childrenCategoryList = childrenCategoryList;
-	}
 
 	public CategoryEntity() {
 		super();
@@ -151,6 +140,32 @@ public class CategoryEntity extends BaseEntity {
 		this.categoryTitle = categoryTitle;
 	}
 
+	/**
+	 * 获取当前分类所有的子分类编号
+	 * 
+	 * @return int数组
+	 */
+	public int[] getAllCategroyChildrenIds() {
+		List<CategoryEntity> categoryList = new ArrayList<CategoryEntity>();
+		categoryList = this.getChilden(categoryList, this);
+		int[] categoryIds = new int[categoryList.size()];
+		int i = 0;
+		for (CategoryEntity category : categoryList) {
+			categoryIds[i++] = category.getCategoryId();
+		}
+		return categoryIds;
+	}
+
+	/**
+	 * 获取当前分类所有的子分类
+	 * 
+	 * @return int数组
+	 */
+	public List<CategoryEntity> getAllCategroyChildrenList() {
+		List<CategoryEntity> categoryList = new ArrayList<CategoryEntity>();
+		return this.getChilden(categoryList, this);
+	}
+
 	public int getCategoryAppId() {
 		return categoryAppId;
 	}
@@ -159,12 +174,28 @@ public class CategoryEntity extends BaseEntity {
 		return categoryCategoryId;
 	}
 
+	public int getCategoryCreateBy() {
+		return categoryCreateBy;
+	}
+
+	public java.util.Date getCategoryCreateDate() {
+		return categoryCreateDate;
+	}
+
 	public Timestamp getCategoryDateTime() {
 		return categoryDateTime;
 	}
 
+	public int getCategoryDel() {
+		return categoryDel;
+	}
+
 	public String getCategoryDescription() {
 		return categoryDescription;
+	}
+
+	public int getCategoryDictId() {
+		return categoryDictId;
 	}
 
 	public int getCategoryId() {
@@ -183,6 +214,10 @@ public class CategoryEntity extends BaseEntity {
 		return categoryModelId;
 	}
 
+	public String getCategoryParentId() {
+		return categoryParentId;
+	}
+
 	public String getCategorySmallImg() {
 		return categorySmallImg;
 	}
@@ -195,98 +230,12 @@ public class CategoryEntity extends BaseEntity {
 		return categoryTitle;
 	}
 
-	public void setCategoryAppId(int categoryAppId) {
-		this.categoryAppId = categoryAppId;
+	public int getCategoryUpdateBy() {
+		return categoryUpdateBy;
 	}
 
-	public void setCategoryCategoryId(int categoryCategoryId) {
-		this.categoryCategoryId = categoryCategoryId;
-	}
-
-	public void setCategoryDateTime(Timestamp categoryDateTime) {
-		this.categoryDateTime = categoryDateTime;
-	}
-
-	public void setCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public void setCategoryLevel(int categoryLevel) {
-		this.categoryLevel = categoryLevel;
-	}
-
-	public void setCategoryManagerId(int categoryManagerId) {
-		this.categoryManagerId = categoryManagerId;
-	}
-
-	public void setCategoryModelId(int categoryModelId) {
-		this.categoryModelId = categoryModelId;
-	}
-
-	public void setCategorySmallImg(String categorySmallImg) {
-		this.categorySmallImg = categorySmallImg;
-	}
-
-	public void setCategorySort(int categorySort) {
-		this.categorySort = categorySort;
-	}
-
-	public void setCategoryTitle(String categoryTitle) {
-		this.categoryTitle = categoryTitle;
-	}
-
-	public int getCategoryDel() {
-		return categoryDel;
-	}
-
-	public void setCategoryDel(int categoryDel) {
-		this.categoryDel = categoryDel;
-	}
-
-	public String getCategoryParentId() {
-		return categoryParentId;
-	}
-
-	public void setCategoryParentId(String categoryParentId) {
-		this.categoryParentId = categoryParentId;
-	}
-
-	public int getCategoryDictId() {
-		return categoryDictId;
-	}
-
-	public void setCategoryDictId(int categoryDictId) {
-		this.categoryDictId = categoryDictId;
-	}
-
-	/**
-	 * 获取当前分类所有的子分类
-	 * 
-	 * @return int数组
-	 */
-	public List<CategoryEntity> getAllCategroyChildrenList() {
-		List<CategoryEntity> categoryList = new ArrayList<CategoryEntity>();
-		return this.getChilden(categoryList, this);
-	}
-
-	/**
-	 * 获取当前分类所有的子分类编号
-	 * 
-	 * @return int数组
-	 */
-	public int[] getAllCategroyChildrenIds() {
-		List<CategoryEntity> categoryList = new ArrayList<CategoryEntity>();
-		categoryList = this.getChilden(categoryList, this);
-		int[] categoryIds = new int[categoryList.size()];
-		int i = 0;
-		for (CategoryEntity category : categoryList) {
-			categoryIds[i++] = category.getCategoryId();
-		}
-		return categoryIds;
+	public java.util.Date getCategoryUpdateDate() {
+		return categoryUpdateDate;
 	}
 
 	/**
@@ -309,36 +258,87 @@ public class CategoryEntity extends BaseEntity {
 		return categoryList;
 	}
 
-	public int getCategoryCreateBy() {
-		return categoryCreateBy;
+	public List<CategoryEntity> getChildrenCategoryList() {
+		if (childrenCategoryList == null) {
+			childrenCategoryList = new ArrayList<CategoryEntity>();
+		}
+		return childrenCategoryList;
+	}
+
+	public void setCategoryAppId(int categoryAppId) {
+		this.categoryAppId = categoryAppId;
+	}
+
+	public void setCategoryCategoryId(int categoryCategoryId) {
+		this.categoryCategoryId = categoryCategoryId;
 	}
 
 	public void setCategoryCreateBy(int categoryCreateBy) {
 		this.categoryCreateBy = categoryCreateBy;
 	}
 
-	public java.util.Date getCategoryCreateDate() {
-		return categoryCreateDate;
-	}
-
 	public void setCategoryCreateDate(java.util.Date categoryCreateDate) {
 		this.categoryCreateDate = categoryCreateDate;
 	}
 
-	public java.util.Date getCategoryUpdateDate() {
-		return categoryUpdateDate;
+	public void setCategoryDateTime(Timestamp categoryDateTime) {
+		this.categoryDateTime = categoryDateTime;
+	}
+
+	public void setCategoryDel(int categoryDel) {
+		this.categoryDel = categoryDel;
+	}
+
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
+	}
+
+	public void setCategoryDictId(int categoryDictId) {
+		this.categoryDictId = categoryDictId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public void setCategoryLevel(int categoryLevel) {
+		this.categoryLevel = categoryLevel;
+	}
+
+	public void setCategoryManagerId(int categoryManagerId) {
+		this.categoryManagerId = categoryManagerId;
+	}
+
+	public void setCategoryModelId(int categoryModelId) {
+		this.categoryModelId = categoryModelId;
+	}
+
+	public void setCategoryParentId(String categoryParentId) {
+		this.categoryParentId = categoryParentId;
+	}
+
+	public void setCategorySmallImg(String categorySmallImg) {
+		this.categorySmallImg = categorySmallImg;
+	}
+
+	public void setCategorySort(int categorySort) {
+		this.categorySort = categorySort;
+	}
+
+	public void setCategoryTitle(String categoryTitle) {
+		this.categoryTitle = categoryTitle;
+	}
+
+	public void setCategoryUpdateBy(int categoryUpdateBy) {
+		this.categoryUpdateBy = categoryUpdateBy;
 	}
 
 	public void setCategoryUpdateDate(java.util.Date categoryUpdateDate) {
 		this.categoryUpdateDate = categoryUpdateDate;
 	}
 
-	public int getCategoryUpdateBy() {
-		return categoryUpdateBy;
-	}
-
-	public void setCategoryUpdateBy(int categoryUpdateBy) {
-		this.categoryUpdateBy = categoryUpdateBy;
+	public void setChildrenCategoryList(List<CategoryEntity> childrenCategoryList) {
+		this.childrenCategoryList = childrenCategoryList;
 	}
 
 }
