@@ -131,7 +131,7 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	/** 
 	 * 更新省市县镇村数据信息省市县镇村数据
 	 * @param tier 输入需要的层级。省／市／县／镇／村 
-	 * tier：省市层级、整型 默认3级<br/>
+	 * level：省市层级、整型 默认3级<br/>
 	 * type:数据格式，tree为树形存在childs集合属性，否则为行关系数据，即有父级id，默认为树形结构
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
@@ -141,12 +141,12 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 	 * childrensList: 子城市数据 <br/>
 	 * }</dd><br/>
 	 */
-	@RequestMapping("/queryForTree")
+	@RequestMapping("/query")
 	@ResponseBody	 
-	public void queryForTree(HttpServletResponse response,HttpServletRequest request) {
-		int tier = BasicUtil.getInt("tier",3);//默认3级
+	public void query(HttpServletResponse response,HttpServletRequest request) {
+		int level = BasicUtil.getInt("level",3);//默认3级
 		String type = BasicUtil.getString("type","tree"); //默认为树形结构
-		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(tier,type);
+		List<CityBean> cityList = (List<CityBean>) cityBiz.queryForTree(level,type);
 		this.outJson(response, JSONArray.toJSONString(cityList));
 	}
 	

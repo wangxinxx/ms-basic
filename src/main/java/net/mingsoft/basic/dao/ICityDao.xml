@@ -102,8 +102,24 @@
 		</where>
 	</delete>
 	<!--查询全部-->	
-	<select id="queryAll" resultMap="resultMap">
-		select * from city order by id desc
+	<select id="queryByLevel" resultMap="resultMap" parameterType="int" >
+		select * from city 
+		<if test="level == 1">
+			group by province_id
+		</if>
+		<if test="level == 2">
+			group by city_id
+		</if>
+		<if test="level == 3">
+			group by county_id
+		</if>
+		<if test="level == 4">
+			group by town_id
+		</if>	
+		<if test="level == 5">
+			group by village_id
+		</if>								
+		order by id desc
 	</select>
 	<!--条件查询-->	
 	<select id="query" resultMap="resultMap">

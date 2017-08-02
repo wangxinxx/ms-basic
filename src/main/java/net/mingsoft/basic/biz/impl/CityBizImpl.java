@@ -74,8 +74,8 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		return cityDao.queryVillage(cityEntity);
 	}
 	@Override
-	public List<CityBean> queryForTree(int tier,String type) {
-		List<CityEntity> cityList = cityDao.queryAll();
+	public List<CityBean> queryForTree(int level,String type) {
+		List<CityEntity> cityList = cityDao.queryByLevel(level);
 		Map<Long,String> province = new HashMap<>();
 		Map<Long,Map<Long,String>> city = new HashMap<>();
 		Map<Long,Map<Long,String>> county = new HashMap<>();
@@ -83,12 +83,12 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		Map<Long,Map<Long,String>> village = new HashMap<>();
 		for(CityEntity cityEntity : cityList){
 			//组织省级／市级／县级／镇级／村级数据，并保存。
-			if(tier>=1){	
+			if(level>=1){	
 				//组织省、自治区、直辖市的数据
 				if(province.get(cityEntity.getProvinceId()) == null){
 					province.put(cityEntity.getProvinceId(), cityEntity.getProvinceName());
 				}
-				if(tier>=2){
+				if(level>=2){
 					//组织市的数据
 					if(city.get(cityEntity.getProvinceId()) != null){		//如果当前map中已包含当前省级，那么最近向value中填充市级数据。
 						city.get(cityEntity.getProvinceId()).put(cityEntity.getCityId(), cityEntity.getCityName());
@@ -97,7 +97,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 						tempCity.put(cityEntity.getCityId(), cityEntity.getCityName());
 						city.put(cityEntity.getProvinceId(), tempCity);
 					}
-					if(tier>=3){
+					if(level>=3){
 						//组织县、区的数据
 						if(county.get(cityEntity.getCityId()) != null){
 							county.get(cityEntity.getCityId()).put(cityEntity.getCountyId(), cityEntity.getCountyName());
@@ -106,7 +106,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 							tempCounty.put(cityEntity.getCountyId(), cityEntity.getCountyName());
 							county.put(cityEntity.getCityId(), tempCounty);
 						}
-						if(tier>=4){
+						if(level>=4){
 							//组织镇、街道的数据
 							if(town.get(cityEntity.getCountyId()) != null){
 								town.get(cityEntity.getCountyId()).put(cityEntity.getTownId(), cityEntity.getTownName());
@@ -115,7 +115,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 								tempTown.put(cityEntity.getTownId(), cityEntity.getTownName());
 								town.put(cityEntity.getCountyId(), tempTown);
 							}
-							if(tier>=5){
+							if(level>=5){
 								//组织村的数据
 								if(village.get(cityEntity.getTownId()) != null){
 									village.get(cityEntity.getTownId()).put(cityEntity.getVillageId(), cityEntity.getVillageName());
@@ -135,7 +135,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		List<CityBean> cityBeanList = new ArrayList<>();
 		if("tree".equals(type)){
 			//数据组织返回格式
-			if(tier >= 1){//树类型
+			if(level >= 1){//树类型
 				//遍历省级数据，组织第一级
 				for (Long provinceKey : province.keySet()) {
 					CityBean provinceBean = new CityBean();
@@ -143,7 +143,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				    provinceBean.setId(provinceKey);
 				    provinceBean.setName(provinceName);
 				    provinceBean.setChildrensList(new ArrayList<CityBean>());
-					if(tier >= 2){
+					if(level >= 2){
 						//遍历市级数据，组织第二级
 						Map<Long,String> cityMap = city.get(provinceKey);
 						for(Long cityKey : cityMap.keySet()){
@@ -152,7 +152,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 							cityBean.setId(cityKey);
 							cityBean.setName(cityName);
 							cityBean.setChildrensList(new ArrayList<CityBean>());
-							if(tier >= 3){
+							if(level >= 3){
 								//遍历县级数据，组织第三极
 								Map<Long,String> countyMap = county.get(cityKey);
 								for(Long countyKey : countyMap.keySet()){
@@ -161,7 +161,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 									countyBean.setId(countyKey);
 									countyBean.setName(countyName);
 									countyBean.setChildrensList(new ArrayList<CityBean>());
-									if(tier >= 4){
+									if(level >= 4){
 										//遍历镇数据，组织第四级
 										Map<Long,String> townMap = town.get(countyKey);
 										for(Long townKey : townMap.keySet()){
@@ -170,7 +170,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 											townBean.setId(townKey);
 											townBean.setName(townName);
 											townBean.setChildrensList(new ArrayList<CityBean>());
-											if(tier >= 5){
+											if(level >= 5){
 												//遍历村数据，组织第五级
 												Map<Long,String> villageMap = village.get(townKey);
 												for(Long villageKey : villageMap.keySet()){
@@ -196,7 +196,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		}else{//行数据类型
 			CityBean cityBean = new CityBean();
 			//组织省的数据
-			if(tier>=1){
+			if(level>=1){
 				for(Long provinceId : province.keySet()){
 					cityBean = new CityBean();
 					cityBean.setId(provinceId);
@@ -205,7 +205,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				}
 			}
 			//组织市的数据，父级id为省id
-			if(tier>=2){
+			if(level>=2){
 				for(Long provinceId : city.keySet()){
 					Map<Long,String> _city = city.get(provinceId) ;
 					for(Long cityId : _city.keySet()){
@@ -218,7 +218,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				}
 			}
 			//组织县的数据，父id为市id
-			if(tier>=3){
+			if(level>=3){
 				for(Long cityId : county.keySet()){
 					Map<Long,String> _county = county.get(cityId) ;
 					for(Long countyId : _county.keySet()){
@@ -231,7 +231,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				}
 			}
 			//组织镇的数据，父id为县id
-			if(tier>=4){
+			if(level>=4){
 				for(Long countyId : town.keySet()){
 					Map<Long,String> _town = county.get(countyId) ;
 					for(Long townId : _town.keySet()){
@@ -244,7 +244,7 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 				}
 			}
 			//组织村的数据，父id为镇id
-			if(tier>=5){
+			if(level>=5){
 				for(Long countyId : village.keySet()){
 					Map<Long,String> _village = county.get(countyId) ;
 					for(Long villageId : _village.keySet()){
@@ -259,6 +259,11 @@ public class CityBizImpl extends BaseBizImpl implements ICityBiz {
 		}
 		
 		return cityBeanList;
+	}
+	@Override
+	public List<CityEntity> queryByLevel(int level) {
+		// TODO Auto-generated method stub
+		return cityDao.queryByLevel(level);
 	}
 	
 }

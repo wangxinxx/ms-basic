@@ -65,4 +65,11 @@ public interface ICityBiz extends IBaseBiz {
 	 * childrensList 子城市数据，包括id，name，parentId,childrensList
 	 */
 	public List<CityBean> queryForTree(int tier,String type);
+	
+	/**
+	 * 通过层级过滤城市数据，提高性能
+	 * @param level 默认3级获取到区数据
+	 * @return 列表
+	 */
+	public List<CityEntity> queryByLevel(int level);
 }
