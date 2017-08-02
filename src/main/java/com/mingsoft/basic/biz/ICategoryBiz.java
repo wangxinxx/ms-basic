@@ -27,7 +27,6 @@ import org.junit.experimental.theories.DataPoint;
 
 import com.mingsoft.base.biz.IBaseBiz;
 import com.mingsoft.base.entity.BaseEntity;
-import com.mingsoft.basic.entity.BasicTypeEntity;
 import com.mingsoft.basic.entity.CategoryEntity;
 import com.mingsoft.util.PageUtil;
 
