@@ -79,7 +79,7 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	public int saveCategory(CategoryEntity categoryEntity) {
 		// TODO Auto-generated method stub
 		if(categoryEntity.getCategoryCategoryId()>0) {
-			CategoryEntity category = this.getCategory(categoryEntity.getCategoryCategoryId());
+			CategoryEntity category = (CategoryEntity)this.getEntity(categoryEntity.getCategoryCategoryId());
 			if(StringUtil.isBlank(category.getCategoryParentId())) {
 				categoryEntity.setCategoryParentId(categoryEntity.getCategoryCategoryId()+"");
 			} else {
@@ -90,11 +90,6 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		return saveEntity(categoryEntity);
 	}
 
-	@Override
-	public int saveCategoryEntity(CategoryEntity categoryEntity) {
-		// TODO Auto-generated method stub
-		return categoryDao.saveEntity(categoryEntity);
-	}
 
 	@Override
 	public void deleteCategory(int categoryId) {
@@ -103,17 +98,12 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		deleteEntity(categoryId);
 	}
 
-	@Override
-	public void deleteCategoryEntity(int categoryId) {
-		// TODO Auto-generated method stub
-		categoryDao.deleteEntity(categoryId);
-	}
 
 	@Override
 	public void updateCategory(CategoryEntity categoryEntity) {
 		// TODO Auto-generated method stub
 		if(categoryEntity.getCategoryCategoryId()>0) {
-			CategoryEntity category = this.getCategory(categoryEntity.getCategoryCategoryId());
+			CategoryEntity category = (CategoryEntity)this.getEntity(categoryEntity.getCategoryCategoryId());
 			if(StringUtil.isBlank(category.getCategoryParentId())) {
 				categoryEntity.setCategoryParentId(categoryEntity.getCategoryCategoryId()+"");
 			} else {
@@ -124,17 +114,6 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		updateEntity(categoryEntity);
 	}
 
-	@Override
-	public void updateCategoryEntity(CategoryEntity categoryEntity) {
-		// TODO Auto-generated method stub
-		categoryDao.updateEntity(categoryEntity);
-	}
-
-	@Override
-	public CategoryEntity getCategory(int categoryId) {
-		// TODO Auto-generated method stub
-		return (CategoryEntity) categoryDao.getEntity(categoryId);
-	}
 
 	@Override
 	public List queryByPageList(CategoryEntity category, PageUtil page, String orderBy, boolean order) {
@@ -154,102 +133,8 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		return categoryDao.count(category);
 	}
 
-	@Override
-	public List<CategoryEntity> queryByModelId(CategoryEntity category) {
-		return categoryDao.queryByModelId(category);
-	}
 	
-	@Override
-	public List<Integer> queryCategoryIdByTitle(String categoryTitle, int categoryModelId) {
-		// TODO Auto-generated method stub
-		return categoryDao.queryCategoryIdByTitle(categoryTitle, categoryModelId);
-	}
-
-	@Override
-	public List<Integer> queryCategoryIdByCategoryTitle(String categorySchoolName, int schoolModelId,
-			int facultyModelId) {
-		// TODO Auto-generated method stub
-		return categoryDao.queryCategoryIdByCategoryTitle(categorySchoolName, schoolModelId, facultyModelId);
-	}
-
-	/**
-	 * 根据分类标题和分类的模块ID查询该分类是否存在</br>
-	 * 若存在则不持久化直接返回数据库中原来的数据</br>
-	 * 若不存在则持久化并返回实体信息
-	 * 
-	 * @param categoryTitle
-	 *            分类标题
-	 * @param categoryCategoryId
-	 *            父ID
-	 * @param categoryModelId
-	 *            模块ID
-	 * @return 返回分类实体
-	 */
-	@Override
-	public CategoryEntity saveByCategoryTitle(String categoryTitle, int categoryCategoryId, int categoryModelId) {
-		// TODO Auto-generated method stub
-		CategoryEntity category = new CategoryEntity();
-		int categoryId = 0;
-		if (StringUtil.isBlank(categoryTitle)) {
-			category.setCategoryId(categoryId);
-			return category;
-		} else {
-			// 查询数据库中属否存在该分类数据
-			List<Integer> list = queryCategoryIdByTitle(categoryTitle, categoryModelId);
-			if (list != null && list.size() > 0) {
-				categoryId = list.get(list.size() - 1);
-			}
-		}
-
-		// 当数据库中不存在该分类数据时则持久化
-		if (categoryId == 0) {
-			category.setCategoryTitle(categoryTitle);
-			category.setCategoryCategoryId(categoryCategoryId);
-			category.setCategoryModelId(categoryModelId);
-			saveCategoryEntity(category);
-		} else {
-			category.setCategoryId(categoryId);
-		}
-		return category;
-	}
-
-	@Override
-	public List<CategoryEntity> queryBatchCategoryById(List<Integer> listId) {
-		// TODO Auto-generated method stub
-		return categoryDao.queryBatchCategoryById(listId);
-	}
-
-	@Override
-	public synchronized int[] queryChildrenCategoryIds(int categoryId, int appId, int modelId) {
-		// TODO Auto-generated method stub
-		CategoryEntity category = new CategoryEntity();
-		category.setCategoryAppId(appId);
-		category.setCategoryModelId(modelId);
-		category.setCategoryId(categoryId);
-		List<CategoryEntity> list = categoryDao.queryChildren(category);
-		int[] ids = new int[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			CategoryEntity _category = list.get(i);
-			ids[i] = _category.getCategoryId();
-		}
-		return ids;
-	}
-	/**
-	 * 传入一个实体查询出该实体所有的子节点
-	 * @param category
-	 * @return
-	 */
-	@Override
-	public int[] queryAllchilds(CategoryEntity entity){
-		List<CategoryEntity> childs = categoryDao.queryChildren(entity);
-		//取出所有的Id集合，并放到数组中
-		int[] ids = new int[childs.size()];
-		for (int i = 0; i < childs.size(); i++) {
-			CategoryEntity categoryEnt = childs.get(i);
-			ids[i] = categoryEnt.getCategoryId();
-		}
-		return ids;
-	}
+	
 	@Override
 	public List<CategoryEntity> queryByAppIdOrModelId(Integer appId, Integer modelId) {
 		// TODO Auto-generated method stub
@@ -257,43 +142,6 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	}
 
 
-	@Override
-	public List<CategoryEntity> queryByDescription(int appId, int modelId, String categoryDescription) {
-		// TODO Auto-generated method stub
-		if (StringUtil.isBlank(categoryDescription)) {
-			return null;
-		}
-		return this.categoryDao.queryByDescription(appId, modelId, categoryDescription);
-	}
-
-	@Override
-	public int[] queryCategoryIdsByModelIdAndAppId(int appId, int modelId) {
-		// TODO Auto-generated method stub
-		List<CategoryEntity> list = categoryDao.queryByAppIdOrModelId(appId, modelId);
-		int ids[] = new int[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			CategoryEntity category = list.get(i);
-			ids[i] = Integer.valueOf(category.getCategoryId());
-		}
-		return ids;
-	}
-
-	@Override
-	public List<CategoryEntity> queryByCategoryTitle(String[] title) {
-		// TODO Auto-generated method stub
-		return categoryDao.queryByCategoryTitle(title);
-	}
-
-	@Override
-	public List<CategoryEntity> queryChildrenCategory(int categoryId, int appId, int modelId) {
-		// TODO Auto-generated method stub
-		CategoryEntity category = new CategoryEntity();
-		category.setCategoryAppId(appId);
-		category.setCategoryModelId(modelId);
-		category.setCategoryId(categoryId);
-		
-		return categoryDao.queryChildren(category);
-	}
 
 	@Override
 	public BaseEntity getEntity(int id) {
@@ -350,5 +198,30 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	public List queryByDictId(CategoryEntity category) {
 		return categoryDao.queryByDictId(category);
 	}
-
+	@Override
+	public List<CategoryEntity> queryChildrenCategory(int categoryId, int appId, int modelId) {
+		// TODO Auto-generated method stub
+		CategoryEntity category = new CategoryEntity();
+		category.setCategoryAppId(appId);
+		category.setCategoryModelId(modelId);
+		category.setCategoryId(categoryId);
+		
+		return categoryDao.queryChildren(category);
+	}
+	
+	@Override
+	public synchronized int[] queryChildrenCategoryIds(int categoryId, int appId, int modelId) {
+		// TODO Auto-generated method stub
+		CategoryEntity category = new CategoryEntity();
+		category.setCategoryAppId(appId);
+		category.setCategoryModelId(modelId);
+		category.setCategoryId(categoryId);
+		List<CategoryEntity> list = categoryDao.queryChildren(category);
+		int[] ids = new int[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			CategoryEntity _category = list.get(i);
+			ids[i] = _category.getCategoryId();
+		}
+		return ids;
+	}
 }

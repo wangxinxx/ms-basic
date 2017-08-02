@@ -64,9 +64,9 @@ public class CategoryAction extends BaseAction{
 	@RequestMapping("/{categoryId}/getParentCategory")
 	@ResponseBody
 	public void getParentCategory(@PathVariable int categoryId,HttpServletRequest request, HttpServletResponse response){
-		CategoryEntity category = this.categoryBiz.getCategory(categoryId);
+		CategoryEntity category = (CategoryEntity)categoryBiz.getEntity(categoryId);
 		if(category!=null){
-			CategoryEntity paCategory = categoryBiz.getCategory(category.getCategoryCategoryId());
+			CategoryEntity paCategory = (CategoryEntity)categoryBiz.getEntity(category.getCategoryCategoryId());
 			if(paCategory==null){
 				this.outJson(response, JSONObject.toJSONString(category));
 			}

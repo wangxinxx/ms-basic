@@ -118,7 +118,7 @@ public class CategoryAction extends BaseAction {
 		category.setCategoryDateTime(new Timestamp(System.currentTimeMillis()));
 		category.setCategoryAppId(this.getAppId(request));
 		category.setCategoryModelId(this.getModelCodeId(request));
-		categoryBiz.saveCategoryEntity(category);
+		categoryBiz.saveEntity(category);
 		request.removeAttribute("categoryCategoryId");
 		request.removeAttribute("categoryLevel");
 		this.outJson(response, ModelCode.CMS_COLUMN, true, null, String.valueOf(category.getCategoryId()));
@@ -178,7 +178,7 @@ public class CategoryAction extends BaseAction {
 			return;
 		}
 		category.setCategoryManagerId(((ManagerEntity) getManagerBySession(request)).getManagerId());
-		categoryBiz.updateCategoryEntity(category);
+		categoryBiz.updateEntity(category);
 		this.outJson(response, ModelCode.CMS_COLUMN, true, null, JSONArray.toJSONString(category.getCategoryId()));
 
 	}
@@ -238,7 +238,7 @@ public class CategoryAction extends BaseAction {
 		if (categoryBiz.count(category) > 0) {
 			this.outJson(response, ModelCode.CMS_COLUMN, true, "0");
 		} else {
-			categoryBiz.deleteCategoryEntity(categoryId);
+			categoryBiz.deleteEntity(categoryId);
 			this.outJson(response, ModelCode.CMS_COLUMN, true, "1");
 		}
 	}
@@ -268,114 +268,102 @@ public class CategoryAction extends BaseAction {
 		return true;
 	}
 
-	/**
-	 * 根据分类id查找分类实体和它的父分类
-	 * 
-	 * @param categoryId
-	 * @param request
-	 * @param mode
-	 * @param response
-	 */
-	/**
-	 * 根据分类id查找分类实体和它的父分类
-	 * 
-	 * @param categoryId
-	 *            栏目id
-	 * @param request
-	 *            请求对象
-	 * @param mode
-	 * @param response
-	 */
-	@RequestMapping("/{categoryId}/query")
-	public void query(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
-			HttpServletResponse response) {
-		// 根据分类id查询分类实体
-		CategoryEntity category = (CategoryEntity) categoryBiz.getEntity(categoryId);
-		// 如何分类实体不存在
-		if (category == null) {
-			return;
-		}
-		// 查询该分类的父分类
-		CategoryEntity categoryCategory = (CategoryEntity) categoryBiz.getEntity(category.getCategoryCategoryId());
+//	/**
+//	 * 根据分类id查找分类实体和它的父分类
+//	 * 
+//	 * @param categoryId
+//	 * @param request
+//	 * @param mode
+//	 * @param response
+//	 */
+//	/**
+//	 * 根据分类id查找分类实体和它的父分类
+//	 * 
+//	 * @param categoryId
+//	 *            栏目id
+//	 * @param request
+//	 *            请求对象
+//	 * @param mode
+//	 * @param response
+//	 */
+//	@RequestMapping("/{categoryId}/query")
+//	public void query(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
+//			HttpServletResponse response) {
+//		// 根据分类id查询分类实体
+//		CategoryEntity category = (CategoryEntity) categoryBiz.getEntity(categoryId);
+//		// 如何分类实体不存在
+//		if (category == null) {
+//			return;
+//		}
+//		// 查询该分类的父分类
+//		CategoryEntity categoryCategory = (CategoryEntity) categoryBiz.getEntity(category.getCategoryCategoryId());
+//
+//		List<CategoryEntity> list = new ArrayList<CategoryEntity>();
+//		list.add(categoryCategory);
+//		list.add(category);
+//		this.outJson(response, JSONObject.toJSONString(list));
+//	}
 
-		List<CategoryEntity> list = new ArrayList<CategoryEntity>();
-		list.add(categoryCategory);
-		list.add(category);
-		this.outJson(response, JSONObject.toJSONString(list));
-	}
-
-	/**
-	 * 根据分类id查找分类子分类
-	 * 
-	 * @param categoryId
-	 * @param request
-	 * @param mode
-	 * @param response
-	 */
-	@RequestMapping("/{categoryId}/queryChildren")
-	public void queryChildren(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
-			HttpServletResponse response) {
-		CategoryEntity category = (CategoryEntity) this.categoryBiz.getEntity(categoryId);
-		if (category != null) {
-			List<CategoryEntity> list = this.categoryBiz.queryChilds(category);
-			this.outJson(response, JSONObject.toJSONString(list));
-		}
-
-	}
-
-	/**
-	 * 加载栏目列表页并查询所有栏目下子栏目
-	 * 
-	 * @param categoryId
-	 *            栏目id
-	 * @param request
-	 *            请求对象
-	 * @param response
-	 *            响应对象
-	 * @return 栏目列表地址
-	 */
-	@RequestMapping("/{categoryId}/childList")
-	public String childList(@PathVariable int categoryId, HttpServletRequest request, HttpServletResponse response) {
-		String modelId = request.getParameter("modelId");
-		String categoryCategoryId = request.getParameter("categoryCategoryId");// 提供展开效果使用
-		this.setSession(request, SessionConstEnum.MANAGER_MODEL_CODE, modelId);
-		// 获取登录的session
-		ManagerSessionEntity managerSession = (ManagerSessionEntity) getManagerBySession(request);
-		// 传入一个实体，提供查询条件
-		CategoryEntity category = new CategoryEntity();
-		category.setCategoryModelId(Integer.parseInt(modelId));
-
-		AppEntity app = this.getApp(request);
-		int appId = app.getAppId();
-		// 查询指定的appId下的分类
-		category.setCategoryAppId(appId);
-		// 判断是否为该网站总管理员，如果是管理员查询分类时则可以不受管理员限制，即可以查看所有的分类
-		if (managerSession.getManagerId() != app.getAppManagerId()) {
-			category.setCategoryManagerId(managerSession.getManagerId());
-		}
-
-		List<CategoryEntity> list = categoryBiz.queryChildrenCategory(categoryId, appId, this.getModelCodeId(request));
-
-		// 保存cookie值
-		this.setCookie(request, response, CookieConstEnum.BACK_COOKIE, "/manager/category/list.do");
-		request.setAttribute("categoryCategoryId", categoryCategoryId);
-		request.setAttribute("categoryJson", JSONArray.toJSONString(list));
-		request.setAttribute("modelId", request.getParameter("modelId"));
-		return Const.VIEW + "/category/category_list";
-	}
 	
 	
-	/**
-	 * 城市
-	 * @param categoryId 分类id
-	 * @param request HttpServletRequest对象
-	 * @param response HttpServletResponse对象
-	 */
-	@RequestMapping("/city")
-	@ResponseBody
-	public void city(HttpServletRequest request, HttpServletResponse response){
-		List list = this.categoryBiz.queryByAppIdOrModelId(BasicUtil.getAppId(), this.getModelCodeId(request, GlobalModelCodelEnum.CITY));
-		this.outJson(response, list);
-	}
+//	/**
+//	 * 根据分类id查找分类子分类
+//	 * 
+//	 * @param categoryId
+//	 * @param request
+//	 * @param mode
+//	 * @param response
+//	 */
+//	@RequestMapping("/{categoryId}/queryChildren")
+//	public void queryChildren(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
+//			HttpServletResponse response) {
+//		CategoryEntity category = (CategoryEntity) this.categoryBiz.getEntity(categoryId);
+//		if (category != null) {
+//			List<CategoryEntity> list = this.categoryBiz.queryChilds(category);
+//			this.outJson(response, JSONObject.toJSONString(list));
+//		}
+//
+//	}
+
+//	/**
+//	 * 加载栏目列表页并查询所有栏目下子栏目
+//	 * 
+//	 * @param categoryId
+//	 *            栏目id
+//	 * @param request
+//	 *            请求对象
+//	 * @param response
+//	 *            响应对象
+//	 * @return 栏目列表地址
+//	 */
+//	@RequestMapping("/{categoryId}/childList")
+//	public String childList(@PathVariable int categoryId, HttpServletRequest request, HttpServletResponse response) {
+//		String modelId = request.getParameter("modelId");
+//		String categoryCategoryId = request.getParameter("categoryCategoryId");// 提供展开效果使用
+//		this.setSession(request, SessionConstEnum.MANAGER_MODEL_CODE, modelId);
+//		// 获取登录的session
+//		ManagerSessionEntity managerSession = (ManagerSessionEntity) getManagerBySession(request);
+//		// 传入一个实体，提供查询条件
+//		CategoryEntity category = new CategoryEntity();
+//		category.setCategoryModelId(Integer.parseInt(modelId));
+//
+//		AppEntity app = this.getApp(request);
+//		int appId = app.getAppId();
+//		// 查询指定的appId下的分类
+//		category.setCategoryAppId(appId);
+//		// 判断是否为该网站总管理员，如果是管理员查询分类时则可以不受管理员限制，即可以查看所有的分类
+//		if (managerSession.getManagerId() != app.getAppManagerId()) {
+//			category.setCategoryManagerId(managerSession.getManagerId());
+//		}
+//
+//		List<CategoryEntity> list = categoryBiz.queryChildrenCategory(categoryId, appId, this.getModelCodeId(request));
+//
+//		// 保存cookie值
+//		this.setCookie(request, response, CookieConstEnum.BACK_COOKIE, "/manager/category/list.do");
+//		request.setAttribute("categoryCategoryId", categoryCategoryId);
+//		request.setAttribute("categoryJson", JSONArray.toJSONString(list));
+//		request.setAttribute("modelId", request.getParameter("modelId"));
+//		return Const.VIEW + "/category/category_list";
+//	}
 
 }
