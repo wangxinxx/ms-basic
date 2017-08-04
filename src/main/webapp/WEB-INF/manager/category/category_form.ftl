@@ -6,7 +6,8 @@
    			<@ms.form isvalidation=true name="categoryForm"   action="${managerPath}/category/${autoCURD}.do"  redirect="${managerPath}/category/list.do?modelId=${modelId}&modelTitle=${modelTitle}&categoryLevel=${category.categoryLevel}">
 				    		<input type="hidden" name="categoryId" id="categoryId"  value="${category.categoryId}"/>
 				    		<@ms.text name="categoryTitle" width="300" label="名称:" title="类别名称" maxlength="30"  placeholder="类别名称"  
-				    		validation={"required":"true", "data-bv-notempty-message":"请填写栏目类别"} value="${category.categoryTitle?default('')}"/>
+				    		validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"30","data-bv-stringLength-message":"长度不能超过30个字符",
+				    		"required":"true", "data-bv-notempty-message":"请填写栏目类别"} value="${category.categoryTitle?default('')}"/>
 				    		<@ms.textarea id="description"  name="categoryDescription" label="描述:"  title="栏目描述" placeholder="类别描述" maxlength="150" value="${category.categoryDescription?default('')}"/>
 				    		
 				    		<@ms.formRow label="缩略图">
