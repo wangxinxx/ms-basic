@@ -45,6 +45,8 @@ import org.apache.commons.fileupload.util.Streams;
 import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.StringUtil;
 
+import net.mingsoft.basic.util.BasicUtil;
+
 /**
  * 文件上传通用servlet
  * 
