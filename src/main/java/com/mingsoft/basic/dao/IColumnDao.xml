@@ -3,7 +3,7 @@
 <mapper namespace="com.mingsoft.basic.dao.IColumnDao">
 <sql id="column_list">
 		co.column_categoryid,co.column_keyword,co.column_descrip,co.column_type,co.column_url,co.column_listurl,co.column_contentmodelid,co.column_websiteid,co.column_path,
-		ca.category_id,ca.category_title,ca.category_sort,ca.category_datetime,ca.category_managerid,ca.category_modelid,ca.category_categoryid,ca.category_smallimg
+		ca.category_id,ca.category_parent_id,ca.category_title,ca.category_sort,ca.category_datetime,ca.category_managerid,ca.category_modelid,ca.category_categoryid,ca.category_smallimg
 	</sql>
 	
 	<sql id="category_column_list">
