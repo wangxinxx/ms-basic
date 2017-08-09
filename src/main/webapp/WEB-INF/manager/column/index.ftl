@@ -37,7 +37,7 @@
 <script>
 	$(function(){
 		$("#columnList").bootstrapTable({
-			url:"${managerPath}/mall/column/list.do?modelId=${Session.model_id_session?default(0)}",
+			url:"${managerPath}/mall/column/list.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
@@ -53,7 +53,7 @@
 		        	title: '标题',
 		        	align: 'left',
 		        	formatter:function(value,row,index) {
-		        		var url = "${managerPath}/mall/column/"+row.categoryId+"/edit.do?modelId=${Session.model_id_session?default(0)}";
+		        		var url = "${managerPath}/mall/column/"+row.categoryId+"/edit.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 		        	}
 		        	
@@ -109,7 +109,7 @@
 	})
 	//增加按钮
 	$("#addColumnBtn").click(function(){
-		location.href ="${managerPath}/mall/column/add.do??modelId=${Session.model_id_session?default(0)}"; 
+		location.href ="${managerPath}/mall/column/add.do??modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}"; 
 	})
 	//删除按钮
 	$("#delColumnBtn").click(function(){
