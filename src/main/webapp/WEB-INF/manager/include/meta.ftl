@@ -60,6 +60,10 @@
   <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table.min.css">
   <script src="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
   <script src="${static}/plugins//bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+  
+  <link rel="stylesheet" href="http://issues.wenzhixin.net.cn/bootstrap-table/assets/bootstrap-table/src/extensions/tree-column/bootstrap-table-tree-column.css">
+  <script src="http://issues.wenzhixin.net.cn/bootstrap-table/assets/bootstrap-table/src/bootstrap-table.js"></script>
+  <script src="http://issues.wenzhixin.net.cn/bootstrap-table/assets/bootstrap-table/src/extensions/tree-column/bootstrap-table-tree-column.js"></script>
 
   <link rel="stylesheet" type="text/css" href="${static}/skin/manager/${manager_ui}/css/ms.manager.min.css" media="all" />
   <#assign skin_manager_logo="${static}/skin/manager/${manager_ui}/images/logo.png"/>  
