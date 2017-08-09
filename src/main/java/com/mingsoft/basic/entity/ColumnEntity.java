@@ -21,6 +21,7 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.entity;
 
+import com.mingsoft.base.constant.e.BaseEnum;
 import com.mingsoft.basic.entity.CategoryEntity;
 import com.mingsoft.util.StringUtil;
 
@@ -247,6 +248,31 @@ public class ColumnEntity extends CategoryEntity {
 	}
 	
 	
-	
+	public enum ColumnTypeEnum implements BaseEnum {
+		/**
+		 * 列表
+		 */
+		COLUMN_TYPE_LIST(1),
+		/**
+		 * 单页
+		 */
+		COLUMN_TYPE_COVER(2),
+		/**
+		 * 跳转地址
+		 */
+		COLUMN_TYPE_URL(3);
+
+		ColumnTypeEnum(Object code) {
+			this.code = code;
+		}
+		
+		private Object code;
+		@Override
+		public int toInt() {
+			// TODO Auto-generated method stub
+			return Integer.valueOf(code+"");
+		}
+		
+	}
 	
 }

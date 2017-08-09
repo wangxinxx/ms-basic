@@ -121,7 +121,7 @@ public class CategoryAction extends BaseAction {
 		categoryBiz.saveEntity(category);
 		request.removeAttribute("categoryCategoryId");
 		request.removeAttribute("categoryLevel");
-		this.outJson(response, ModelCode.CMS_COLUMN, true, null, String.valueOf(category.getCategoryId()));
+		this.outJson(response, ModelCode.COLUMN, true, null, String.valueOf(category.getCategoryId()));
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class CategoryAction extends BaseAction {
 		}
 		category.setCategoryManagerId(((ManagerEntity) getManagerBySession(request)).getManagerId());
 		categoryBiz.updateEntity(category);
-		this.outJson(response, ModelCode.CMS_COLUMN, true, null, JSONArray.toJSONString(category.getCategoryId()));
+		this.outJson(response, ModelCode.COLUMN, true, null, JSONArray.toJSONString(category.getCategoryId()));
 
 	}
 
@@ -236,10 +236,10 @@ public class CategoryAction extends BaseAction {
 
 		// 查询该栏目是否有子栏目,如果存在子栏目则返回错误提示，否则删除该栏目
 		if (categoryBiz.count(category) > 0) {
-			this.outJson(response, ModelCode.CMS_COLUMN, true, "0");
+			this.outJson(response, ModelCode.COLUMN, true, "0");
 		} else {
 			categoryBiz.deleteEntity(categoryId);
-			this.outJson(response, ModelCode.CMS_COLUMN, true, "1");
+			this.outJson(response, ModelCode.COLUMN, true, "1");
 		}
 	}
 
@@ -254,13 +254,13 @@ public class CategoryAction extends BaseAction {
 
 		// 栏目标题空值验证
 		if (StringUtil.isBlank(category.getCategoryTitle())) {
-			this.outJson(response, ModelCode.CMS_COLUMN, false,
+			this.outJson(response, ModelCode.COLUMN, false,
 					getResString("err.empty", this.getResString("categoryTitle")));
 			return false;
 		}
 		// 栏目标题长度验证
 		if (!StringUtil.checkLength(category.getCategoryTitle(), 1, 31)) {
-			this.outJson(response, ModelCode.CMS_COLUMN, false,
+			this.outJson(response, ModelCode.COLUMN, false,
 					getResString("err.length", this.getResString("categoryTitle"), "1", "30"));
 			return false;
 		}

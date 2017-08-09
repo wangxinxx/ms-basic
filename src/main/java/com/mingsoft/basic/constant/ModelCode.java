@@ -49,9 +49,9 @@ public enum ModelCode implements BaseEnum{
 	APP("02010000"),
 
 	/**
-	 * 内容：栏目模块编号
+	 *通用分类
 	 */
-	CMS_COLUMN("02990000"),
+	COLUMN("00990000"),
 	
 	/**
 	 * 学校
