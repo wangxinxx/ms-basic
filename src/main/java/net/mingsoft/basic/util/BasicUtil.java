@@ -210,7 +210,7 @@ public class BasicUtil {
 	public static AppEntity getApp() {
 
 		// 获取用户所请求的域名地址
-		IAppBiz websiteBiz = (IAppBiz) SpringUtil.getBean("appBiz");
+		IAppBiz websiteBiz = (IAppBiz) SpringUtil.getBean(IAppBiz.class);
 		AppEntity website = websiteBiz.getByUrl(BasicUtil.getDomain());
 		return website;
 	}

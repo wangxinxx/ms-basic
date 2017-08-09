@@ -12,7 +12,6 @@
 					<@ms.addButton id="addColumnBtn"/>
 					<@ms.delButton id="delColumnBtn"/>
 				</@ms.buttonGroup>
-				<@ms.button id="columnBtn" value="规格设置"/>
 			</@ms.panelNav>
 		</div>
 		<table id="columnList" 
@@ -37,7 +36,7 @@
 <script>
 	$(function(){
 		$("#columnList").bootstrapTable({
-			url:"${managerPath}/mall/column/list.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}",
+			url:"${managerPath}/column/list.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
@@ -53,7 +52,7 @@
 		        	title: '标题',
 		        	align: 'left',
 		        	formatter:function(value,row,index) {
-		        		var url = "${managerPath}/mall/column/"+row.categoryId+"/edit.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+		        		var url = "${managerPath}/column/"+row.categoryId+"/edit.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 		        	}
 		        	
@@ -109,7 +108,7 @@
 	})
 	//增加按钮
 	$("#addColumnBtn").click(function(){
-		location.href ="${managerPath}/mall/column/add.do??modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}"; 
+		location.href ="${managerPath}/column/add.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}"; 
 	})
 	//删除按钮
 	$("#delColumnBtn").click(function(){
@@ -129,7 +128,7 @@
 		$(this).attr("disabled","true");
 		$.ajax({
 			type: "post",
-			url: "${managerPath}/mall/column/"+rows[0].categoryId+"/delete.do",
+			url: "${managerPath}/column/"+rows[0].categoryId+"/delete.do",
 			dataType: "json",
 			contentType: "application/json",
 			success:function(msg) {

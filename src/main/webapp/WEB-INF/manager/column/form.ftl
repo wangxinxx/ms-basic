@@ -120,9 +120,9 @@ $(function(){
 		var formdata = $("#columnForm").serialize();
 		var URL = "";
 		<#if column.categoryId==0>
-		URL =base+"${baseManager}/cms/column/save.do";
+		URL =base+"${baseManager}/cms/column/save.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		<#else>
-		URL = base+"${baseManager}/cms/column/update.do";
+		URL = base+"${baseManager}/cms/column/update.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		</#if>
 		if(isNaN($("input[name=categorySort]").val())){
 			alert("自定义排序必须是数字");
@@ -146,7 +146,7 @@ $(function(){
 	     			<#else>
 	     			alert("更新成功");
 	     			</#if>
-	    			location.href="${managerPath}/mall/column/index.do";
+	    			location.href="${managerPath}/column/index.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 	    		}else{
 	    			<#if column.categoryId==0>
 	     			alert("保存失败");

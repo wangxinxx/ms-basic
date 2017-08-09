@@ -68,7 +68,7 @@ public class ElasticsearchUtil {
 	 */
 	public static void saveOrUpdate(String id, BaseMapping base) {
 		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate) SpringUtil
-				.getBean("elasticsearchTemplate");
+				.getBean(ElasticsearchTemplate.class);
 		IndexQuery indexQuery = new IndexQueryBuilder().withId(id).withObject(base).build();
 		elasticsearchTemplate.index(indexQuery);
 	}
@@ -83,7 +83,7 @@ public class ElasticsearchUtil {
 	 */
 	public static void saveOrUpdate(List<BaseMapping> bases) {
 		ElasticsearchTemplate elasticsearchTemplate = (ElasticsearchTemplate) SpringUtil
-				.getBean("elasticsearchTemplate");
+				.getBean(ElasticsearchTemplate.class);
 		List<IndexQuery> indexQueries = new ArrayList<IndexQuery>();
 		for (int i = 0; i < bases.size(); i++) {
 			IndexQuery indexQuery = new IndexQueryBuilder().withId(bases.get(i).getId()).withObject(bases.get(i))

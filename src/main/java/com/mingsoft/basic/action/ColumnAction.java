@@ -61,7 +61,7 @@ public class ColumnAction extends BaseAction{
 	 */
 	@RequestMapping("/index")
 	public String index(HttpServletResponse response,HttpServletRequest request){
-		return view ("/mall/column/index");
+		return view ("/column/index");
 	}
 	/**
 	 * 栏目添加跳转页面
@@ -78,7 +78,7 @@ public class ColumnAction extends BaseAction{
 		model.addAttribute("columnSuper", columnSuper);
 		model.addAttribute("column",new ColumnEntity());
 		model.addAttribute("listColumn", JSONArray.toJSONString(list));
-		return view("/mall/column/form");
+		return view("/column/form");
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class ColumnAction extends BaseAction{
 		}
 		model.addAttribute("columnSuper", columnSuper);
 		model.addAttribute("listColumn", JSONArray.toJSONString(list));
-		return view("/mall/column/form");
+		return view("/column/form");
 	}
 	
 	/**
