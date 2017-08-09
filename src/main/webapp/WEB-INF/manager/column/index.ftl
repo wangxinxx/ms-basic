@@ -23,8 +23,8 @@
 		</table>
 	</@ms.panel>
 	
-	<@ms.modal  modalName="delColumn" title="删除栏目" >
-		<@ms.modalBody>删除此栏目
+	<@ms.modal  modalName="delColumn" title="删除栏目" >	
+		<@ms.modalBody>删除选中栏目，如果有子栏目也会一并删除
 			<@ms.modalButton>
 				<!--模态框按钮组-->
 				<@ms.button  value="确认删除？"  id="deleteColumnBtn"  />
@@ -80,7 +80,13 @@
 		        	field: 'columnListUrl',
 		        	title: '列表地址',
 		        	align: 'left',
-		        	width: '260',
+		        	formatter:function(value,row,index) {
+		        		if(value != null){
+		        			return value;
+		        		}else{
+		        			return "";
+		        		}
+		        	}
 		    	},{
 		        	field: 'columnUrl',
 		        	title: '内容地址',
@@ -124,11 +130,15 @@
 	
 	$("#deleteColumnBtn").click(function(){
 		var rows = $("#columnList").bootstrapTable("getSelections");
-		//$(this).text("正在删除...");
+		$(this).text("正在删除...");
 		$(this).attr("disabled","true");
+		var ids = [];
+		for(var i=0;i<rows.length;i++){
+			ids[i] = rows[i].categoryId;
+		}
 		$.ajax({
 			type: "post",
-			url: "${managerPath}/column/"+rows[0].categoryId+"/delete.do",
+			url: "${managerPath}/column/delete.do?ids="+ids,
 			dataType: "json",
 			contentType: "application/json",
 			success:function(msg) {

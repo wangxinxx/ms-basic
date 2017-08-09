@@ -24,11 +24,7 @@
           		<@ms.textarea name="columnDescrip" width="600" label="${Session.model_title_session?default('栏目')}描述" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}描述，对${Session.model_title_session?default('栏目')}关键字的扩展"   value="${column.columnDescrip?default('')}" validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} />
 				<#assign columnTypes=[{"id":"1","name":"列表"},{"id":"2","name":"封面"}]>
 				<@ms.radio name="columnType" label="${Session.model_title_session?default('栏目')}属性"  list=columnTypes listKey="id" listValue="name" value="${column.columnType?c?default(1)}" />
-				<#if listCm?has_content>
-					<@ms.select name="columnContentModelId" width="200"  list=listCm  listKey="cmId" listValue="cmTipsName"  default="请选择自定义模型"  label="${Session.model_title_session?default('栏目')}内容模型"  value="0"/>
-				<#else>
-					<@ms.select name="columnContentModelId" width="200"  list=listCm  listKey="cmId" listValue="cmTipsName"  default="请选择自定义模型"  label="${Session.model_title_session?default('栏目')}内容模型"  value="${column.columnContentModelId?c?default(0)}"/>						
-				</#if>
+				<@ms.select name="columnContentModelId" width="200"  list=[]  listKey="cmId" listValue="cmTipsName"  label="${Session.model_title_session?default('栏目')}内容模型"  value="0"/>
 				<#assign columnModelUrls=[{"id":"0","name":"暂无文件"}]>
 				<@ms.select name="columnListUrl" width="300" id="columnListUrlModel"  list=columnModelUrls  listKey="id" listValue="name" label="列表模版"  value="${column.columnListUrl?default('')}"  select2=true/>
 				<@ms.select name="columnUrl" width="300" id="columnUrlModel" default="暂无文件"  list=columnModelUrls  listKey="id" listValue="name" label="内容模版"  value="${column.columnUrl?default('')}"  select2=true/>
@@ -159,7 +155,25 @@ $(function(){
 		   	}
 		});
 	});
-	
+	//获取内容模型列表
+	$.ajax({
+		type: "post",
+		url: "${managerPath}/mdiy/contentModel/queryByManagerId.do",
+		dataType: "json",
+		contentType: "application/json",
+		success:function(data) {
+			for( var i=0 ; i<data.length ; i++){
+				var value = data[i];
+				var columnContentModelId = ${column.columnContentModelId?c?default(0)};
+				if(columnContentModelId == value.cmId){
+					$("select[name=columnContentModelId]").append("<option value = "+value.cmId+" selected='selected'>"+value.cmTipsName+"</option>");		//添加<option>元素
+				}else{
+					$("select[name=columnContentModelId]").append("<option value = "+value.cmId+">"+value.cmTipsName+"</option>");		//添加<option>元素
+				}
+				
+			}
+		}
+	})
 });
 
 //选择栏目后查询自定义模型
@@ -176,7 +190,5 @@ function clickZtreeId(event,treeId,treeNode){
 		return booleanClick;
 	</#if>
 } 
-
-
 </script>
 </html>

@@ -14,21 +14,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
+import com.mingsoft.base.entity.BaseEntity;
+import com.mingsoft.basic.biz.ICategoryBiz;
 import com.mingsoft.basic.biz.IColumnBiz;
 import com.mingsoft.basic.biz.IModelBiz;
 import com.mingsoft.basic.constant.Const;
 import com.mingsoft.basic.constant.ModelCode;
 import com.mingsoft.basic.constant.e.SessionConstEnum;
+import com.mingsoft.basic.entity.CategoryEntity;
 import com.mingsoft.basic.entity.ColumnEntity;
 import com.mingsoft.basic.entity.ManagerEntity;
 import com.mingsoft.parser.IParserRegexConstant;
 import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.basic.bean.EUListBean;
+import net.mingsoft.basic.util.BasicUtil;
 
 
 
@@ -50,6 +55,8 @@ public class ColumnAction extends BaseAction{
 	 */
 	@Autowired
 	private IColumnBiz columnBiz;
+	@Autowired
+	private ICategoryBiz categoryBiz;
 	
 	/**
 	 * 模块业务层注入
@@ -154,23 +161,25 @@ public class ColumnAction extends BaseAction{
 	}
 	
 	/**
-	 * 根据栏目ID删除栏目记录
-	 * @param categoryId 栏目ID
-	 * @param response
-	 * @param request
+	 * @param column 栏目表实体
+	 * <i>column参数包含字段信息参考：</i><br/>
+	 * columnCategoryid:多个columnCategoryid直接用逗号隔开,例如columnCategoryid=1,2,3,4
+	 * 批量删除栏目表
+	 *            <dt><span class="strong">返回</span></dt><br/>
+	 *            <dd>{code:"错误编码",<br/>
+	 *            result:"true｜false",<br/>
+	 *            resultMsg:"错误信息"<br/>
+	 *            }</dd>
 	 */
-	@RequestMapping("/{categoryId}/delete")
+	@RequestMapping("/delete")
 	@ResponseBody
-	public void delete(@PathVariable int categoryId,HttpServletResponse response, HttpServletRequest request) {
-		// 站点ID有session获取
-		int websiteId = this.getAppId(request);
-		// 查询该栏目是否有子栏目,如果存在子栏目则返回错误提示，否则删除该栏目
-		if (columnBiz.queryChild(categoryId, websiteId,this.getModelCodeId(request),null).size() > 0) {
-			this.outJson(response, false);
-		} else {
-			columnBiz.deleteCategory(categoryId);
-			this.outJson(response, true);
+	public void delete(HttpServletResponse response, HttpServletRequest request) {
+		String ids = BasicUtil.getString("ids");
+		String idArray[] = ids.split(",");
+		for(int i=0;i<idArray.length;i++){
+			columnBiz.deleteCategory(Integer.parseInt(idArray[0]));
 		}
+		this.outJson(response, true);
 	}
 		
 	/**
