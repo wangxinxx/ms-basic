@@ -174,10 +174,9 @@ public class ColumnAction extends BaseAction{
 	@RequestMapping("/delete")
 	@ResponseBody
 	public void delete(HttpServletResponse response, HttpServletRequest request) {
-		String ids = BasicUtil.getString("ids");
-		String idArray[] = ids.split(",");
-		for(int i=0;i<idArray.length;i++){
-			columnBiz.deleteCategory(Integer.parseInt(idArray[0]));
+		int[] ids = BasicUtil.getInts("ids", ",");
+		for(int i=0;i<ids.length;i++){
+			columnBiz.deleteCategory(ids[0]);
 		}
 		this.outJson(response, true);
 	}
