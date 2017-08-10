@@ -158,12 +158,12 @@ $(function(){
 	//获取内容模型列表
 	$.ajax({
 		type: "post",
-		url: "${managerPath}/mdiy/contentModel/queryByManagerId.do",
+		url: "${managerPath}/mdiy/contentModel/list.do",
 		dataType: "json",
 		contentType: "application/json",
 		success:function(data) {
-			for( var i=0 ; i<data.length ; i++){
-				var value = data[i];
+			for( var i=0 ; i<data.rows.length ; i++){
+				var value = data.rows[i];
 				var columnContentModelId = ${column.columnContentModelId?c?default(0)};
 				if(columnContentModelId == value.cmId){
 					$("select[name=columnContentModelId]").append("<option value = "+value.cmId+" selected='selected'>"+value.cmTipsName+"</option>");		//添加<option>元素
