@@ -62,7 +62,10 @@
 	<delete id="delete" >
 		delete from basic_people
 		<where>
-			 bp_id  in <foreach collection="ids" item="item" index="index" 
+			<if test="bpPeopleId &gt; 0">
+			and bp_people_id = #{bpPeopleId}
+			</if>
+			 and bp_basic_id  in <foreach collection="bpBasicIds" item="item" index="index" 
 			open="(" separator="," close=")">#{item}</foreach>
 		</where>
 	</delete>

@@ -60,4 +60,10 @@ public class BasicPeopleBizImpl extends BaseBizImpl implements IBasicPeopleBiz {
 		return peopleDao.queryByPeople(appId,modelId,peopleId);
 	}
 
+	@Override
+	public void delete(int[] bpBasicIds, int bpPeopleId) {
+		// TODO Auto-generated method stub
+		this.peopleDao.delete(bpBasicIds, bpPeopleId);
+	}
+
 }

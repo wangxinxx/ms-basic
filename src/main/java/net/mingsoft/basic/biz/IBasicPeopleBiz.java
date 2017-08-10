@@ -3,6 +3,9 @@ package net.mingsoft.basic.biz;
 import com.mingsoft.base.biz.IBaseBiz;
 import com.mingsoft.util.*;
 import java.util.*;
+
+import org.apache.ibatis.annotations.Param;
+
 import net.mingsoft.basic.entity.BasicPeopleEntity;
  
 /**
@@ -23,4 +26,11 @@ public interface IBasicPeopleBiz extends IBaseBiz {
 	 * @return
 	 */
 	List queryByPeople(int appId,int modelId,int peopleId);
+	
+	/**
+	 * 删除用户浏览记录
+	 * @param bpBasicIds 信息编号
+	 * @param bpPeopleId 用户编号
+	 */
+	void delete(int[] bpBasicIds,  int bpPeopleId);
 }

@@ -27,4 +27,11 @@ public interface IBasicPeopleDao extends IBaseDao {
 	 * @return
 	 */
 	List queryByPeople(@Param("appId")int appId, @Param("modelId")int modelId, @Param("peopleId")int peopleId);
+	
+	/**
+	 * 删除用户浏览记录
+	 * @param bpBasicIds 信息编号
+	 * @param bpPeopleId 用户
+	 */
+	void delete(@Param("bpBasicIds")int[] bpBasicIds,  @Param("bpPeopleId")int bpPeopleId);
 }
