@@ -5,20 +5,6 @@
 			 <@ms.queryButton onclick="search()"/> 
 		</@ms.searchFormButton>			
 	</@ms.searchForm-->
-	<div class="modal fade" id="NoPermissionModal">  
-	    <div class="modal-dialog" style="width: 70%; height: 76%;">  
-	        <div class="modal-content" style="height: 85%;" >  
-	            <div class="modal-header">  
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-	               <!-- <button type="button" class="close" onclick="window.history.go(-1);">×</button> --> 
-	                <h4 class="modal-title" id="NoPermissionModalLabel">系统消息</h4>  
-	            </div>  
-	            <div class="modal-body" style="height: 90%;">  
-	                <iframe id="NoPermissioniframe" width="100%" height="100%" frameborder="0"></iframe>  
-	            </div>  
-	        </div>  
-	    </div>  
-	</div>  
 	<@ms.panel>
 		<div id="toolbar">
 			<@ms.panelNav>
@@ -26,7 +12,6 @@
 					<@ms.addButton id="addColumnBtn"/>
 					<@ms.delButton id="delColumnBtn"/>
 				</@ms.buttonGroup>
-				<@ms.button id= "specification"/>
 			</@ms.panelNav>
 		</div>
 		<table id="columnList" 
@@ -127,20 +112,6 @@
 		    	}]
 	    })
 	})
-	//规格弹框
-	$("#specification").click(function(){ 
-	 	var rows = $("#columnList").bootstrapTable("getSelections");
-	 	//没有选中checkbox
-		if(rows.length <= 0){
-			<@ms.notify msg="请选择需要设置栏目的记录" type="warning"/>
-		}else if(rows.length > 1){
-			 <@ms.notify msg="请选择一条记录" type="warning"/>
-		}else{
-			var frameSrc = "${managerPath}/mall/specification/index.do?categoryId="+rows[0].categoryId;  
-	        $("#NoPermissioniframe").attr("src", frameSrc);  
-	        $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
-		}
-    }); 
 	
 	//增加按钮
 	$("#addColumnBtn").click(function(){
