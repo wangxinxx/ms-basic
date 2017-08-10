@@ -3,7 +3,7 @@ package net.mingsoft.basic.biz;
 import com.mingsoft.base.biz.IBaseBiz;
 import com.mingsoft.util.*;
 import java.util.*;
-import net.mingsoft.basic.entity.PeopleEntity;
+import net.mingsoft.basic.entity.BasicPeopleEntity;
  
 /**
  * 通用用户与信息一对多表业务
@@ -13,7 +13,7 @@ import net.mingsoft.basic.entity.PeopleEntity;
  * 创建日期：2017-7-27 14:47:29<br/>
  * 历史修订：<br/>
  */
-public interface IPeopleBiz extends IBaseBiz {
+public interface IBasicPeopleBiz extends IBaseBiz {
 
 	/**
 	 * 读取用户预览记录

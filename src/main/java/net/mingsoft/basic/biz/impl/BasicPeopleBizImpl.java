@@ -30,9 +30,9 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
-import net.mingsoft.basic.entity.PeopleEntity;
-import net.mingsoft.basic.biz.IPeopleBiz;
-import net.mingsoft.basic.dao.IPeopleDao;
+import net.mingsoft.basic.entity.BasicPeopleEntity;
+import net.mingsoft.basic.biz.IBasicPeopleBiz;
+import net.mingsoft.basic.dao.IBasicPeopleDao;
 
 /**
  * 通用用户与信息一对多表管理持久化层
@@ -43,10 +43,10 @@ import net.mingsoft.basic.dao.IPeopleDao;
  *          历史修订：<br/>
  */
 @Service("basicPeopleBizImpl")
-public class PeopleBizImpl extends BaseBizImpl implements IPeopleBiz {
+public class BasicPeopleBizImpl extends BaseBizImpl implements IBasicPeopleBiz {
 
 	@Resource(name = "IBasicPeopleDao")
-	private net.mingsoft.basic.dao.IPeopleDao peopleDao;
+	private net.mingsoft.basic.dao.IBasicPeopleDao peopleDao;
 
 	@Override
 	protected IBaseDao getDao() {

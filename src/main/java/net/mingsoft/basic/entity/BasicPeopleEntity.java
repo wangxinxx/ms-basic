@@ -11,7 +11,7 @@ import java.util.Date;
  * 创建日期：2017-7-27 14:47:29<br/>
  * 历史修订：<br/>
  */
-public class PeopleEntity extends BaseEntity {
+public class BasicPeopleEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1501138049728L;
 	
@@ -32,17 +32,17 @@ public class PeopleEntity extends BaseEntity {
 	 */
 	private Date bpDatetime; 
 	
-	public PeopleEntity(){}
+	public BasicPeopleEntity(){}
 	
-	public PeopleEntity(Integer bpBasicId) {
+	public BasicPeopleEntity(Integer bpBasicId) {
 		this.bpBasicId = bpBasicId;	
 	}
 	
-	public PeopleEntity(Integer bpBasicId,Integer bpPeopleId) {
+	public BasicPeopleEntity(Integer bpBasicId,Integer bpPeopleId) {
 		this.bpBasicId = bpBasicId;		this.bpPeopleId = bpPeopleId;	
 	}
 	
-	public PeopleEntity(Integer bpBasicId,Integer bpPeopleId,Date bpDatetime) {
+	public BasicPeopleEntity(Integer bpBasicId,Integer bpPeopleId,Date bpDatetime) {
 		this.bpBasicId = bpBasicId;		this.bpPeopleId = bpPeopleId;		this.bpDatetime = bpDatetime;	
 	}
 	

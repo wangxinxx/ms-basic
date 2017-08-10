@@ -7,7 +7,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
-import net.mingsoft.basic.entity.PeopleEntity;
+import net.mingsoft.basic.entity.BasicPeopleEntity;
  
 /**
  * 通用用户与信息一对多表持久层
@@ -18,7 +18,7 @@ import net.mingsoft.basic.entity.PeopleEntity;
  * 历史修订：<br/>
  */
 @Component("IBasicPeopleDao")
-public interface IPeopleDao extends IBaseDao {
+public interface IBasicPeopleDao extends IBaseDao {
 	/**
 	 * 读取用户预览记录
 	 * @param appId 应用编号
