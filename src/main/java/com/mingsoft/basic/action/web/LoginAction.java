@@ -113,9 +113,8 @@ public class LoginAction extends BaseAction {
 		// 判断应用实体是否存在
 		if (app != null) {
 			// 检测应用是否有自定义界面b
-			SystemSkinEntity sse = systemSkinBiz.getByManagerId(app.getAppManagerId());
-			if (sse != null && !StringUtil.isBlank(sse.getSystemSkinLoginPage())) {
-				return "redirect:/" + sse.getSystemSkinLoginPage();
+			if (!StringUtil.isBlank(app.getAppLoginPage())) {
+				return "redirect:/" + app.getAppLoginPage();
 			}
 		} else {
 
@@ -167,7 +166,7 @@ public class LoginAction extends BaseAction {
 		} else {
 			// 判断当前用户输入的密码是否正确
 			if (StringUtil.Md5(manager.getManagerPassword()).equals(_manager.getManagerPassword())) {
-				SystemSkinEntity systemSkin = systemSkinBiz.getByManagerId(_manager.getManagerId());
+				SystemSkinEntity systemSkin = (SystemSkinEntity)systemSkinBiz.getEntity(_manager.getManagerSystemSkinId());
 				// 创建管理员session对象
 				ManagerSessionEntity managerSession = new ManagerSessionEntity();
 				AppEntity website = new AppEntity();

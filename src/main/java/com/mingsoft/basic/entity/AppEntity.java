@@ -103,6 +103,11 @@ public class AppEntity extends BaseEntity {
 	 */
 	private String appPay;
 	
+	/**
+	 * 应用自定义登录界面
+	 */
+	private String appLoginPage;
+	
 	public Date getAppPayDate() {
 		return appPayDate;
 	}
@@ -264,4 +269,13 @@ public class AppEntity extends BaseEntity {
 		this.appLogo = appLogo;
 	}
 
+	public String getAppLoginPage() {
+		return appLoginPage;
+	}
+
+	public void setAppLoginPage(String appLoginPage) {
+		this.appLoginPage = appLoginPage;
+	}
+
+	
 }

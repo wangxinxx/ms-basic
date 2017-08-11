@@ -45,25 +45,6 @@ public class SystemSkinBizImpl extends BaseBizImpl implements ISystemSkinBiz{
 	@Autowired
 	private ISystemSkinDao systemSkinDao;
 	
-	@Override
-	public SystemSkinEntity getByManagerId(int managerId) {
-		// TODO Auto-generated method stub
-		return systemSkinDao.getByManagerId(managerId);
-	}
-	
-	@Override
-	public SystemSkinEntity updateManagerSystemSkin(int managerId,int systemSkinId) {
-		// TODO Auto-generated method stub
-		SystemSkinEntity sse = systemSkinDao.getByManagerId(managerId);
-		if (sse!=null) {
-			systemSkinDao.updateManagerSystemSkin(managerId, systemSkinId);
-		} else {
-			systemSkinDao.saveManagerSystemSkin(managerId, systemSkinId);
-		}
-		return (SystemSkinEntity)systemSkinDao.getEntity(systemSkinId);
-	
-	}
-	
 	/**
 	 * 获取系统主题持久化层
 	 * @return systemSkinDao 返回系统主题持久化层

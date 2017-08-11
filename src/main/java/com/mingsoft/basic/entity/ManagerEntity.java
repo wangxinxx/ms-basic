@@ -63,6 +63,11 @@ public class ManagerEntity extends SessionEntity {
      * 用户ID
      */
     private int managerPeopleID;
+    
+    /**
+     * 管理员主界面样式
+     */
+    private int managerSystemSkinId;
 
     /**
      * 添加时间
@@ -179,6 +184,16 @@ public class ManagerEntity extends SessionEntity {
 	 */
 	public void setManagerRoleID(int managerRoleID) {
 		this.managerRoleID = managerRoleID;
+	}
+
+	public int getManagerSystemSkinId() {
+		return managerSystemSkinId;
+	}
+
+	public void setManagerSystemSkinId(int managerSystemSkinId) {
+		this.managerSystemSkinId = managerSystemSkinId;
 	}	
+	
+	
 	
 }

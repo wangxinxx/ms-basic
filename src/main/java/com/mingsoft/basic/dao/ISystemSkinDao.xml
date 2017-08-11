@@ -15,17 +15,4 @@
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select * from system_skin  where ss_id=#{systemSkinId}
 	</select>
-	<select id="queryAll" resultMap="resultMap" parameterType="int">
-		select * from system_skin;
-	</select>	
-	<select id="getByManagerId" resultMap="resultMap" parameterType="int">
-		select * from system_skin left join system_skin_manager on ss_id=ssm_system_skin_ID where ssm_managerID=#{managerId}
-	</select>
-	<!-- 更新管理员皮肤 -->
-	<update id="updateManagerSystemSkin" >
-		update system_skin_manager set  ssm_system_skin_ID=#{systemSkinId} where ssm_managerID=#{managerId} 
-	</update>
-	<insert id="saveManagerSystemSkin" >
-		insert into system_skin_manager values(#{managerId},#{systemSkinId});
-	</insert>
 </mapper>
