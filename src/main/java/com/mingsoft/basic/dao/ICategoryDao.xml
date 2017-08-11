@@ -49,7 +49,7 @@
 			<if test="categoryDateTime != null">category_datetime,</if>
 			<if test="categoryManagerId &gt; 0">category_managerid,</if>
 			<if test="categoryModelId &gt; 0">category_modelId,</if>
-			<if test="categoryCategoryId &gt; -1">category_categoryid,</if>
+			<if test="categoryCategoryId &gt; 0">category_categoryid,</if>
 			<if test="categorySmallImg != null">category_smallimg,</if>
 			<if test="categoryAppId &gt; 0">category_appid,</if>
 			<if test="categoryDescription != null">category_description,</if>
@@ -64,7 +64,7 @@
 			<if test="categoryDateTime != null">#{categoryDateTime},</if>
 			<if test="categoryManagerId &gt; 0">#{categoryManagerId},</if>
 			<if test="categoryModelId &gt; 0">#{categoryModelId},</if>
-			<if test="categoryCategoryId &gt; -1">#{categoryCategoryId},</if>
+			<if test="categoryCategoryId &gt; 0">#{categoryCategoryId},</if>
 			<if test="categorySmallImg != null">#{categorySmallImg},</if>
 			<if test="categoryAppId &gt; 0">#{categoryAppId},</if>
 			<if test="categoryDescription != null">#{categoryDescription},</if>
