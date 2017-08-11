@@ -48,7 +48,7 @@
 		
 		<!-- 栏目添加开始 -->
 		<insert id="saveEntity" parameterType="com.mingsoft.base.entity.BaseEntity">
-		insert into cms_column
+		insert into basic_column
 		<!-- 注入表字段 -->
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="categoryId != null">column_categoryid,</if><!-- 关联类别ID -->
@@ -79,7 +79,7 @@
 		
 			<!-- 更新栏目开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.base.entity.BaseEntity">
-		update cms_column
+		update basic_column
 		<set>
 			<if test="columnKeyword != null">column_keyword=#{columnKeyword},</if>
 			<if test="columnDescrip != null">column_descrip=#{columnDescrip},</if>
@@ -96,7 +96,7 @@
 	
 	<!-- 删除栏目开始 -->
 	<delete id="deleteEntity" parameterType="int">
-		delete from cms_column where
+		delete from basic_column where
 		column_categoryid = #{categoryId}
 	</delete>
 	<!-- 删除栏目结束-->
@@ -105,7 +105,7 @@
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select
 		<include refid="column_list"/>
-		from cms_column co left join category ca on co.column_categoryid=ca.category_id where co.column_categoryid=#{categoryId};
+		from basic_column co left join category ca on co.column_categoryid=ca.category_id where co.column_categoryid=#{categoryId};
 	</select>
 	<!-- 根据ID查询结束 -->
 	
@@ -114,7 +114,7 @@
 	<select id="queryColumnListByWebsiteId" resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from cms_column co left join category ca on ca.category_id=co.column_categoryid where co.column_websiteid=#{columnWebsiteId} <include refid="where_modelcode"/>;
+		from basic_column co left join category ca on ca.category_id=co.column_categoryid where co.column_websiteid=#{columnWebsiteId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据管站点ID查询栏目集结束 -->
 
@@ -122,7 +122,7 @@
 	<select id="queryColumnByCategoryIdAndWebsiteIdAndModelId" resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from cms_column co left join category ca on co.column_categoryid=ca.category_id where co.column_websiteid=#{columnWebsiteId}  and ca.category_categoryid=#{categoryCategoryId}
+		from basic_column co left join category ca on co.column_categoryid=ca.category_id where co.column_websiteid=#{columnWebsiteId}  and ca.category_categoryid=#{categoryCategoryId}
 		<if test="modelId!=null">
 		 and ca.category_modelId=#{modelId}
 		</if> 
@@ -135,7 +135,7 @@
 	
 	<!-- 根据栏目id查询其子栏目Id的集合开始 -->
 	<select id="queryColumnChildIdList" resultType="int" >
-		select co.column_categoryid from cms_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
+		select co.column_categoryid from basic_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据栏目id查询其子栏目Id的集合结束 -->
 	
@@ -144,7 +144,7 @@
 	<select id="queryColumnChildListCountByWebsiteId" resultType="int" >
 		select
 		count(*)
-		from cms_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryCategoryId} and co.column_websiteid=#{columnWebsiteId} <include refid="where_modelcode"/>;
+		from basic_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryCategoryId} and co.column_websiteid=#{columnWebsiteId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据站点Id查询栏目，返回该父栏目ID为categoryCategoryId的栏目集合数目统计结束 -->
 	
@@ -152,7 +152,7 @@
 	<select id="queryByAppIdAndModelId"  resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from cms_column co left join category ca on ca.category_id=co.column_categoryid where ca.category_appId=#{appId} and ca.category_modelId=#{modelId}
+		from basic_column co left join category ca on ca.category_id=co.column_categoryid where ca.category_appId=#{appId} and ca.category_modelId=#{modelId}
 	</select>
 	
 </mapper>
