@@ -25,8 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mingsoft.base.biz.impl.BaseBizImpl;
 import com.mingsoft.base.dao.IBaseDao;
+import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.biz.ISystemSkinBiz;
-import com.mingsoft.basic.dao.ISystemSkinDao;
 import com.mingsoft.basic.entity.SystemSkinEntity;
 
 /**
@@ -40,19 +40,20 @@ import com.mingsoft.basic.entity.SystemSkinEntity;
 @Service("systemSkinBiz")
 public class SystemSkinBizImpl extends BaseBizImpl implements ISystemSkinBiz{
 	/**
-	 * 系统主题持久化层
-	 */
-	@Autowired
-	private ISystemSkinDao systemSkinDao;
-	
-	/**
 	 * 获取系统主题持久化层
 	 * @return systemSkinDao 返回系统主题持久化层
 	 */
 	@Override
 	protected IBaseDao getDao() {
 		// TODO Auto-generated method stub
-		return systemSkinDao;
+		return null;
 	}
 
+	@Override
+	public BaseEntity getEntity(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }
