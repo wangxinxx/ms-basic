@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mingsoft.basic.dao.IColumnDao">
 <sql id="column_list">
-		co.column_categoryid,co.column_keyword,co.column_descrip,co.column_type,co.column_url,co.column_listurl,co.column_contentmodelid,co.column_path,
+		co.column_category_id,co.column_keyword,co.column_descrip,co.column_type,co.column_url,co.column_listurl,co.column_cm_id,co.column_path,
 		ca.category_id,ca.category_parent_id,ca.category_title,ca.category_sort,ca.category_datetime,ca.category_managerid,ca.category_appid,ca.category_modelid,ca.category_categoryid,ca.category_smallimg
 	</sql>
 	
@@ -15,13 +15,13 @@
 	</sql>
 	<!-- 字段绑定  开始 -->
 	<resultMap type="com.mingsoft.basic.entity.ColumnEntity" id="resultMap">
-		<id column="column_categoryid" property="categoryId"/><!-- 与Category类别类绑定ID -->
+		<id column="column_category_id" property="categoryId"/><!-- 与Category类别类绑定ID -->
 		<result column="column_keyword" property="columnKeyword"/><!-- 栏目简介-->
 		<result column="column_descrip" property="columnDescrip"/><!-- 栏目简介扩展-->
 		<result column="column_type" property="columnType"/><!--栏目属性 -->
 		<result column="column_url" property="columnUrl"/><!-- 连接地址 -->
 		<result column="column_listurl" property="columnListUrl"/><!-- 最终栏目列表地址 -->
-		<result column="column_contentmodelid" property="columnContentModelId"/><!-- 栏目类型 -->
+		<result column="column_cm_id" property="columnContentModelId"/><!-- 栏目类型 -->
 		<result column="column_path" property="columnPath"/><!-- 栏目路径 -->
 		<result column="category_id" property="categoryId"/><!-- 类别ID -->
 		<result column="category_title" property="categoryTitle"/><!-- 类别标题 -->
@@ -51,13 +51,13 @@
 		insert into basic_column
 		<!-- 注入表字段 -->
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="categoryId != null">column_categoryid,</if><!-- 关联类别ID -->
+			<if test="categoryId != null">column_category_id,</if><!-- 关联类别ID -->
 			<if test="columnKeyword != null">column_keyword,</if><!-- 栏目简介 -->
 			<if test="columnDescrip != null">column_descrip,</if><!-- 列表栏目连接 -->
 			<if test="columnType != null">column_type,</if><!-- 栏目属性 -->
 			<if test="columnUrl != null">column_url,</if><!-- 栏目链接 -->
 			<if test="columnListUrl != null">column_listurl,</if><!-- 栏目列表链接 -->
-			<if test="columnContentModelId != null">column_contentmodelid,</if><!-- 栏目类型 -->
+			<if test="columnContentModelId != null">column_cm_id,</if><!-- 栏目类型 -->
 			<if test="columnPath != null">column_path,</if><!-- 栏目路径 -->
 		</trim>
 
@@ -84,17 +84,17 @@
 			<if test="columnType != null">column_type=#{columnType},</if>
 			<if test="columnUrl != null">column_url=#{columnUrl},</if>
 			<if test="columnListUrl != null">column_listurl=#{columnListUrl},</if>
-			<if test="columnContentModelId != null">column_contentmodelid=#{columnContentModelId},</if>
+			<if test="columnContentModelId != null">column_cm_id=#{columnContentModelId},</if>
 			<if test="columnPath != null">column_path=#{columnPath},</if>
 		</set>
-		where column_categoryid = #{categoryId}
+		where column_category_id = #{categoryId}
 	</update>
 	<!-- 更新栏目结束 -->
 	
 	<!-- 删除栏目开始 -->
 	<delete id="deleteEntity" parameterType="int">
 		delete from basic_column where
-		column_categoryid = #{categoryId}
+		column_category_id = #{categoryId}
 	</delete>
 	<!-- 删除栏目结束-->
 	
@@ -102,7 +102,7 @@
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select
 		<include refid="column_list"/>
-		from basic_column co left join category ca on co.column_categoryid=ca.category_id where co.column_categoryid=#{categoryId};
+		from basic_column co left join category ca on co.column_category_id=ca.category_id where co.column_category_id=#{categoryId};
 	</select>
 	<!-- 根据ID查询结束 -->
 	
@@ -111,7 +111,7 @@
 	<select id="queryColumnListByWebsiteId" resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from basic_column co left join category ca on ca.category_id=co.column_categoryid where ca.category_appid=#{appId} <include refid="where_modelcode"/>;
+		from basic_column co left join category ca on ca.category_id=co.column_category_id where ca.category_appid=#{appId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据管站点ID查询栏目集结束 -->
 
@@ -119,7 +119,7 @@
 	<select id="queryColumnByCategoryIdAndWebsiteIdAndModelId" resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from basic_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_appid=#{appId}  and ca.category_categoryid=#{categoryCategoryId}
+		from basic_column co left join category ca on co.column_category_id=ca.category_id where ca.category_appid=#{appId}  and ca.category_categoryid=#{categoryCategoryId}
 		<if test="modelId!=null">
 		 and ca.category_modelId=#{modelId}
 		</if> 
@@ -132,7 +132,7 @@
 	
 	<!-- 根据栏目id查询其子栏目Id的集合开始 -->
 	<select id="queryColumnChildIdList" resultType="int" >
-		select co.column_categoryid from basic_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
+		select co.column_category_id from basic_column co left join category ca on co.column_category_id=ca.category_id where ca.category_categoryid=#{categoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据栏目id查询其子栏目Id的集合结束 -->
 	
@@ -141,7 +141,7 @@
 	<select id="queryColumnChildListCountByWebsiteId" resultType="int" >
 		select
 		count(*)
-		from basic_column co left join category ca on co.column_categoryid=ca.category_id where ca.category_categoryid=#{categoryCategoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
+		from basic_column co left join category ca on co.column_category_id=ca.category_id where ca.category_categoryid=#{categoryCategoryId} and ca.category_appid = #{appId} <include refid="where_modelcode"/>;
 	</select>
 	<!-- 根据站点Id查询栏目，返回该父栏目ID为categoryCategoryId的栏目集合数目统计结束 -->
 	
@@ -149,7 +149,7 @@
 	<select id="queryByAppIdAndModelId"  resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from basic_column co left join category ca on ca.category_id=co.column_categoryid where ca.category_appId=#{appId} and ca.category_modelId=#{modelId}
+		from basic_column co left join category ca on ca.category_id=co.column_category_id where ca.category_appId=#{appId} and ca.category_modelId=#{modelId}
 	</select>
 	
 </mapper>
