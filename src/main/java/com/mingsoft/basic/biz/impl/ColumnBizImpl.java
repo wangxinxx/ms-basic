@@ -162,7 +162,7 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 		if (columnEntity != null) {
 
 			list = columnDao.queryColumnByCategoryIdAndWebsiteIdAndModelId(columnEntity.getCategoryCategoryId(),
-					columnEntity.getColumnWebsiteId(), null, size);
+					columnEntity.getAppId(), null, size);
 		}
 		return list;
 	}
@@ -195,7 +195,7 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 		List<ColumnEntity> list = null;
 		if (columnEntity != null) {
 			list = columnDao.queryColumnByCategoryIdAndWebsiteIdAndModelId(columnEntity.getCategoryId(),
-					columnEntity.getColumnWebsiteId(), null, size);
+					columnEntity.getAppId(), null, size);
 		}
 		return list;
 	}

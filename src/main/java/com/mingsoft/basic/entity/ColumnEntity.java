@@ -117,10 +117,6 @@ public class ColumnEntity extends CategoryEntity {
 	 */
 	private int columnContentModelId;
 	
-	/**
-	 * 栏目所属站点ID
-	 */
-	private int columnWebsiteId;
 	
 	/**
 	 * 栏目保存路径
@@ -185,10 +181,6 @@ public class ColumnEntity extends CategoryEntity {
 		return columnUrl;
 	}
 
-	public int getColumnWebsiteId() {
-		return columnWebsiteId;
-	}
-
 	/**
 	 * 设置栏目简介的扩展
 	 * @param columnDescrip
@@ -243,9 +235,6 @@ public class ColumnEntity extends CategoryEntity {
 		this.columnUrl = columnUrl;
 	}
 
-	public void setColumnWebsiteId(int columnWebsiteId) {
-		this.columnWebsiteId = columnWebsiteId;
-	}
 	
 	
 	public enum ColumnTypeEnum implements BaseEnum {

@@ -69,18 +69,18 @@ public interface IColumnDao extends IBaseDao {
 	
 	/**
 	 * 根据站点ID查询该站点下的栏目集合
-	 * @param columnWebsiteId 站点Id
+	 * @param appId 站点Id
 	 * @return 栏目集合
 	 */
-	public List<ColumnEntity> queryColumnListByWebsiteId(@Param("columnWebsiteId")int columnWebsiteId);
+	public List<ColumnEntity> queryColumnListByWebsiteId(@Param("appId")int appId);
 	
 	/**
 	 * 根据站点Id查询该站点下的栏目的父栏目Id为categoryCategoryId的子栏目集合
 	 * @param categoryCategoryId 父栏目ID
-	 * @param columnWebsiteId 站点Id
+	 * @param appId 站点Id
 	 * @return 栏目集合
 	 */
-	public List<ColumnEntity> queryColumnByCategoryIdAndWebsiteIdAndModelId(@Param("categoryCategoryId")int categoryCategoryId,@Param("columnWebsiteId")int columnWebsiteId,@Param("modelId")Integer modelId,@Param("size")Integer size);
+	public List<ColumnEntity> queryColumnByCategoryIdAndWebsiteIdAndModelId(@Param("categoryCategoryId")int categoryCategoryId,@Param("appId")int appId,@Param("modelId")Integer modelId,@Param("size")Integer size);
 	
 	/**
 	 * 根据栏目ID查询其子栏目ID集合
@@ -94,10 +94,10 @@ public interface IColumnDao extends IBaseDao {
 	/**
 	 * 根据站点Id查询该站点下的栏目的父栏目Id为categoryCategoryId的子栏目集合数目统计
 	 * @param categoryCategoryId 父栏目ID
-	 * @param columnWebsiteId 站点ID
+	 * @param appId 站点ID
 	 * @return 子栏目统计数目
 	 */
-	public int queryColumnChildListCountByWebsiteId(@Param("categoryCategoryId")int categoryCategoryId,@Param("columnWebsiteId")int columnWebsiteId);
+	public int queryColumnChildListCountByWebsiteId(@Param("categoryCategoryId")int categoryCategoryId,@Param("appId")int appId);
 	
 	
 

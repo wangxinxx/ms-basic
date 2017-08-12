@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mingsoft.base.entity.BaseEntity;
+import com.mingsoft.basic.entity.BaseEntity;
 import com.mingsoft.util.StringUtil;
 
 /**

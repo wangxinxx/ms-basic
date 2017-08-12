@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.biz.IManagerBiz;
-import com.mingsoft.basic.biz.IManagerModelPageBiz;
 import com.mingsoft.basic.biz.IModelBiz;
 import com.mingsoft.basic.constant.Const;
 import com.mingsoft.basic.constant.ModelCode;
@@ -76,11 +75,6 @@ public class MainAction extends BaseAction {
 	@Autowired
 	private IManagerBiz managerBiz;
 	
-	/**
-	 * 管理员模块页面业务层
-	 */
-	@Autowired
-	private IManagerModelPageBiz managerModelPageBiz;
 
 	/**
 	 * 加载后台主界面，并查询数据
@@ -96,7 +90,7 @@ public class MainAction extends BaseAction {
 		request.setAttribute("modelList", JSONObject.toJSONString(modelList));
 		int managerId = managerSession.getManagerId();
 		//根据管理员id查找管理员模块页面实体对象
-		ManagerModelPageEntity managerModelPage =(ManagerModelPageEntity) managerModelPageBiz.getByManagerIdAndModelId(managerId,0);
+		ManagerModelPageEntity managerModelPage = null;
 		//如果存在管理员模块页面实体对象，则返回到页面
 		if(managerModelPage!=null){
 			request.setAttribute("managerModelPage", managerModelPage);
