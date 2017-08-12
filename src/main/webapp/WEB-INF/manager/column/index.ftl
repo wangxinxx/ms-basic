@@ -43,14 +43,14 @@
 			idField: 'categoryId',
             treeShowField: 'categoryTitle',
             parentIdField: 'categoryCategoryId',
-	    	columns: [
-	    		{ 
-	    			checkbox: true
-	    		},
+	    	columns: [{checkbox: true},
 		    	{
+		        	field: 'categoryId',
+		        	title: '编号',
+		        	align: 'center'
+		    	},{
 		        	field: 'categoryTitle',
 		        	title: '标题',
-		        	align: 'left',
 		        	formatter:function(value,row,index) {
 		        		var url = "${managerPath}/column/"+row.categoryId+"/edit.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
@@ -72,14 +72,12 @@
 		    	},{
 		        	field: 'columnPath',
 		        	title: '链接地址',
-		        	align: 'left',
 		        	formatter:function(value,row,index) {
 		        		return "{ms:global.url/}"+value+"/index.html";
 		        	}
 		    	},{
 		        	field: 'columnListUrl',
 		        	title: '列表地址',
-		        	align: 'left',
 		        	formatter:function(value,row,index) {
 		        		if(value != null){
 		        			return value;
@@ -90,7 +88,6 @@
 		    	},{
 		        	field: 'columnUrl',
 		        	title: '内容地址',
-		        	align: 'left',
 		        	formatter:function(value,row,index) {
 		        		if(row.columnType == 1){
 		        			return value;
@@ -101,7 +98,6 @@
 		    	},{
 		        	field: 'columnUrl',
 		        	title: '封面地址',
-		        	align: 'left',
 		        	formatter:function(value,row,index) {
 		        		if(row.columnType == 2){
 		        			return value;
