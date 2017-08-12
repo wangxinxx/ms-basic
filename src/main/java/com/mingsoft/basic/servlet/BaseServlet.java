@@ -496,6 +496,16 @@ public abstract class BaseServlet extends HttpServlet {
 	}
 	
 	/**
+	 * 通过spring的webapplicationcontext上下文对象读取bean对象
+	 * @param sc 上下文servletConext对象
+	 * @param Class 类
+	 * @return 返回读取的对象，获取不到返回null
+	 */
+	protected Object getBean(ServletContext sc,Class cls) {
+		return WebApplicationContextUtils.getWebApplicationContext(sc).getBean(cls);
+	}
+	
+	/**
 	 * 获取当期项目物理路径
 	 * @param request HttpServletRequest对象
 	 * @param filePath　相对文件夹
