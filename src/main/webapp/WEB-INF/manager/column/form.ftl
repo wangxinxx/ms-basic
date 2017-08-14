@@ -116,9 +116,9 @@ $(function(){
 		var formdata = $("#columnForm").serialize();
 		var URL = "";
 		<#if column.categoryId==0>
-		URL =base+"${baseManager}/cms/column/save.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+		URL ="${managerPath}/column/save.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		<#else>
-		URL = base+"${baseManager}/cms/column/update.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+		URL = "${managerPath}/column/update.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		</#if>
 		if(isNaN($("input[name=categorySort]").val())){
 			alert("自定义排序必须是数字");

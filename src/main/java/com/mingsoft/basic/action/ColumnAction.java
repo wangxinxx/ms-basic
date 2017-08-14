@@ -234,8 +234,7 @@ public class ColumnAction extends BaseAction{
 	 * @return 返回页面跳转
 	 */
 	@RequestMapping("/save")
-	public void save(@ModelAttribute ColumnEntity column,
-			HttpServletRequest request,HttpServletResponse response) {
+	public void save(@ModelAttribute ColumnEntity column,HttpServletRequest request,HttpServletResponse response) {
 		if(!checkForm(column,response)){
 			return;
 		}
