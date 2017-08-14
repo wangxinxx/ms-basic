@@ -106,6 +106,7 @@ public  class BasicBizImpl extends BaseBizImpl implements IBasicBiz {
 
 	@Override
     public void updateBasic(BasicEntity basic) {
+		basic.setBasicAppId(BasicUtil.getAppId());
         basicDao.updateEntity(basic);
         updateEntity(basic);
     }

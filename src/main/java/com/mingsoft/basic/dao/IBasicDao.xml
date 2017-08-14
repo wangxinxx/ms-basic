@@ -36,6 +36,7 @@
 			<if test="basicSort != null">BASIC_SORT,</if>
 			<if test="basicType != null">BASIC_TYPE,</if>
 			<if test="basicModelId != null">BASIC_MODELID,</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="basicTitle != null">#{basicTitle},</if>
@@ -71,6 +72,7 @@
 			<if test="basicCollect != null and basicCollect &gt; 0">BASIC_SORT=#{basicCollect},</if>
 			<if test="basicShare != null and basicShare &gt; 0">BASIC_SHARE=#{basicShare},</if>
 			<if test="basicType != null ">basic_type=#{basicType},</if>
+			<if test="basicAppId != null ">BASIC_APPID=#{basicAppId},</if>
 		</set>
 		where basic_id = #{basicId}
 	</update>
