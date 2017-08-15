@@ -142,7 +142,12 @@ $(function(){
 	     			<#else>
 	     			alert("更新成功");
 	     			</#if>
-	    			location.href="${managerPath}/column/index.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+	     			var modelId = ${Session.model_id_session?default(0)};
+	     			if(modelId == 96){
+	     				location.href="${managerPath}/mall/column/index.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+	     			}else{
+	     				location.href="${managerPath}/column/index.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
+	     			}
 	    		}else{
 	    			<#if column.categoryId==0>
 	     			alert("保存失败");
