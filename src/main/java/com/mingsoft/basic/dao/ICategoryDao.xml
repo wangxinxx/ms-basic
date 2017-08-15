@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mingsoft.basic.dao.ICategoryDao">
 	<sql id="category_list">
-		category_id,category_title,category_sort,category_datetime,category_managerid,category_modelId,category_categoryid,category_smallimg,category_description,category_del,
-		category_parent_id,category_dict_id,category_create_by,category_create_date,category_update_date,category_update_by
+		category_id,category_title,category_sort,category_datetime,category_managerid,category_modelId,category_categoryid,category_smallimg,category_description,del,
+		category_parent_id,category_dict_id,create_by,create_date,update_date,update_by
 	</sql>
 	<resultMap id="resultMap" type="com.mingsoft.basic.entity.CategoryEntity">
 		<id column="category_id" property="categoryId" /><!-- 关联表category的类比ID 
@@ -23,19 +23,19 @@
 		<result column="category_smallimg" property="categorySmallImg" /><!-- 
 			关联表category的略缩图地址 category_smallimg字段 -->
 		<result column="category_description" property="categoryDescription" /><!-- 
-			关联表category的删除状态category_del字段 -->
-		<result column="category_del" property="categoryDel" /><!-- 关联表category的父类型编号 -->
+			关联表category的删除状态del字段 -->
+		<result column="del" property="categoryDel" /><!-- 关联表category的父类型编号 -->
 		<result column="category_parent_id" property="categoryParentId" /><!-- 
 			关联表category的字典对应编号 -->
 		<result column="category_dict_id" property="categoryDictId" /><!-- 
 			关联表category的创建人 -->
-		<result column="category_create_by" property="categoryCreateBy" /><!-- 
+		<result column="create_by" property="categoryCreateBy" /><!-- 
 			关联表category的创建时间 -->
-		<result column="category_create_date" property="categoryCreateDate" /><!-- 
+		<result column="create_date" property="categoryCreateDate" /><!-- 
 			关联表category的更新时间 -->
-		<result column="category_update_date" property="categoryUpdateDate" /><!-- 
+		<result column="update_date" property="categoryUpdateDate" /><!-- 
 			关联表category的更新人 -->
-		<result column="category_update_by" property="categoryUpdateBy" />
+		<result column="update_by" property="categoryUpdateBy" />
 	</resultMap>
 
 	<!-- 类别添加开始 -->
@@ -55,8 +55,8 @@
 			<if test="categoryDescription != null">category_description,</if>
 			<if test="categoryParentId != null">category_parent_id,</if>
 			<if test="categoryDictId &gt; 0">category_dict_id,</if>
-			<if test="createBy &gt; 0">category_create_by,</if>
-			<if test="createDate != null">category_create_date,</if>
+			<if test="createBy &gt; 0">create_by,</if>
+			<if test="createDate != null">create_date,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="categoryTitle != null">#{categoryTitle},</if>
@@ -88,11 +88,11 @@
 			<if test="categoryCategoryId &gt; -1">category_categoryid=#{categoryCategoryId},</if>
 			<if test="categorySmallImg != null">category_smallimg=#{categorySmallImg},</if>
 			<if test="categoryDescription != null">category_description=#{categoryDescription},</if>
-			<if test="categoryDel &gt; 0 ">category_del=#{categoryDel},</if>
+			<if test="categoryDel &gt; 0 ">del=#{categoryDel},</if>
 			<if test="categoryParentId != null">category_parent_id=#{categoryParentId},</if>
 			<if test="categoryDictId &gt; 0">category_dict_id=#{categoryDictId},</if>
-			<if test="updateDate != null">category_update_date=#{updateDate},</if>
-			<if test="updateBy &gt; 0">category_update_by=#{updateBy}</if>
+			<if test="updateDate != null">update_date=#{updateDate},</if>
+			<if test="updateBy &gt; 0">update_by=#{updateBy}</if>
 		</set>
 		where category_id = #{categoryId}
 	</update>
@@ -101,12 +101,12 @@
 	<!-- 删除类别开始 -->
 	<delete id="deleteEntity" parameterType="int">
 		update category set
-		category_del = 1
+		del = 1
 		where
 		category_id = #{categoryId}
 	</delete>
 	<delete id="delete" parameterType="int">
-		update category set category_del = 1
+		update category set del = 1
 		where category_id in
 		<foreach collection="ids" item="id" open="(" separator=","
 			close=")">
@@ -119,7 +119,7 @@
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select
 		<include refid="category_list" />
-		from category c where category_id=#{categoryId} and category_del=0
+		from category c where category_id=#{categoryId} and del=0
 	</select>
 	<!-- 根据ID查询结束 -->
 
@@ -135,12 +135,12 @@
 			<if test="categoryCategoryId &gt; 0">and category_categoryid=#{categoryCategoryId}</if>
 			<if test="categorySmallImg != null">and category_smallimg=#{categorySmallImg},</if>
 			<if test="categoryDescription != null">and category_description=#{categoryDescription}</if>
-			<if test="categoryDel &gt; 0 ">and category_del=#{categoryDel}</if>
+			<if test="categoryDel &gt; 0 ">and del=#{categoryDel}</if>
 			<if test="categoryParentId != null">and category_parent_id=#{categoryParentId}</if>
 			<if test="categoryDictId &gt; 0">and category_dict_id=#{categoryDictId}</if>
-			<if test="updateDate != null">and category_update_date=#{updateDate}</if>
-			<if test="updateBy &gt; 0">and category_update_by=#{updateBy}</if>
-			and category_del=0
+			<if test="updateDate != null">and update_date=#{updateDate}</if>
+			<if test="updateBy &gt; 0">and update_by=#{updateBy}</if>
+			and del=0
 		</where>
 		limit 0,1
 	</select>
@@ -161,7 +161,7 @@
 		<if test="category.categoryAppId>0">
 			and category_appid=#{category.categoryAppId}
 		</if>
-		and category_del=0
+		and del=0
 		<if test="orderBy != null">
 			order by ${orderBy}
 		</if>
@@ -186,7 +186,7 @@
 		<if test="categoryDictId &gt; 0">
 			and CATEGORY_DICT_ID=#{categoryDictId}
 		</if>
-		and category_del=0
+		and del=0
 		order by category_id desc
 	</select>
 	<!-- 根据上级分类ID和模块编号对分类进行分页查询结束 -->
@@ -199,7 +199,7 @@
 		<if test="categoryDictId &gt; 0">
 			and CATEGORY_DICT_ID=#{categoryDictId}
 		</if>
-		and category_del=0
+		and del=0
 		order by category_id desc
 	</select>
 
@@ -230,7 +230,7 @@
 				or category_id=#{categoryId}
 			</if>
 			)
-			and category_del=0
+			and del=0
 		</where>
 
 
@@ -253,7 +253,7 @@
 			<if test="categoryDescription!=null">
 				and category_description =#{categoryDescription}
 			</if>
-			and category_del=0
+			and del=0
 		</where>
 	</select>
 
@@ -272,7 +272,7 @@
 			and category_categoryid=#{category.categoryId}
 		</if>
 
-		and category_del=0
+		and del=0
 
 		order by category_id asc;
 	</select>
@@ -286,7 +286,7 @@
 		<if test="category.categoryCategoryId>0">
 			and category_categoryid=#{category.categoryCategoryId}
 		</if>
-		and category_del=0
+		and del=0
 	</select>
 	<!-- 查询分类数量，可以使用条件结束 -->
 
@@ -301,7 +301,7 @@
 			close=")" separator=",">
 			#{item}
 		</foreach>
-		and category_del=0
+		and del=0
 	</select>
 	<!-- 根据分类ID批量查询分类实体结束 -->
 
@@ -315,7 +315,7 @@
 			<if test="modelId!=null">
 				and category_modelId=#{modelId}
 			</if>
-			and category_del=0
+			and del=0
 		</where>
 
 	</select>
