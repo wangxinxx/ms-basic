@@ -306,24 +306,24 @@ public class CategoryAction extends BaseAction {
 
 	
 	
-//	/**
-//	 * 根据分类id查找分类子分类
-//	 * 
-//	 * @param categoryId
-//	 * @param request
-//	 * @param mode
-//	 * @param response
-//	 */
-//	@RequestMapping("/{categoryId}/queryChildren")
-//	public void queryChildren(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
-//			HttpServletResponse response) {
-//		CategoryEntity category = (CategoryEntity) this.categoryBiz.getEntity(categoryId);
-//		if (category != null) {
-//			List<CategoryEntity> list = this.categoryBiz.queryChilds(category);
-//			this.outJson(response, JSONObject.toJSONString(list));
-//		}
-//
-//	}
+	/**
+	 * 根据分类id查找分类子分类
+	 * 
+	 * @param categoryId
+	 * @param request
+	 * @param mode
+	 * @param response
+	 */
+	@RequestMapping("/{categoryId}/queryChildren")
+	public void queryChildren(@PathVariable int categoryId, HttpServletRequest request, ModelMap mode,
+			HttpServletResponse response) {
+		CategoryEntity category = (CategoryEntity) this.categoryBiz.getEntity(categoryId);
+		if (category != null) {
+			List<CategoryEntity> list = this.categoryBiz.queryChilds(category);
+			this.outJson(response, JSONObject.toJSONString(list));
+		}
+
+	}
 
 //	/**
 //	 * 加载栏目列表页并查询所有栏目下子栏目
