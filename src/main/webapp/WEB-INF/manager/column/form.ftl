@@ -24,7 +24,7 @@
           		<@ms.textarea name="columnDescrip" width="600" label="${Session.model_title_session?default('栏目')}描述" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}描述，对${Session.model_title_session?default('栏目')}关键字的扩展"   value="${column.columnDescrip?default('')}" validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} />
 				<#assign columnTypes=[{"id":"1","name":"列表"},{"id":"2","name":"封面"}]>
 				<@ms.radio name="columnType" label="${Session.model_title_session?default('栏目')}属性"  list=columnTypes listKey="id" listValue="name" value="${column.columnType?c?default(1)}" />
-				<@ms.select name="columnContentModelId" width="200"  list=[]  listKey="cmId" listValue="cmTipsName"  label="${Session.model_title_session?default('栏目')}内容模型"  value="0"/>
+				<@ms.select name="columnContentModelId" width="200"  list=[]  listKey="cmId" listValue="cmTipsName"  label="${Session.model_title_session?default('栏目')}内容模型"  default="请选择" value="-1"/>
 				<#assign columnModelUrls=[{"id":"0","name":"暂无文件"}]>
 				<@ms.select name="columnListUrl" width="300" id="columnListUrlModel"  list=columnModelUrls  listKey="id" listValue="name" label="列表模版"  value="${column.columnListUrl?default('')}"  select2=true/>
 				<@ms.select name="columnUrl" width="300" id="columnUrlModel" default="暂无文件"  list=columnModelUrls  listKey="id" listValue="name" label="内容模版"  value="${column.columnUrl?default('')}"  select2=true/>
