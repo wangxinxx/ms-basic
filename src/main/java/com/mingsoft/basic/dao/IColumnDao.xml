@@ -57,7 +57,7 @@
 			<if test="columnType != null">column_type,</if><!-- 栏目属性 -->
 			<if test="columnUrl != null">column_url,</if><!-- 栏目链接 -->
 			<if test="columnListUrl != null">column_listurl,</if><!-- 栏目列表链接 -->
-			<if test="columnContentModelId != null">column_cm_id,</if><!-- 栏目类型 -->
+			<if test="columnContentModelId &gt; 0">column_cm_id,</if><!-- 栏目类型 -->
 			<if test="columnPath != null">column_path,</if><!-- 栏目路径 -->
 		</trim>
 
@@ -69,7 +69,7 @@
 			<if test="columnType != null">#{columnType},</if>
 			<if test="columnUrl != null">#{columnUrl},</if>
 			<if test="columnListUrl != null">#{columnListUrl},</if>
-			<if test="columnContentModelId != null">#{columnContentModelId},</if>
+			<if test="columnContentModelId &gt; 0">#{columnContentModelId},</if>
 			<if test="columnPath != null">#{columnPath},</if>
 		</trim>
 	</insert>
@@ -84,7 +84,8 @@
 			<if test="columnType != null">column_type=#{columnType},</if>
 			<if test="columnUrl != null">column_url=#{columnUrl},</if>
 			<if test="columnListUrl != null">column_listurl=#{columnListUrl},</if>
-			<if test="columnContentModelId != null">column_cm_id=#{columnContentModelId},</if>
+			<if test="columnContentModelId &gt; 0">column_cm_id=#{columnContentModelId},</if>
+			<if test="columnContentModelId == 0">column_cm_id=null,</if>
 			<if test="columnPath != null">column_path=#{columnPath},</if>
 		</set>
 		where column_category_id = #{categoryId}
