@@ -63,7 +63,12 @@
   <script src="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table-tree-column.js"></script>
   <script src="${static}/plugins//bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
   
-
+  <!-- vue框架所需要的资源 -->
+  <script src="http://cdn.mingsoft.net/plugins/hammerjs/2.0.8/hammer.min.js"></script>
+  <script src="http://cdn.mingsoft.net/plugins/vue/2.3.3/vue.min.js"></script>
+  <!—基于vue的touch插件-->
+  <script src="http://cdn.mingsoft.net/plugins/vue.touch/2.0/vue-touch.js"></script>
+	
   <link rel="stylesheet" type="text/css" href="${static}/skin/manager/${manager_ui}/css/ms.manager.min.css" media="all" />
   <#assign skin_manager_logo="${static}/skin/manager/${manager_ui}/images/logo.png"/>  
   <#assign skin_manager_loadding="${static}/skin/manager/${manager_ui}/images/loading.gif"/>  

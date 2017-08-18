@@ -85,7 +85,7 @@
 			<if test="categorySort &gt; -1">category_sort=#{categorySort},</if>
 			<if test="categoryDateTime != null">category_datetime=#{categoryDateTime},</if>
 			<if test="categoryManagerId &gt; 0">category_managerid=#{categoryManagerId},</if>
-			<if test="categoryCategoryId &gt; -1">category_categoryid=#{categoryCategoryId},</if>
+			<if test="categoryCategoryId &gt; 0">category_categoryid=#{categoryCategoryId},</if>
 			<if test="categorySmallImg != null">category_smallimg=#{categorySmallImg},</if>
 			<if test="categoryDescription != null">category_description=#{categoryDescription},</if>
 			<if test="categoryDel &gt; 0 ">del=#{categoryDel},</if>
