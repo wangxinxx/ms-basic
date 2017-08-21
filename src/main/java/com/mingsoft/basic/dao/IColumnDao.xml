@@ -77,6 +77,11 @@
 		
 			<!-- 更新栏目开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.base.entity.BaseEntity">
+		UPDATE basic_column
+		SET column_listurl = "",
+		column_url = ""
+		where  
+		column_category_id = #{categoryId};
 		update basic_column
 		<set>
 			<if test="columnKeyword != null">column_keyword=#{columnKeyword},</if>
