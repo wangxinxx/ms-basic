@@ -82,6 +82,7 @@ public class ColumnAction extends BaseAction{
 		int appId =this.getAppId(request);
 		List<ColumnEntity> list = columnBiz.queryAll(appId, this.getModelCodeId(request));
 		ColumnEntity columnSuper = new ColumnEntity();
+		model.addAttribute("appId",appId);
 		model.addAttribute("columnSuper", columnSuper);
 		model.addAttribute("column",new ColumnEntity());
 		model.addAttribute("listColumn", JSONArray.toJSONString(list));
@@ -199,6 +200,7 @@ public class ColumnAction extends BaseAction{
 		list = columnBiz.queryAll(appId, this.getModelCodeId(request));
 		//查询当前栏目实体
 		ColumnEntity column = (ColumnEntity) columnBiz.getEntity(columnId);
+		model.addAttribute("appId",appId);
 		model.addAttribute("column", column);
 		model.addAttribute("columnc", column.getCategoryId());
 		ColumnEntity columnSuper = new ColumnEntity();

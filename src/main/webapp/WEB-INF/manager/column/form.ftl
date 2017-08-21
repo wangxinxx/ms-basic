@@ -22,6 +22,9 @@
           		<@ms.text name="categorySort"  width="200"  label="自定义顺序" title="自定义顺序" size="5"  placeholder="请输入文章顺序" value="${column.categorySort?c?default(0)}"  validation={"data-bv-between":"true","data-bv-between-message":"自定义顺序必须大于0","data-bv-between-min":"0", "data-bv-between-max":"99999999","data-bv-notempty-message":"自定义顺序不能为空","data-bv-between-message":"请输入0-99999999之间的数","required":"true", "data-bv-notempty-message":"必填项目"}/>
           		<@ms.textarea name="columnKeyword" width="600" label="${Session.model_title_session?default('栏目')}关键字" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}关键字，有助于搜索"   value="${column.columnKeyword?default('')}"  validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} /> 
           		<@ms.textarea name="columnDescrip" width="600" label="${Session.model_title_session?default('栏目')}描述" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}描述，对${Session.model_title_session?default('栏目')}关键字的扩展"   value="${column.columnDescrip?default('')}" validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} />
+				<@ms.formRow label="缩略图" width="400">
+					<@ms.uploadImg path="upload/app/column/${appId}" imgs="${(column.categorySmallImg)?default('')}" inputName="categorySmallImg" size="30" msg="提示：栏目缩略图,最多可上传30张"  maxSize="2"   />
+				</@ms.formRow>
 				<#assign columnTypes=[{"id":"1","name":"列表"},{"id":"2","name":"封面"}]>
 				<@ms.radio name="columnType" label="${Session.model_title_session?default('栏目')}属性"  list=columnTypes listKey="id" listValue="name" value="${column.columnType?c?default(1)}" />
 				<@ms.select name="columnContentModelId" width="200"  list=[]  listKey="cmId" listValue="cmTipsName"  label="${Session.model_title_session?default('栏目')}内容模型"  default="请选择" value="0"/>
