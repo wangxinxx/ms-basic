@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mingsoft.basic.entity.BaseEntity;
 import com.mingsoft.util.StringUtil;
 
@@ -56,6 +57,7 @@ public class CategoryEntity extends BaseEntity {
 	/**
 	 * 创建时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private java.util.Date categoryCreateDate;
 
 	/**
