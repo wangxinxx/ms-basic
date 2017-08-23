@@ -83,7 +83,8 @@ public class FileAction extends BaseAction {
 		try {
 			PrintWriter out = res.getWriter();
 			String uploadPath = "";
-			String uploadFolder = BasicUtil.getRealPath(uploadFloderPath+Const.SEPARATOR+BasicUtil.getAppId()+Const.SEPARATOR); // 上传的文件路径
+			uploadFloderPath = uploadFloderPath+Const.SEPARATOR+BasicUtil.getAppId()+Const.SEPARATOR;
+			String uploadFolder = BasicUtil.getRealPath(uploadFloderPath); // 上传的文件路径
 			String isRename = req.getParameter("isRename");// 是否重命名 true:重命名
 			String _tempPath = req.getServletContext().getRealPath(TEMP);// 存放文件的临时目录路径
 			FileUtil.createFolder(_tempPath);
@@ -127,7 +128,7 @@ public class FileAction extends BaseAction {
 						isRename = Streams.asString(input);
 						LOG.info("isRename:" + isRename);
 					} else if (fieldName.equals("maxSize")) {
-						uploadMaxSize = Integer.parseInt(item.getString()) * 1048576;
+						uploadMaxSize = Integer.parseInt(item.getString()) * 1024;
 						LOG.info("maxSize:" + uploadMaxSize);
 					} else if (fieldName.equals("allowedFile")) {
 						uploadFileAllowed = item.getString();
@@ -181,7 +182,7 @@ public class FileAction extends BaseAction {
 									destFile.renameTo(new File(uploadFolder, _fileName));
 								}
 								LOG.info("上传完成");
-								out.print(uploadFloderPath+Const.SEPARATOR+uploadPath + Const.SEPARATOR + _fileName);
+								out.print(uploadFloderPath+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
 								new File(folder).delete();
 							} else if (chunks == 0) {
 								String _fileName = fileName;
