@@ -3,7 +3,8 @@
 
 
 <#--上传控件-->
-<#--path:上传路径-->
+<#--path:上传路径，文件夹是在ms属性配置文件里面配置，会自动增加当前appId-->
+<#--uploadFloderPath:如果path路径无法满足可以使用这个参数重新定义上传路径-->
 <#--inputName:name值-->
 <#--filetype:上传规则-->
 <#--size:上传数量-->
@@ -11,7 +12,7 @@
 <#--imgs:默认显示的图片-->
 <#--maxSize:默认文件大小 单位m-->
 <#--如果是反复显示图片需要调用showImgs(imgs地址可以包含"|"符合,input的名称)-->
-<#macro uploadImg path inputName size="1" filetype="*.jpg;*.png;*.gif;*.bmp;*.jpeg" msg="" imgs="" maxSize="1">
+<#macro uploadImg path  inputName size="1" uploadFloderPath="" filetype="*.jpg;*.png;*.gif;*.bmp;*.jpeg" msg="" imgs="" maxSize="1">
 	<div id="ms__uploadPic_${inputName}">
 		<style>
 			.msUploadImgs{margin: 0;padding: 0;list-style: none;}
@@ -45,8 +46,8 @@
 	<script type="text/javascript">
 		    $(function ()  {
 		        $('#ms__uploadPic_${inputName}').swfupload({
-		            upload_url: "${basePath}/upload",
-		            post_params:{"uploadPath":"/${path}","isRename":"true","maxSize":"${maxSize}","allowedFile":"${filetype}","allowedFile":""},
+		            upload_url: "${basePath}/file/upload.do",
+		            post_params:{"uploadPath":"${path}","uploadFloderPath":"${uploadFloderPath}","isRename":"true","maxSize":"${maxSize}","allowedFile":"${filetype}","allowedFile":""},
 		            file_size_limit: ${maxSize?default("1")}*1024,
 		            file_types: "${filetype?default("*.jpg;*.png;*.gif;*.bmp;*.jpeg")}",
 		            file_types_description: "Image files",
@@ -191,7 +192,8 @@
 </#macro>
 
 <#--上传控件-->
-<#--path:上传路径-->
+<#--path:上传路径，文件夹是在ms属性配置文件里面配置，会自动增加当前appId-->
+<#--uploadFloderPath:如果path路径无法满足可以使用这个参数重新定义上传路径-->
 <#--inputName:name值-->
 <#--filetype:上传规则-->
 <#--size:上传数量-->
@@ -199,7 +201,7 @@
 <#--callBack:回调提示信息-->
 <#--isRename:是否重命名true:将使用时间命名，否则使用上传是文件名，可能会出现同名称覆盖的问题,中文也会存在问题-->
 <#--maxSize:默认文件大小 单位m-->
-<#macro uploadFile path inputName size=1 filetype="*.zip,*.rar,*.doc,*.xls,*.doc,*.txt,*.pdf" msg=""  maxSize="10" callBack="" isRename=false>
+<#macro uploadFile path inputName uploadFloderPath="" size=1 filetype="*.zip,*.rar,*.doc,*.xls,*.doc,*.txt,*.pdf" msg=""  maxSize="10" callBack="" isRename=false>
 	<div id="ms__uploadPic_${inputName}">
 		<div class="divUploader"><input type="button" id="up_file_${inputName}" />
 		<#if msg!="">
@@ -211,8 +213,8 @@
 	<script type="text/javascript">
 		    $(function ()  {
 		        $('#ms__uploadPic_${inputName}').swfupload({
-		            upload_url: "${basePath}/upload",
-		            post_params:{"uploadPath":"/${path}","isRename":"${isRename?default("true")}","maxSize":"${maxSize}","allowedFile":"${filetype}","allowedFile":""},
+		            upload_url: "${basePath}/file/upload.do",
+		            post_params:{"uploadPath":"/${path}","uploadFloderPath":"${uploadFloderPath}","isRename":"${isRename?default("true")}","maxSize":"${maxSize}","allowedFile":"${filetype}","allowedFile":""},
 		            file_size_limit: ${maxSize?default("1")}*1024,
 		            file_types: "${filetype?default("*.jpg;*.png;*.gif;*.bmp;*.jpeg;*.zip;*.rar")}",
 		            file_upload_limit: ${size?default("5")},

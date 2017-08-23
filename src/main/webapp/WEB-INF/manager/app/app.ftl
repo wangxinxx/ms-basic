@@ -7,7 +7,7 @@
 			<@ms.text name="appName" width="500" label="网站标题" value="${app.appName?default('')}"  title="网站标题" placeholder="请输入网站标题" validation={"maxlength":"50","required":"true", "data-bv-notempty-message":"必填项目","data-bv-stringlength-message":"网站标题在50个字符以内!"}/>
   			<!--网站Logo,暂时不兼容-->
   			<@ms.formRow label="网站Logo" help="提示:文章缩略图,支持jpg,png格式">
-  			  	<@ms.uploadImg path="upload/app/${app.appId}/" inputName="appLogo" size="1"  maxSize="1" imgs="${app.appLogo!('')}"/>
+  			  	<@ms.uploadImg path="app" inputName="appLogo" size="1"  maxSize="1" imgs="${app.appLogo!('')}"/>
   			</@ms.formRow>
   			<@ms.checkbox name="appMobileStyle" width="200"  list=[{"id":"m","value":"启用"}] listKey="id" listValue="value" valueList=["${app.appMobileStyle!('')}"] label="启用移动端" 
   				help="启用后手机用户访问网站会显示手机版网页，前提是网站必需提供移动端皮肤，相关教程:<a href='http://ms.ming-soft.com/mbbs/13086/detail.do' target='_blank'>铭飞移动端开发教程</a>"/>

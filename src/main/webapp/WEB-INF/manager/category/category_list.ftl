@@ -1,5 +1,5 @@
 <@ms.html5>
-    <@ms.nav title="${modelTitle}管理">
+    <@ms.nav title="${Session.model_title_session?default('')}管理">
 		<@ms.buttonGroup>
 			<@ms.addButton url="${managerPath}/category/add.do?${params}"/>
 		</@ms.buttonGroup>

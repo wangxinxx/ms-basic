@@ -16,7 +16,7 @@
 				    		<@ms.textarea id="description"  name="categoryDescription" label="描述:"  title="栏目描述" placeholder="类别描述" maxlength="150" value="${category.categoryDescription?default('')}"/>
 				    		
 				    		<@ms.formRow label="缩略图">
-								<@ms.uploadImg path="upload/${manager_session.basicId?default('0')}/app/" inputName="categorySmallImg" size="15" filetype="" msg=""  maxSize="1" imgs="${category.categorySmallImg?default('')}" />
+								<@ms.uploadImg path="category" inputName="categorySmallImg" size="15" filetype="" msg=""  maxSize="1" imgs="${category.categorySmallImg?default('')}" />
 				    		</@ms.formRow>
 				    		<#if category.categoryLevel gt 0>
 					    		<@ms.formRow label="关联父分类" width="300">

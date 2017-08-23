@@ -1,7 +1,7 @@
 <@ms.html5>
 	<@ms.nav title="模板管理"></@ms.nav>
 	<@ms.panel>
-		<@ms.uploadFile path="templets/${websiteId}/" inputName="websiteStyle" size="10" filetype="*.zip" msg="建议上传30M以下的zip文件,模版名称不能使用中文,zip的压缩方式为:存储"  maxSize="30" callBack="setUrl" isRename="false"/>
+		<@ms.uploadFile path="" uploadFloderPath="templets/${websiteId}/" inputName="websiteStyle" size="10" filetype="*.zip" msg="建议上传30M以下的zip文件,模版名称不能使用中文,zip的压缩方式为:存储"  maxSize="30" callBack="setUrl" isRename="false"/>
 		<@ms.table head=['<th class="text-center">图标</th>','模板名称',"<th style='width:20%;text-align:center'>类型</th>","<th class='text-center' style='width:10%;'>操作</th>"]>
 			<#if folderNameList?has_content>
            		<#list folderNameList as folderName>
