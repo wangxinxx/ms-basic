@@ -75,6 +75,11 @@ public class ModelEntity extends BaseEntity {
      *模块管理员Id
      */
     private int modelManagerId;
+    /**
+     * 模块排序
+     * @return
+     */
+    private int modelSort;
 
     public int getModelIsMenu() {
 		return modelIsMenu;
@@ -218,4 +223,13 @@ public class ModelEntity extends BaseEntity {
 	public void setModelManagerId(int modelManagerId) {
 		this.modelManagerId = modelManagerId;
 	}
+
+	public int getModelSort() {
+		return modelSort;
+	}
+
+	public void setModelSort(int modelSort) {
+		this.modelSort = modelSort;
+	}
+	
 }
