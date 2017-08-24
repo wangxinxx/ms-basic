@@ -79,6 +79,7 @@
 
 	<!-- 更新类别开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.base.entity.BaseEntity">
+		update category set category_parent_id=null,category_categoryid=null where category_id = #{categoryId};
 		update category
 		<set>
 			<if test="categoryTitle != null">category_title=#{categoryTitle},</if>
