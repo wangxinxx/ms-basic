@@ -1,5 +1,6 @@
 package com.mingsoft.basic.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mingsoft.basic.biz.IRoleBiz;
+import com.mingsoft.basic.biz.IRoleModelBiz;
+import com.mingsoft.basic.constant.ModelCode;
+import com.mingsoft.basic.entity.ManagerSessionEntity;
 import com.mingsoft.basic.entity.RoleEntity;
+import com.mingsoft.basic.entity.RoleModelEntity;
+
 import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
@@ -47,6 +54,11 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 */	
 	@Autowired
 	private IRoleBiz roleBiz;
+	/**
+	 * 角色模块关联业务层
+	 */
+	@Autowired
+	private IRoleModelBiz roleModelBiz;
 	
 	/**
 	 * 返回主界面index
@@ -75,6 +87,8 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	@RequestMapping("/list")
 	@ResponseBody
 	public void list(@ModelAttribute RoleEntity role,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+		ManagerSessionEntity managerSession = getManagerBySession(request);
+		role.setRoleManagerId(managerSession.getManagerId());
 		BasicUtil.startPage();
 		List roleList = roleBiz.query(role);
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(roleList,(int)BasicUtil.endPage(roleList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
@@ -89,7 +103,6 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 			BaseEntity roleEntity = roleBiz.getEntity(role.getRoleId());			
 			model.addAttribute("roleEntity",roleEntity);
 		}
-		
 		return view ("/basic/role/form");
 	}
 	
@@ -132,28 +145,43 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 * roleManagerid: 角色管理员编号<br/>
 	 * }</dd><br/>
 	 */
-	@PostMapping("/save")
+	@PostMapping("/saveOrUpdateRole")
 	@ResponseBody
-	public void save(@ModelAttribute RoleEntity role, HttpServletResponse response, HttpServletRequest request) {
-		//验证角色名的值是否合法			
-		if(StringUtil.isBlank(role.getRoleName())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("role.name")));
-			return;			
+	public void saveOrUpdateRole(@ModelAttribute RoleEntity role,@RequestParam("ids[]") List<Integer> ids, HttpServletResponse response, HttpServletRequest request) {
+		//组织角色属性，并对角色进行保存
+		RoleEntity _role = new RoleEntity();
+		_role.setRoleName(role.getRoleName());
+		//获取管理员id
+		ManagerSessionEntity managerSession = getManagerBySession(request);
+		role.setRoleManagerId(managerSession.getManagerId());
+		//通过角色id判断是保存还是修改
+		if(role.getRoleId()>0){
+			//若为更新角色，数据库中存在该角色名称且当前名称不为更改前的名称，则属于重名
+			if(roleBiz.getEntity(_role) != null && !role.getRoleName().equals(BasicUtil.getString("oldRoleName"))){
+				this.outJson(response, ModelCode.ROLE, false, getResString("roleName.exist"));	
+				return;
+			}
+			roleBiz.updateEntity(role);
+		}else{
+			//判断角色名是否重复
+			if(roleBiz.getEntity(_role) != null){
+				this.outJson(response, ModelCode.ROLE, false, getResString("roleName.exist"));	
+				return;
+			}
+			//获取管理员id
+			roleBiz.saveEntity(role);
 		}
-		if(!StringUtil.checkLength(role.getRoleName()+"", 1, 30)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("role.name"), "1", "30"));
-			return;			
+		//开始保存相应的关联数据。组织角色模块的列表。
+		List<RoleModelEntity> roleModelList = new ArrayList<>();
+		for(Integer id : ids){
+			RoleModelEntity roleModel = new RoleModelEntity();
+			roleModel.setRoleId(role.getRoleId());
+			roleModel.setModelId(id);
+			roleModelList.add(roleModel);
 		}
-		//验证角色管理员编号的值是否合法			
-		if(StringUtil.isBlank(role.getRoleManagerId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("role.managerid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(role.getRoleManagerId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("role.managerid"), "1", "10"));
-			return;			
-		}
-		roleBiz.saveEntity(role);
+		//先删除当前的角色关联菜单，然后重新添加。
+		roleModelBiz.deleteEntity(role.getRoleId());
+		roleModelBiz.saveEntity(roleModelList);
 		this.outJson(response, JSONObject.toJSONString(role));
 	}
 	
@@ -178,45 +206,4 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		roleBiz.delete(ids);		
 		this.outJson(response, true);
 	}
-	
-	/** 
-	 * 更新角色信息角色
-	 * @param role 角色实体
-	 * <i>role参数包含字段信息参考：</i><br/>
-	 * roleId 角色ID，自增长<br/>
-	 * roleName 角色名<br/>
-	 * roleManagerid 角色管理员编号<br/>
-	 * <dt><span class="strong">返回</span></dt><br/>
-	 * <dd>{ <br/>
-	 * roleId: 角色ID，自增长<br/>
-	 * roleName: 角色名<br/>
-	 * roleManagerid: 角色管理员编号<br/>
-	 * }</dd><br/>
-	 */
-	@PostMapping("/update")
-	@ResponseBody	 
-	public void update(@ModelAttribute RoleEntity role, HttpServletResponse response,
-			HttpServletRequest request) {
-		//验证角色名的值是否合法			
-		if(StringUtil.isBlank(role.getRoleName())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("role.name")));
-			return;			
-		}
-		if(!StringUtil.checkLength(role.getRoleName()+"", 1, 30)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("role.name"), "1", "30"));
-			return;			
-		}
-		//验证角色管理员编号的值是否合法			
-		if(StringUtil.isBlank(role.getRoleManagerId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("role.managerid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(role.getRoleManagerId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("role.managerid"), "1", "10"));
-			return;			
-		}
-		roleBiz.updateEntity(role);
-		this.outJson(response, JSONObject.toJSONString(role));
-	}
-		
 }

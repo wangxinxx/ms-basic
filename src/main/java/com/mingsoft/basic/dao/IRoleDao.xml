@@ -111,5 +111,31 @@
 	<select id="queryAll" resultMap="resultMap">
 		select * from role
 	</select>
+	<!--条件查询-->	
+	<select id="query" resultMap="resultMap">
+		select * from role  
+		<where>
+			<if test="roleName != null and roleName != ''"> and ROLE_NAME=#{roleName} </if>			
+			<if test="roleManagerId != null"> and ROLE_MANAGERID=#{roleManagerId} </if>	
+		</where>		
+		order by ROLE_ID desc
+	</select>
 	<!-- 查询所有的角色 -->
+	<!--批量删除-->	
+	<delete id="delete" >
+		delete from role
+		<where>
+			 ROLE_ID  in <foreach collection="ids" item="item" index="index" 
+			open="(" separator="," close=")">#{item}</foreach>
+		</where>
+	</delete>
+	<!--根据实体获取-->
+	<select id="getByEntity" resultMap="resultMap" parameterType="com.mingsoft.basic.entity.RoleEntity">
+		select * from role 
+		<where>
+			<if test="roleName != null and roleName != ''"> and ROLE_NAME=#{roleName} </if>				
+			<if test="roleManagerId &gt; 0"> and ROLE_MANAGERID=#{roleManagerId} </if>				
+		</where>
+		limit 0,1
+	</select>	
 </mapper>

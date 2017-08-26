@@ -1,47 +1,92 @@
 <@ms.html5>
-	 <@ms.nav title="角色编辑" back=true>
-    	<@ms.saveButton  onclick="save()"/>
-    </@ms.nav>
-    <@ms.panel>
-    	<@ms.form name="roleForm" isvalidation=true>
-    		<@ms.hidden name="roleId" value="${roleEntity.roleId?default('')}"/>
-    			<@ms.text label="角色名" name="roleName" value="${roleEntity.roleName?default('')}"  width="240px;" placeholder="请输入角色名" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"角色名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.number label="角色管理员编号" name="roleManagerid" value="${roleEntity.roleManagerid?default('')}" width="240px;" placeholder="请输入角色管理员编号" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"角色管理员编号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    	</@ms.form>
-    </@ms.panel>
+	<@ms.nav title="角色设置" back=true>
+		<@ms.saveButton id="save"/>
+	</@ms.nav>
+	<@ms.panel>
+		<@ms.form name="columnForm" isvalidation=true  action="" method="post" >
+			<@ms.text name="roleName" label="角色名称:" title="角色名称" value="${roleEntity.roleName?default('')}" width="300"  maxlength="30"  validation={"required":"true", "data-bv-notempty-message":"请填写标题"}/>
+			<@ms.formRow label="权限管理:">
+				<div>
+					<table id="modelList" 
+						data-show-export="true"
+						data-method="post" 
+						data-side-pagination="server">
+					</table>
+				</div>
+			</@ms.formRow>
+		</@ms.form>
+	</@ms.panel>
 </@ms.html5>
 <script>
-	var url = "${managerPath}/basic/role/save.do";
-	if($("input[name = 'roleId']").val() > 0){
-		url = "${managerPath}/basic/role/update.do";
-		$(".btn-success").text("更新");
-	}
-	//编辑按钮onclick
-	function save() {
-		$("#roleForm").data("bootstrapValidator").validate();
-			var isValid = $("#roleForm").data("bootstrapValidator").isValid();
-			if(!isValid) {
-				<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
-				return;
+	$(function(){
+		//数据初始化
+		$("#modelList").bootstrapTable({
+			url:"${managerPath}/model/list.do?roleId=${roleEntity.roleId?default('')}",
+			contentType : "application/x-www-form-urlencoded",
+			queryParamsType : "undefined",
+			idField: 'modelId',
+            treeShowField: 'modelTitle',
+            parentIdField: 'modelModelId',
+	    	columns: [
+				    	{
+				        	field: 'modelTitle',
+				        	title: '模块标题',
+				        	width: '200'
+				    	},{
+				        	field: 'attribute',
+				        	title: '功能权限',
+				        	formatter:function(value,row,index) {
+				        		var attribute = "";
+				        		for(var i=0;i<row.modelChildList.length;i++){
+				        			var modelId = row.modelChildList[i].modelId;
+				        			var str = "<input name='attribute' type='checkbox' value='"+modelId+"' data-id='"+row.modelId+"'/>"+row.modelChildList[i].modelTitle;
+				        			if(row.modelChildList[i].chick == 1){
+				        				str = "<input name='attribute' type='checkbox' checked='checked' value='"+modelId+"' data-id='"+row.modelId+"'/>"+row.modelChildList[i].modelTitle;
+				        			}
+				        			if(attribute == ""){
+				        				attribute = str;
+				        			}else{
+				        				attribute = attribute+str;
+				        			}
+				        		}
+				        		return attribute;
+				        	}
+				    	}]
+	    })
+	})
+	//保存操作
+	$("#save").click(function(){
+		var roleName = $("input[name=roleName]").val();
+		var roleId = "${roleEntity.roleId?default('')}";
+		var oldRoleName = "${roleEntity.roleName?default('')}";
+		var ids=[];
+		$("input[name=attribute]").each(function () {
+			if($(this).is(':checked')){
+				var modelId = $(this).val();
+			    var modelModelId = $(this).attr("data-id");
+			    ids.push(modelId);
+			    if($.inArray(modelModelId, ids) == -1){
+			    	ids.push(modelModelId);
+			    }
+			}
+		});
+		if(ids.length == 0){
+			<@ms.notify msg= '最少选择一个栏目权限' type= "fail" />
+			return;
 		}
-		var btnWord =$(".btn-success").text();
-		$(".btn-success").text(btnWord+"中...");
-		$(".btn-success").prop("disabled",true);
 		$.ajax({
-			type:"post",
-			dataType:"json",
-			data:$("form[name = 'roleForm']").serialize(),
-			url:url,
-			success: function(status) {
-				if(status.result == true) { 
-					<@ms.notify msg="保存或更新成功" type= "success" />
-					location.href = "${managerPath}/basic/role/index.do";
-				}
-				else{
-					<@ms.notify msg= "保存或更新失败！" type= "fail" />
+		 	type:"post",
+		 	url:"${managerPath}/basic/role/saveOrUpdateRole.do",
+		 	dataType: "json",
+		 	data:{ids:ids,roleName:roleName,roleId:roleId,oldRoleName:oldRoleName},
+		 	success:function(data){
+		 		if(data.result == false) {
+					<@ms.notify msg= '角色名已存在' type= "fail" />
+				}else {
+					<@ms.notify msg= "操作成功" type= "success" />
 					location.href= "${managerPath}/basic/role/index.do";
 				}
-			}
-		})
-	}	
+		 	}
+		});
+	})
 </script>

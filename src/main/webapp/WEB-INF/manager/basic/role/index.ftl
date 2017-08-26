@@ -1,9 +1,10 @@
 <@ms.html5>
 	<@ms.nav title="角色管理"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
-			<@ms.searchFormButton>
-				 <@ms.queryButton onclick="search()"/> 
-			</@ms.searchFormButton>			
+		<@ms.text label="角色名" name="roleName" value=""  width="240px;" placeholder="请输入角色名" />
+		<@ms.searchFormButton>
+			 <@ms.queryButton onclick="search()"/> 
+		</@ms.searchFormButton>			
 	</@ms.searchForm>
 	<@ms.panel>
 		<div id="toolbar">
@@ -45,32 +46,16 @@
 	    	columns: [{ checkbox: true},
 				    	{
 				        	field: 'roleId',
-				        	title: '角色ID，自增长',
-				        	width:'19',
+				        	title: '编号',
 				        	align: 'center',
+				    	},{
+				        	field: 'roleName',
+				        	title: '角色名',
 				        	formatter:function(value,row,index) {
 				        		var url = "${managerPath}/basic/role/form.do?roleId="+row.roleId;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 				        	}
-				    	},							    	{
-				        	field: 'roleName',
-				        	title: '角色名',
-				        	width:'30',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/role/form.do?roleName="+row.roleName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'roleManagerid',
-				        	title: '角色管理员编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/role/form.do?roleManagerid="+row.roleManagerid;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	}			]
+				    	}]
 	    })
 	})
 	//增加按钮

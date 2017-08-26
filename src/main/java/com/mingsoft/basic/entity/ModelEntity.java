@@ -25,6 +25,7 @@ import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.constant.e.ModelEnum;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 模块实体
@@ -80,6 +81,14 @@ public class ModelEntity extends BaseEntity {
      * @return
      */
     private int modelSort;
+    /**
+     * 子功能集合，不参加表结构
+     */
+    private List<ModelEntity> modelChildList;
+    /**
+     * 选中状态，不参加表结构
+     */
+    private int chick;
 
     public int getModelIsMenu() {
 		return modelIsMenu;
@@ -231,5 +240,23 @@ public class ModelEntity extends BaseEntity {
 	public void setModelSort(int modelSort) {
 		this.modelSort = modelSort;
 	}
+
+	public List<ModelEntity> getModelChildList() {
+		return modelChildList;
+	}
+
+	public void setModelChildList(List<ModelEntity> modelChildList) {
+		this.modelChildList = modelChildList;
+	}
+
+	public int getChick() {
+		return chick;
+	}
+
+	public void setChick(int chick) {
+		this.chick = chick;
+	}
+
+	
 	
 }

@@ -186,7 +186,7 @@
 				<if test="modelSort &gt; 0"> and MODEL_SORT=#{modelSort} </if>				
 				<if test="modelIsMenu &gt; 0"> and MODEL_ISMENU=#{modelIsMenu} </if>				
 		</where>		
-		order by MODEL_ID desc
+		order by MODEL_ISMENU desc,MODEL_SORT,MODEL_ID
 	</select>
 	<!--批量删除-->	
 	<delete id="delete" >
