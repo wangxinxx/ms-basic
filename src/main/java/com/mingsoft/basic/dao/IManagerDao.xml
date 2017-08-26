@@ -20,6 +20,7 @@
 		<result column="MANAGER_ROLEID" property="managerRoleID" />
 		<result column="MANAGER_PEOPLEID" property="managerPeopleID" />
 		<result column="MANAGER_TIME" property="managerTime" />
+		<result column="ROLE_NAME" property="roleName" />
 	</resultMap>
 	
 	<!-- 管理员表字段与评论实体属性对应，供返回实体信息时使用 -->
@@ -36,7 +37,11 @@
 	
 	<!-- 查询此时登录的管理员的子管理员列表开始 -->
 	<select id="queryAllChildManager" resultMap="resultMap" parameterType="int">
-		select * from manager where MANAGER_ROLEID in (select ROLE_ID from role where ROLE_MANAGERID = #{managerId}) order by MANAGER_ID DESC;
+		select * from manager m 
+		left join role r on m.MANAGER_ROLEID = r.ROLE_ID 
+		where MANAGER_ROLEID in 
+		(select ROLE_ID from role where ROLE_MANAGERID = #{managerId}) 
+		order by MANAGER_ID DESC
 	</select>
 	<!-- 查询此时登录的管理员的子管理员列表开始  -->
 	
@@ -77,17 +82,17 @@
 	<insert id="saveEntity" parameterType="com.mingsoft.basic.entity.ManagerEntity"  useGeneratedKeys="true" keyProperty="managerId">
 		insert into manager
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="managerName != null">MANAGER_NAME,</if>
-			<if test="managerNickName != null">MANAGER_NICKNAME,</if>
-			<if test="managerPassword != null">MANAGER_PASSWORD,</if>
+			<if test="managerName != null and managerName != ''">MANAGER_NAME,</if>
+			<if test="managerNickName != null and managerNickName != ''">MANAGER_NICKNAME,</if>
+			<if test="managerPassword != null and managerPassword != ''">MANAGER_PASSWORD,</if>
 			<if test="managerRoleID != null">MANAGER_ROLEID,</if>
 			<if test="managerPeopleID != null">MANAGER_PEOPLEID,</if>
 			<if test="managerTime != null">MANAGER_TIME,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="managerName != null">#{managerName},</if>
-			<if test="managerNickName != null">#{managerNickName},</if>
-			<if test="managerPassword != null">#{managerPassword},</if>
+			<if test="managerName != null and managerName != ''">#{managerName},</if>
+			<if test="managerNickName != null and managerNickName != ''">#{managerNickName},</if>
+			<if test="managerPassword != null and managerPassword != ''">#{managerPassword},</if>
 			<if test="managerRoleID != null">#{managerRoleID},</if>
 			<if test="managerPeopleID != null">#{managerPeopleID},</if>
 			<if test="managerTime != null">#{managerTime},</if>
@@ -100,6 +105,15 @@
 		delete from manager where MANAGER_ID = #{managerId}
 	</delete>
 	<!-- 删除管理员结束 -->
+	
+	<!--批量删除-->	
+	<delete id="delete" >
+		delete from manager
+		<where>
+			 MANAGER_ID  in <foreach collection="ids" item="item" index="index" 
+			open="(" separator="," close=")">#{item}</foreach>
+		</where>
+	</delete>
 	
 	<!-- 通过角色ID删除管理员开始 -->
 	<delete id="deleteManagerByRoleId" parameterType="int">
@@ -114,6 +128,21 @@
 		  		from manager where MANAGER_ID=#{managerId};
 	</select>
 	<!-- 查询管理员结束 -->
+	
+	<!--根据实体获取-->
+	<select id="getByEntity" resultMap="resultMap" parameterType="com.mingsoft.basic.entity.ManagerEntity">
+		select * from manager 
+		<where>
+			<if test="managerName != null and managerName != ''"> and MANAGER_NAME=#{managerName} </if>				
+			<if test="managerNickname != null and managerNickname != ''"> and MANAGER_NICKNAME=#{managerNickname} </if>				
+			<if test="managerPassword != null and managerPassword != ''"> and MANAGER_PASSWORD=#{managerPassword} </if>				
+			<if test="managerRoleID != null"> and MANAGER_ROLEID=#{managerRoleID} </if>				
+			<if test="managerPeopleID != null"> and MANAGER_PEOPLEID=#{managerPeopleID} </if>				
+			<if test="managerTime != null"> and MANAGER_TIME=#{managerTime} </if>				
+			<if test="managerSystemSkinId != null"> and MANAGER_SYSTEM_SKIN_ID=#{managerSystemSkinId} </if>				
+		</where>
+		limit 0,1
+	</select>
 	
 	<!-- 更新管理员开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.basic.entity.ManagerEntity">
@@ -145,5 +174,22 @@
 	</select>
 	<!-- 查询该管理员帐号在数据库中的存在数结束 -->
 	
+	<!--查询全部-->	
+	<select id="queryAll" resultMap="resultMap">
+		select * from manager order by MANAGER_ID desc
+	</select>
+	<!--条件查询-->	
+	<select id="query" resultMap="resultMap">
+		select * from manager  
+		<where>
+				<if test="managerName != null and managerName != ''"> and MANAGER_NAME=#{managerName} </if>				
+				<if test="managerNickName != null and managerNickName != ''"> and MANAGER_NICKNAME=#{managerNickName} </if>				
+				<if test="managerPassword != null and managerPassword != ''"> and MANAGER_PASSWORD=#{managerPassword} </if>				
+				<if test="managerRoleID &gt; 0"> and MANAGER_ROLEID=#{managerRoleID} </if>				
+				<if test="managerPeopleID &gt; 0"> and MANAGER_PEOPLEID=#{managerPeopleID} </if>				
+				<if test="managerSystemSkinId &gt; 0"> and MANAGER_SYSTEM_SKIN_ID=#{managerSystemSkinId} </if>				
+		</where>		
+		order by MANAGER_ID desc
+	</select>
 	
 </mapper>

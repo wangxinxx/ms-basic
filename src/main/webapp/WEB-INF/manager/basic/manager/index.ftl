@@ -1,10 +1,19 @@
 <@ms.html5>
 	<@ms.nav title="管理员管理"></@ms.nav>
-	<@ms.searchForm name="searchForm" isvalidation=true>
-			<@ms.searchFormButton>
-				 <@ms.queryButton onclick="search()"/> 
-			</@ms.searchFormButton>			
-	</@ms.searchForm>
+	<style>
+		.select2-container .select2-container--default {  
+		 	height: 34px;  
+		} 
+		.select2-container .select2-selection--single{
+			font: inherit;
+			border: 1px solid #ccc;
+		    display: block;
+		    height: 34px;
+		    padding: 0px 3px;
+    		font-size: 14px;
+    		color: rgb(85, 85, 85);
+		}
+	</style>
 	<@ms.panel>
 		<div id="toolbar">
 			<@ms.panelNav>
@@ -33,95 +42,109 @@
 			</@ms.modalButton>
 		</@ms.modalBody>
 	</@ms.modal>
+	
+	<@ms.modal id="addManager" title="管理员编辑"  resetFrom=true size="M">
+    <@ms.modalBody>
+		<@ms.form name="managerForm" isvalidation=true action="${managerPath}/basic/manager/save.do" redirect="${managerPath}/basic/manager/index.do">
+			<@ms.hidden name="managerId" value="0"/>
+			<@ms.text label="管理员用户名" name="managerName" value=""  width="240px;" placeholder="请输入管理员用户名" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员用户名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+			<@ms.text label="管理员昵称" name="managerNickName" value=""  width="240px;" placeholder="请输入管理员昵称" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员昵称长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+			<@ms.text label="管理员密码" name="managerPassword" value=""  width="240px;" placeholder="请输入管理员密码" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员密码长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+			<@ms.select id="managerRoleID"  name="managerRoleID" label="角色编号"/>	
+    	</@ms.form>
+    </@ms.modalBody>
+    <@ms.modalButton>
+         <@ms.saveButton id= "saveOrUpdate"/>
+    </@ms.modalButton>
+</@ms.modal>
+	
 </@ms.html5>
 
 <script>
 	$(function(){
-		$("#managerList").bootstrapTable({
+		//加载选择角色列表
+		$("#managerRoleID").request({url:"${managerPath}/basic/role/list.do",type:"json",method:"post",func:function(msg) {
+			var managerArr = msg.rows;
+			$("#managerRoleID").val(null).trigger("change");
+			if(managerArr.length != 0 && ($("#managerRoleID").val() == null)){
+	   			for(var i=0; i<managerArr.length; i++){
+		   			$("#managerRoleID").append($("<option>").val(managerArr[i].roleId).text(managerArr[i].roleName));
+		   			$("#managerRoleID").select2({width: "210px"}).val(managerArr[i].roleId).trigger("change");
+		   		}
+	   		} else if($("#managerRoleID").val()<0) {
+	   			$("#managerRoleID").append("<option>暂无角色</option>");
+	   		}
+	   		//使用select2插件
+	 		$("#managerRoleID").select2({width: "210px"});
+		}});
+			$("#managerList").bootstrapTable({
 			url:"${managerPath}/basic/manager/list.do",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
 	    	columns: [{ checkbox: true},
 				    	{
-				        	field: 'managerId',
-				        	title: '管理员ID(主键)',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerId="+row.managerId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
 				        	field: 'managerName',
-				        	title: '管理员用户名',
-				        	width:'15',
+				        	title: '账号',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerName="+row.managerName;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+				        		return "<a onclick='updateSearch("+row.managerId+")' style='cursor:pointer;text-decoration:none;' >" + value + "</a>";
 				        	}
 				    	},							    	{
-				        	field: 'managerNickname',
-				        	title: '管理员昵称',
-				        	width:'15',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerNickname="+row.managerNickname;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
+				        	field: 'managerNickName',
+				        	title: '昵称'
 				    	},							    	{
 				        	field: 'managerPassword',
-				        	title: '管理员密码',
-				        	width:'45',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerPassword="+row.managerPassword;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
+				        	title: '密码'
 				    	},							    	{
-				        	field: 'managerRoleid',
-				        	title: '角色编号',
-				        	width:'19',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerRoleid="+row.managerRoleid;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'managerPeopleid',
-				        	title: '用户编号即商家编号',
-				        	width:'19',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerPeopleid="+row.managerPeopleid;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
+				        	field: 'roleName',
+				        	title: '角色名称'
 				    	},							    	{
 				        	field: 'managerTime',
-				        	title: '管理员创建时间',
-				        	width:'19',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerTime="+row.managerTime;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'managerSystemSkinId',
-				        	title: '管理员主界面样式',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/manager/form.do?managerSystemSkinId="+row.managerSystemSkinId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	}			]
+				        	title: '创建时间',
+				        	align: 'center'
+				    	}		]
 	    })
 	})
 	//增加按钮
 	$("#addManagerBtn").click(function(){
-		location.href ="${managerPath}/basic/manager/form.do"; 
+		$(".addManager").modal();
 	})
+	
+	var url = "${managerPath}/basic/manager/save.do";
+	if($("input[name = 'managerId']").val() > 0){
+		url = "${managerPath}/basic/manager/update.do";
+		$(".btn-success").text("更新");
+	}
+	
+	//保存按钮
+	$("#saveOrUpdate").click(function(){
+		$("#managerForm").data("bootstrapValidator").validate();
+		var isValid = $("#managerForm").data("bootstrapValidator").isValid();
+		if(!isValid) {
+			<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
+			return;
+		}
+		$(this).text("正在保存...");
+		$(this).attr("disabled","true");
+		var managerEntity = $('#managerForm').serialize();
+		var url = $('#managerForm').attr("action");
+		$.ajax({
+			type: "post",
+			url:url,
+			data: managerEntity,
+			dataType:"json",
+			success:function(data){
+				if(data.managerId > 0){
+					<@ms.notify msg= "保存或更新成功" type= "success" />
+				}else {
+					<@ms.notify msg= "保存或更新失败" type= "fail" />
+				}
+				location.reload();
+			}
+		});
+	})
+	
 	//删除按钮
 	$("#delManagerBtn").click(function(){
 		//获取checkbox选中的数据
@@ -154,14 +177,19 @@
 			}
 		})
 	});
-	//查询功能
-	function search(){
-		var search = $("form[name='searchForm']").serializeJSON();
-        var params = $('#managerList').bootstrapTable('getOptions');
-        params.queryParams = function(params) {  
-        	$.extend(params,search);
-	        return params;  
-       	}  
-   	 	$("#managerList").bootstrapTable('refresh', {query:$("form[name='searchForm']").serializeJSON()});
+	
+	//表单赋值
+	function updateSearch(managerId){
+		$(this).request({url:"${managerPath}/basic/manager/get.do?managerId="+managerId,func:function(manager) {
+			if (manager.managerId > 0) {
+				$("#managerForm").attr("action","${managerPath}/basic/manager/update.do");
+				$("#managerForm input[name='managerName']").val(manager.managerName);
+				$("#managerForm input[name='managerId']").val(manager.managerId);
+				$("#managerForm input[name='managerNickName']").val(manager.managerNickName);
+				$("#managerRoleID").select2({width: "210px"}).val(manager.managerRoleID).trigger("change");
+				$("#managerForm select[name='managerRoleID']").val(manager.managerRoleID);
+				$("#addManager").modal();
+			}					
+		}});
 	}
 </script>

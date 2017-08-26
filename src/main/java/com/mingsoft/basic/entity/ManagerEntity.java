@@ -21,6 +21,8 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.entity;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.base.entity.SessionEntity;
 
@@ -48,6 +50,11 @@ public class ManagerEntity extends SessionEntity {
      * 昵称
      */
     private String managerNickName;
+    
+    /**
+     * 角色名
+     */
+    private String roleName;
 
     /**
      * 密码
@@ -72,9 +79,26 @@ public class ManagerEntity extends SessionEntity {
     /**
      * 添加时间
      */
-    private Date managerTime = new Date();
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date managerTime;
 
     /**
+     * 获取角色名
+     * @return
+     */
+    public String getRoleName() {
+		return roleName;
+	}
+
+    /**
+     * 设置角色名
+     * @param roleName
+     */
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	/**
      * 获取managerTime
      * @return managerTime
      */

@@ -1,5 +1,6 @@
 package com.mingsoft.basic.action;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mingsoft.basic.biz.IManagerBiz;
 import com.mingsoft.basic.entity.ManagerEntity;
+import com.mingsoft.basic.entity.ManagerSessionEntity;
+
 import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
@@ -85,22 +88,10 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 	@RequestMapping("/list")
 	@ResponseBody
 	public void list(@ModelAttribute ManagerEntity manager,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+		ManagerSessionEntity managerSession = getManagerBySession(request);
 		BasicUtil.startPage();
-		List managerList = managerBiz.query(manager);
+		List managerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(managerList,(int)BasicUtil.endPage(managerList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
-	}
-	
-	/**
-	 * 返回编辑界面manager_form
-	 */
-	@RequestMapping("/form")
-	public String form(@ModelAttribute ManagerEntity manager,HttpServletResponse response,HttpServletRequest request,ModelMap model){
-		if(manager.getManagerId() > 0){
-			BaseEntity managerEntity = managerBiz.getEntity(manager.getManagerId());			
-			model.addAttribute("managerEntity",managerEntity);
-		}
-		
-		return view ("/basic/manager/form");
 	}
 	
 	/**
@@ -134,8 +125,9 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.error", this.getResString("manager.id")));
 			return;
 		}
-		ManagerEntity _manager = (ManagerEntity)managerBiz.getEntity(manager.getManagerId());
-		this.outJson(response, _manager);
+		ManagerEntity managerEntity = (ManagerEntity)managerBiz.getEntity(manager.getManagerId());
+		managerEntity.setManagerPassword("");
+		this.outJson(response, managerEntity);
 	}
 	
 	/**
@@ -192,42 +184,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.password"), "1", "45"));
 			return;			
 		}
-		//验证角色编号的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerRoleID())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.roleid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerRoleID()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.roleid"), "1", "19"));
-			return;			
-		}
-		//验证用户编号即商家编号的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerPeopleID())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.peopleid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerPeopleID()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.peopleid"), "1", "19"));
-			return;			
-		}
-		//验证管理员创建时间的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerTime())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.time")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerTime()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.time"), "1", "19"));
-			return;			
-		}
-		//验证管理员主界面样式的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerSystemSkinId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.system.skin.id")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerSystemSkinId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.system.skin.id"), "1", "10"));
-			return;			
-		}
+		manager.setManagerTime(new Date());
 		managerBiz.saveEntity(manager);
 		this.outJson(response, JSONObject.toJSONString(manager));
 	}
@@ -309,42 +266,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.password"), "1", "45"));
 			return;			
 		}
-		//验证角色编号的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerRoleID())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.roleid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerRoleID()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.roleid"), "1", "19"));
-			return;			
-		}
-		//验证用户编号即商家编号的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerPeopleID())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.peopleid")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerPeopleID()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.peopleid"), "1", "19"));
-			return;			
-		}
-		//验证管理员创建时间的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerTime())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.time")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerTime()+"", 1, 19)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.time"), "1", "19"));
-			return;			
-		}
-		//验证管理员主界面样式的值是否合法			
-		if(StringUtil.isBlank(manager.getManagerSystemSkinId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.system.skin.id")));
-			return;			
-		}
-		if(!StringUtil.checkLength(manager.getManagerSystemSkinId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.system.skin.id"), "1", "10"));
-			return;			
-		}
+		
 		managerBiz.updateEntity(manager);
 		this.outJson(response, JSONObject.toJSONString(manager));
 	}
