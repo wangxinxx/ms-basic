@@ -34,7 +34,6 @@ import com.mingsoft.base.constant.e.BaseSessionEnum;
  */
 public enum SessionConstEnum implements BaseSessionEnum {
 
-
 	/**
 	 * 模块idsession
 	 */
@@ -44,7 +43,7 @@ public enum SessionConstEnum implements BaseSessionEnum {
 	 * 模块名称
 	 */
 	MODEL_TITLE_SESSION("model_title_session"),
-	
+
 	/**
 	 * 模块英文名称
 	 */
@@ -68,7 +67,11 @@ public enum SessionConstEnum implements BaseSessionEnum {
 	/**
 	 * 模块编号
 	 */
-	MANAGER_MODEL_CODE("manager_model_code");
+	MANAGER_MODEL_CODE("manager_model_code"),
+	/**
+	 * 错误信息
+	 */
+	EXCEPTOIN("ms_exception");
 
 	/**
 	 * 设置session常量

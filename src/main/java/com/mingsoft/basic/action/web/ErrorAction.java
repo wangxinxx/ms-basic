@@ -4,6 +4,8 @@
 package com.mingsoft.basic.action.web;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mingsoft.basic.entity.AppEntity;
+import com.mingsoft.basic.action.BaseAction;
+import com.mingsoft.basic.constant.e.SessionConstEnum;
 import com.mingsoft.basic.parser.BaseParser;
-import com.mingsoft.parser.IParserRegexConstant;
 import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.StringUtil;
-import com.mingsoft.basic.action.BaseAction;
+
+import net.mingsoft.basic.util.BasicUtil;
 
 /**
  * 
@@ -63,7 +66,7 @@ public class ErrorAction extends  BaseAction{
 	 */
 	@RequestMapping("/{code}")
 	@ResponseBody
-	public void code(@PathVariable("code") String code, HttpServletRequest req, HttpServletResponse resp){
+	public void code(@PathVariable("code") String code, HttpServletRequest req, HttpServletResponse resp,Exception ex){
 		String tmpFilePath = this.getTemplatePath(req) + File.separator + code+".htm";
 		String content = 	FileUtil.readFile(tmpFilePath);
 		if (StringUtil.isBlank(content)) {
@@ -74,6 +77,14 @@ public class ErrorAction extends  BaseAction{
 			 content = content.replace("{code/}", code);
 		} else {
 			content = this.parserMsTag(content,baseParser, req);
+		}
+		Object obj = BasicUtil.getSession(SessionConstEnum.EXCEPTOIN);
+		if(obj!=null) {
+			Exception e = (Exception)obj;
+			StringWriter sw = new StringWriter();    
+			PrintWriter pw = new PrintWriter(sw);    
+			e.printStackTrace(pw);    
+			content = content.replace("{"+SessionConstEnum.EXCEPTOIN.toString()+"/}", sw.toString());
 		}
 		this.outString(resp, content);
 	}
