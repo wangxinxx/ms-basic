@@ -58,37 +58,4 @@ public class RoleBizImpl extends BaseBizImpl implements IRoleBiz {
 		return roleDao;
 	}
 	
-	@Override
-	public RoleEntity queryRoleByRoleName(String roleName,int roleManagerId){
-		return roleDao.queryRoleByRoleName(roleName, roleManagerId);
-	}
-	
-	@Override
-	public List<BaseEntity> queryRoleByManagerId(int roleManagerId){
-		return roleDao.queryRoleByManagerId(roleManagerId);
-	}
-	
-	@Override
-	public int countRoleName(String roleName, int roleManagerId){
-		return roleDao.countRoleName(roleName,roleManagerId);
-	}
-	
-	@Override
-	public List<BaseEntity> queryByPage(int roleManagerId, PageUtil page,String orderBy,boolean order){
-		return roleDao.queryByPage(roleManagerId, page.getPageNo(),page.getPageSize(), orderBy, order);
-	}
-	
-	@Override
-	public void deleteAll(String[] ids) {
-		// TODO Auto-generated method stub
-		roleDao.deleteAll(ids);
-	}
-
-	@Override
-	public int getCountByManagerId(int managerId) {
-		// TODO Auto-generated method stub
-		return roleDao.getCountByManagerId(managerId);
-	}
-	
-	
 }

@@ -44,35 +44,7 @@ import com.mingsoft.basic.entity.ModelEntity;
 @Service("modelBiz")
 public class ModelBizImpl extends BaseBizImpl implements IModelBiz{
 
-	@Override
-	public List<BaseEntity> queryChildList(int modelModelId) {
-		// TODO Auto-generated method stub
-		return modelDao.queryChildList(modelModelId);
-	}
 	
-	@Override
-	public List<BaseEntity> queryParent() {
-		// TODO Auto-generated method stub
-		return modelDao.queryParent();
-	}
-	
-	@Override
-	public List<BaseEntity> queryModelByManagerId(int managerId,int modelId){
-		// TODO Auto-generated method stub
-		return modelDao.queryModelByManagerId(managerId,modelId);
-	}
-
-	@Override
-	public List<BaseEntity> queryModelByManager() {
-		// TODO Auto-generated method stub
-		return modelDao.queryModelByManager();
-	}
-	
-	@Override
-	public List<BaseEntity> queryModelByRoleId(int roleId){
-		// TODO Auto-generated method stub
-		return modelDao.queryModelByRoleId(roleId);
-	}
 
 	@Override
 	public ModelEntity getEntityByModelCode(BaseEnum modelCode){
@@ -118,9 +90,8 @@ public class ModelBizImpl extends BaseBizImpl implements IModelBiz{
 	}
 
 	@Override
-	public List<BaseEntity> queryModelByIsMenu(ModelEnum modelEnum) {
-		// TODO Auto-generated method stub
-		return modelDao.queryModelByIsMenu(modelEnum.toInt());
+	public List<BaseEntity> queryModelByRoleId(int roleId) {
+		return modelDao.queryModelByRoleId(roleId);
 	}
 
 }

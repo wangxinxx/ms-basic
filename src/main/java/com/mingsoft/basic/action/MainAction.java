@@ -85,6 +85,7 @@ public class MainAction extends BaseAction {
 	public String index(HttpServletRequest request) {
 		ManagerSessionEntity managerSession = (ManagerSessionEntity) getManagerBySession(request);
 		List<BaseEntity> modelList = new ArrayList<BaseEntity>();
+		ModelEntity model = new ModelEntity();
 		modelList = modelBiz.queryModelByRoleId(managerSession.getManagerRoleID());
 		request.setAttribute("managerSession", managerSession);
 		request.setAttribute("modelList", JSONObject.toJSONString(modelList));
@@ -120,15 +121,19 @@ public class MainAction extends BaseAction {
 		Map modelMap = new HashMap();
 		List<BaseEntity> modelList = null;
 		ManagerSessionEntity managerSession = (ManagerSessionEntity) getManagerBySession(request);
+		ModelEntity model = new ModelEntity();
 		if (isSystemManager(request) && modelId == Const.DEFAULT_CMS_MODEL_ID) { // 若为系统管理员且操作CMS模块
-			modelList = modelBiz.queryModelByManagerId(Const.DEFAULT_SYSTEM_MANGER_ROLE_ID, modelId);
+			model.setModelManagerId(Const.DEFAULT_SYSTEM_MANGER_ROLE_ID);
+			model.setModelId(modelId);
+			modelList = modelBiz.query(model);
 		} else if (isSystemManager(request)) { // 若为系统管理员且非操作CMS模块
-			modelList = modelBiz.queryChildList(modelId);
+			model.setModelModelId(modelId);
+			modelList = modelBiz.query(model);
 		} else { // 其他管理员
 			modelList = modelBiz.queryModelByRoleId(managerSession.getManagerRoleID());
 			for (int i = 0; i < modelList.size(); i++) {
-				ModelEntity model = (ModelEntity) modelList.get(i);
-				if (model.getModelModelId() != modelId) {
+				ModelEntity _model = (ModelEntity) modelList.get(i);
+				if (_model.getModelModelId() != modelId) {
 					modelList.remove(i);
 					i--;
 				}

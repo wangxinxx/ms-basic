@@ -55,45 +55,12 @@ public interface IModelBiz extends IBaseBiz {
 	  * 通用订单状态
 	  */
 	String ORDER_STATUS_MODEL = "96";
-	
-	/**
-	 * 根据父模块id查找子模块
-	 * @return 返回子模块集合
-	 */
-	List<BaseEntity> queryChildList(int modelModelId);
-	
-	/**
-	 * 查找顶级模块
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryParent();
-	
-	/**
-	 * 根据管理员ID查询模块集合
-	 * @param managerId 管理员ID
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByManagerId(int managerId,int modelId);
-	
-	/**
-	 * 查找管理员Id不为-1的模块
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByManager();
-	
 	/**
 	 * 根据角色ID查询模块集合
 	 * @param roleId 角色ID
 	 * @return 返回模块集合
 	 */
 	List<BaseEntity> queryModelByRoleId(int roleId);
-	
-	/**
-	 * 根据模块枚举类查询模块集合
-	 * @param modelEnum 模块枚举类的值
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByIsMenu(ModelEnum modelEnum);
 	
 	/**
 	 * 根据模块编号查询模块实体

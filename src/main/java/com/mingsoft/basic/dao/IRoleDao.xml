@@ -11,34 +11,6 @@
 	</resultMap>
 	<!-- 将实体属性与表字段对接结束 -->
 	
-	<!-- 查询角色列表开始 -->
-	<select id="queryCount" resultType="int">
-		select count(*) from role;
-	</select>
-	<!-- 查询角色列表结束 -->	
-	
-	<!-- 根据角色ID查询角色实体开始 -->
-	<select id="queryRoleByManagerId" resultMap="resultMap" parameterType="int">
-		select * from role where ROLE_MANAGERID=#{roleManagerId} order by ROLE_ID DESC
-	</select>
-	<!-- 根据角色ID查询角色实体结束 -->
-	
-	<!-- 角色列表分页查询开始 -->
-	<select id="queryByPage" resultMap="resultMap">
-		select * from role where ROLE_MANAGERID = #{roleManagerId}
-		<if test="orderBy != null">
-			order by ${orderBy}
-		</if>
-		<if test="order == true">
-			asc
-		</if>
-		<if test="order == false">
-			desc
-		</if>
-		    limit ${pageNo*pageSize},#{pageSize}
-	</select>
-	<!-- 角色列表分页查询结束 -->
-	
 	<!-- 新增角色开始 -->
 	<insert id="saveEntity" parameterType="com.mingsoft.basic.entity.RoleEntity" useGeneratedKeys="true" keyProperty="roleId">
 		insert into role
@@ -60,16 +32,6 @@
 	</delete>
 	<!-- 删除角色结束 -->
 	
-	<!--根据id数组批量删除开始 -->
-	<delete id="deleteAll" parameterType="List">
-	DELETE  FROM `role`
-	<where>
-   		ROLE_ID in <foreach collection="ids" item="item" index="index" 
-		open="(" separator="," close=")">#{item}</foreach>
-	</where>
-	</delete>
-	<!--根据id数组批量删除结束 -->
-	
 	<!-- 根据角色ID查询角色开始 -->
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select 
@@ -77,12 +39,6 @@
 		  		from role where ROLE_ID=#{roleId};
 	</select>
 	<!-- 根据角色ID查询角色结束 -->
-	
-	<!-- 根据角色名称查询角色开始 -->
-	<select id="queryRoleByRoleName" resultMap="resultMap">
-		select * from role where ROLE_NAME = #{roleName} and ROLE_MANAGERID = #{roleManagerId}
-	</select>
-	<!-- 根据角色名称查询角色结束 -->
 	
 	<!-- 更新角色开始 -->
 	<update id="updateEntity" parameterType="com.mingsoft.basic.entity.RoleEntity">
@@ -94,18 +50,6 @@
 		where ROLE_ID = #{roleId}
 	</update>
 	<!-- 更新角色结束 -->
-	
-	<!-- 查询该角色名称在数据库中的存在数开始 -->
-	<select id="countRoleName" resultType="int">
-		select count(*) from role where ROLE_NAME = #{roleName} and ROLE_MANAGERID = #{roleManagerId}
-	</select>
-	<!-- 查询该角色名称在数据库中的存在数结束 -->
-	
-	<!-- 角色列表分页查询开始 -->
-	<select id="getCountByManagerId" resultType="int">
-		select count(*) from role where ROLE_MANAGERID = #{roleManagerId}
-	</select>
-	<!-- 角色列表分页查询结束 -->
 	
 	<!-- 查询所有的角色 -->
 	<select id="queryAll" resultMap="resultMap">

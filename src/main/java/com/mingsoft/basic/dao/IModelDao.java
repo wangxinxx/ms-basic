@@ -44,25 +44,7 @@ public interface IModelDao extends IBaseDao{
 	 */
 	List<BaseEntity> queryChildList(int modelModelId);
 	
-	/**
-	 *查找顶级模块
-	 * @return 返回模块实体集合
-	 */
-	List<BaseEntity> queryParent();
 	
-	/**
-	 * 根据管理员ID查询模块集合
-	 * @param modelManagerId 管理员ID
-	 * @param modelId 模块ID
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByManagerId(@Param ("modelManagerId") int modelManagerId,@Param ("modelId") int modelId);
-	
-	/**
-	 * 查找管理员Id不为-1的模块
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByManager();
 	
 	/**
 	 * 根据角色ID查询模块集合
@@ -70,13 +52,6 @@ public interface IModelDao extends IBaseDao{
 	 * @return 返回模块集合
 	 */
 	List<BaseEntity> queryModelByRoleId(int roleId);
-	
-	/**
-	 * 根据模块枚举类查询模块集合
-	 * @param modelEnum 模块枚举类的值
-	 * @return 返回模块集合
-	 */
-	List<BaseEntity> queryModelByIsMenu(@Param("modelEnum")int modelEnum);
 	
 	/**
 	 * 根据模块编号查询模块实体
