@@ -83,7 +83,9 @@ public class BaseAuthRealm extends AuthorizingRealm {
 	 */
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		String loginName = (String) principalCollection.fromRealm(getName()).iterator().next();
-		ManagerEntity manager = managerBiz.queryManagerByManagerName(loginName);
+		ManagerEntity newManager = new ManagerEntity();
+		newManager.setManagerName(loginName);
+		ManagerEntity manager = (ManagerEntity) managerBiz.getEntity(newManager);
 		if (null == manager) {
 			return null;
 		} else {
@@ -106,7 +108,9 @@ public class BaseAuthRealm extends AuthorizingRealm {
 	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-		ManagerEntity manager = managerBiz.queryManagerByManagerName(upToken.getUsername());
+		ManagerEntity newManager = new ManagerEntity();
+		newManager.setManagerName(upToken.getUsername());
+		ManagerEntity manager = (ManagerEntity) managerBiz.getEntity(newManager);
 		if (manager != null) {
 			return new SimpleAuthenticationInfo(manager.getManagerName(), manager.getManagerPassword(), getName());
 		}

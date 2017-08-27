@@ -157,6 +157,13 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 	@PostMapping("/save")
 	@ResponseBody
 	public void save(@ModelAttribute ManagerEntity manager, HttpServletResponse response, HttpServletRequest request) {
+		ManagerEntity newManager = new ManagerEntity();
+		newManager.setManagerName(manager.getManagerName());
+		//用户名是否存在
+		if(managerBiz.getEntity(newManager) == null){
+			this.outJson(response, null,false,getResString("err.exist", this.getResString("manager.name")));
+			return;
+		}
 		//验证管理员用户名的值是否合法			
 		if(StringUtil.isBlank(manager.getManagerName())){
 			this.outJson(response, null,false,getResString("err.empty", this.getResString("manager.name")));
@@ -184,6 +191,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.password"), "1", "45"));
 			return;			
 		}
+		manager.setManagerPassword(StringUtil.Md5(manager.getManagerPassword()));
 		manager.setManagerTime(new Date());
 		managerBiz.saveEntity(manager);
 		this.outJson(response, JSONObject.toJSONString(manager));

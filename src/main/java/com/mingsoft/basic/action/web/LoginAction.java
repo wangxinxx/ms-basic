@@ -159,7 +159,9 @@ public class LoginAction extends BaseAction {
 			return;
 		}
 		// 根据账号获取当前管理员信息
-		ManagerEntity _manager = managerBiz.queryManagerByManagerName(manager.getManagerName());
+		ManagerEntity newManager = new ManagerEntity();
+		newManager.setManagerName(manager.getManagerName());
+		ManagerEntity _manager = (ManagerEntity) managerBiz.getEntity(newManager);
 		if (_manager == null) {
 			// 系统不存在此用户
 			this.outJson(response, ModelCode.ADMIN_LOGIN, false, this.getResString("err.nameEmpty"));

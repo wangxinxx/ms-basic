@@ -102,12 +102,6 @@ public class ManagerBizImpl extends BaseBizImpl implements IManagerBiz {
        return managerDao;
     }
 
-    @Override
-    public ManagerEntity queryManagerByManagerName(String managerName) {
-    	// TODO Auto-generated method stub
-        return managerDao.queryManagerByManagerName(managerName);
-    }
-    
 	@Override
 	public void updateUserPasswordByUserName(ManagerEntity manager) {
 		// TODO Auto-generated method stub
@@ -115,29 +109,10 @@ public class ManagerBizImpl extends BaseBizImpl implements IManagerBiz {
 	}
 	
 	@Override
-	public int countManagerName(String managerName){
-		// TODO Auto-generated method stub
-		return managerDao.countManagerName(managerName);
-	}
-	
-	@Override
 	public List<BaseEntity> queryAllChildManager(int managerId){
 		// TODO Auto-generated method stub
 		return managerDao.queryAllChildManager(managerId);
 	}
-	
-	@Override
-	public void deleteManagerByRoleId(int managerRoleID){
-		// TODO Auto-generated method stub
-		managerDao.deleteManagerByRoleId(managerRoleID);
-	}
-	
-	@Override
-	public List<BaseEntity> queryByPage(int managerId, PageUtil page,String orderBy,boolean order){
-		// TODO Auto-generated method stub
-		return managerDao.queryByPage(managerId, page.getPageNo(),page.getPageSize(), orderBy, order);
-	}
-
 	
 	
 }

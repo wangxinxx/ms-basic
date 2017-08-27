@@ -45,39 +45,6 @@
 	</select>
 	<!-- 查询此时登录的管理员的子管理员列表开始  -->
 	
-	<!-- 查询管理员列表开始 -->
-	<select id="queryCount" resultType="int">
-		select count(*) from manager;
-	</select>
-	<!-- 查询管理员列表结束 -->
-	
-	<!-- 管理员列表分页查询开始 -->
-	<select id="queryByPage" resultMap="resultMapAll" parameterType="int">
-		select 
-			<include refid="all_column_list" />
-				 from manager m left join role r on m.MANAGER_ROLEID = r.ROLE_ID
-				 	where MANAGER_ROLEID in (select ROLE_ID from role where ROLE_MANAGERID = #{managerId} ) or m.MANAGER_ID = #{managerId}
-		<if test="orderBy != null">
-			order by ${orderBy}
-		</if>
-		<if test="order == true">
-			asc
-		</if>
-		<if test="order == false">
-			desc
-		</if>
-		    limit ${pageNo*pageSize},#{pageSize}
-	</select>
-	<!-- 管理员列表分页查询结束 -->
-	
-	<!-- 根据帐号查询管理员实体开始 -->
-	<select id="queryManagerByManagerName" resultMap="resultMap" parameterType="java.lang.String">
-		select
-			<include refid="column_list" />
-				from manager where MANAGER_NAME=#{managerName}
-	</select>
-	<!-- 根据帐号查询管理员实体结束 -->
-	
 	<!-- 增加管理员开始 -->
 	<insert id="saveEntity" parameterType="com.mingsoft.basic.entity.ManagerEntity"  useGeneratedKeys="true" keyProperty="managerId">
 		insert into manager
@@ -85,16 +52,16 @@
 			<if test="managerName != null and managerName != ''">MANAGER_NAME,</if>
 			<if test="managerNickName != null and managerNickName != ''">MANAGER_NICKNAME,</if>
 			<if test="managerPassword != null and managerPassword != ''">MANAGER_PASSWORD,</if>
-			<if test="managerRoleID != null">MANAGER_ROLEID,</if>
-			<if test="managerPeopleID != null">MANAGER_PEOPLEID,</if>
+			<if test="managerRoleID &gt; 0">MANAGER_ROLEID,</if>
+			<if test="managerPeopleID &gt; 0">MANAGER_PEOPLEID,</if>
 			<if test="managerTime != null">MANAGER_TIME,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="managerName != null and managerName != ''">#{managerName},</if>
 			<if test="managerNickName != null and managerNickName != ''">#{managerNickName},</if>
 			<if test="managerPassword != null and managerPassword != ''">#{managerPassword},</if>
-			<if test="managerRoleID != null">#{managerRoleID},</if>
-			<if test="managerPeopleID != null">#{managerPeopleID},</if>
+			<if test="managerRoleID &gt; 0">#{managerRoleID},</if>
+			<if test="managerPeopleID &gt; 0">#{managerPeopleID},</if>
 			<if test="managerTime != null">#{managerTime},</if>
 		</trim>
 	</insert>
@@ -115,12 +82,6 @@
 		</where>
 	</delete>
 	
-	<!-- 通过角色ID删除管理员开始 -->
-	<delete id="deleteManagerByRoleId" parameterType="int">
-		delete from manager where MANAGER_ROLEID = #{managerRoleID}
-	</delete>
-	<!-- 通过角色ID删除管理员结束 -->
-	
 	<!-- 查询管理员开始 -->
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select 
@@ -134,12 +95,12 @@
 		select * from manager 
 		<where>
 			<if test="managerName != null and managerName != ''"> and MANAGER_NAME=#{managerName} </if>				
-			<if test="managerNickname != null and managerNickname != ''"> and MANAGER_NICKNAME=#{managerNickname} </if>				
+			<if test="managerNickName != null and managerNickName != ''"> and MANAGER_NICKNAME=#{managerNickName} </if>				
 			<if test="managerPassword != null and managerPassword != ''"> and MANAGER_PASSWORD=#{managerPassword} </if>				
-			<if test="managerRoleID != null"> and MANAGER_ROLEID=#{managerRoleID} </if>				
-			<if test="managerPeopleID != null"> and MANAGER_PEOPLEID=#{managerPeopleID} </if>				
+			<if test="managerRoleID &gt; 0"> and MANAGER_ROLEID=#{managerRoleID} </if>				
+			<if test="managerPeopleID &gt; 0"> and MANAGER_PEOPLEID=#{managerPeopleID} </if>				
 			<if test="managerTime != null"> and MANAGER_TIME=#{managerTime} </if>				
-			<if test="managerSystemSkinId != null"> and MANAGER_SYSTEM_SKIN_ID=#{managerSystemSkinId} </if>				
+			<if test="managerSystemSkinId &gt; 0"> and MANAGER_SYSTEM_SKIN_ID=#{managerSystemSkinId} </if>				
 		</where>
 		limit 0,1
 	</select>
@@ -151,8 +112,8 @@
 			<if test="managerName != null">MANAGER_NAME=#{managerName},</if>
 			<if test="managerNickName != null">MANAGER_NICKNAME=#{managerNickName},</if>
 			<if test="managerPassword != null">MANAGER_PASSWORD=#{managerPassword},</if>
-			<if test="managerRoleID != null and managerRoleID gt 0">MANAGER_ROLEID=#{managerRoleID},</if>
-			<if test="managerPeopleID != null and managerPeopleID gt 0">MANAGER_PEOPLEID=#{managerPeopleID},</if>
+			<if test="managerRoleID != null and managerRoleID &gt; 0">MANAGER_ROLEID=#{managerRoleID},</if>
+			<if test="managerPeopleID != null and managerPeopleID &gt; 0">MANAGER_PEOPLEID=#{managerPeopleID},</if>
 		</set>
 		where MANAGER_ID = #{managerId}
 	</update>
@@ -167,12 +128,6 @@
 		where MANAGER_NAME = #{managerName}
 	</update>
 	<!-- 修改用户登录密码结束 -->
-	
-	<!-- 查询该管理员帐号在数据库中的存在数开始 -->
-	<select id="countManagerName" resultType="int" parameterType="java.lang.String">
-		select count(*) from manager where MANAGER_NAME=#{managerName};
-	</select>
-	<!-- 查询该管理员帐号在数据库中的存在数结束 -->
 	
 	<!--查询全部-->	
 	<select id="queryAll" resultMap="resultMap">

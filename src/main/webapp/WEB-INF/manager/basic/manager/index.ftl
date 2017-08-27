@@ -137,7 +137,9 @@
 			success:function(data){
 				if(data.managerId > 0){
 					<@ms.notify msg= "保存或更新成功" type= "success" />
-				}else {
+				}else if(data.resultMsg == "管理员用户名已存在!"){
+					<@ms.notify msg= "管理员用户名已存在!" type= "fail" />
+				}else{
 					<@ms.notify msg= "保存或更新失败" type= "fail" />
 				}
 				location.reload();
