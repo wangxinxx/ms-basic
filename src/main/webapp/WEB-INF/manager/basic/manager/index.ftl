@@ -78,7 +78,7 @@
 	 		$("#managerRoleID").select2({width: "210px"});
 		}});
 			$("#managerList").bootstrapTable({
-			url:"${managerPath}/basic/manager/list.do",
+			url:"${managerPath}/basic/manager/query.do",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
@@ -88,7 +88,11 @@
 				        	title: '账号',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		return "<a onclick='updateSearch("+row.managerId+")' style='cursor:pointer;text-decoration:none;' >" + value + "</a>";
+				        		if(row.managerId == 0){
+				        			return value;
+				        		}else{
+				        			return "<a onclick='updateSearch("+row.managerId+")' style='cursor:pointer;text-decoration:none;' >" + value + "</a>";
+				        		}
 				        	}
 				    	},							    	{
 				        	field: 'managerNickName',

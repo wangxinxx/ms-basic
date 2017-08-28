@@ -48,6 +48,7 @@
 				        	field: 'roleId',
 				        	title: '编号',
 				        	align: 'center',
+				        	width: '30',
 				    	},{
 				        	field: 'roleName',
 				        	title: '角色名',

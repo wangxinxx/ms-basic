@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mingsoft.basic.biz.IModelBiz;
 import com.mingsoft.basic.biz.IRoleBiz;
 import com.mingsoft.basic.biz.IRoleModelBiz;
 import com.mingsoft.basic.constant.ModelCode;
@@ -54,6 +55,11 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 */	
 	@Autowired
 	private IRoleBiz roleBiz;
+	/**
+	 * 模块业务层
+	 */
+	@Autowired
+	private IModelBiz modelBiz;
 	/**
 	 * 角色模块关联业务层
 	 */
@@ -94,6 +100,12 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(roleList,(int)BasicUtil.endPage(roleList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
 	}
 	
+	@RequestMapping("/{roleId}/queryByRole")
+	@ResponseBody
+	public void queryByRole(@PathVariable int roleId, HttpServletResponse response){
+		List models = modelBiz.queryModelByRoleId(roleId);
+		this.outJson(response, JSONObject.toJSONString(models));
+	}
 	/**
 	 * 返回编辑界面role_form
 	 */
@@ -147,7 +159,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@PostMapping("/saveOrUpdateRole")
 	@ResponseBody
-	public void saveOrUpdateRole(@ModelAttribute RoleEntity role,@RequestParam("ids[]") List<Integer> ids, HttpServletResponse response, HttpServletRequest request) {
+	public void saveOrUpdateRole(@ModelAttribute RoleEntity role,@RequestParam(value="ids[]",required=false) List<Integer> ids, HttpServletResponse response, HttpServletRequest request) {
 		//组织角色属性，并对角色进行保存
 		RoleEntity _role = new RoleEntity();
 		_role.setRoleName(role.getRoleName());
@@ -173,15 +185,20 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		}
 		//开始保存相应的关联数据。组织角色模块的列表。
 		List<RoleModelEntity> roleModelList = new ArrayList<>();
-		for(Integer id : ids){
-			RoleModelEntity roleModel = new RoleModelEntity();
-			roleModel.setRoleId(role.getRoleId());
-			roleModel.setModelId(id);
-			roleModelList.add(roleModel);
+		if(ids != null){
+			for(Integer id : ids){
+				RoleModelEntity roleModel = new RoleModelEntity();
+				roleModel.setRoleId(role.getRoleId());
+				roleModel.setModelId(id);
+				roleModelList.add(roleModel);
+			}
+			//先删除当前的角色关联菜单，然后重新添加。
+			roleModelBiz.deleteEntity(role.getRoleId());
+			roleModelBiz.saveEntity(roleModelList);
+		}else{
+			roleModelBiz.deleteEntity(role.getRoleId());
 		}
-		//先删除当前的角色关联菜单，然后重新添加。
-		roleModelBiz.deleteEntity(role.getRoleId());
-		roleModelBiz.saveEntity(roleModelList);
+		
 		this.outJson(response, JSONObject.toJSONString(role));
 	}
 	

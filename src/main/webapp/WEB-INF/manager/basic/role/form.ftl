@@ -39,9 +39,9 @@
 				        		var attribute = "";
 				        		for(var i=0;i<row.modelChildList.length;i++){
 				        			var modelId = row.modelChildList[i].modelId;
-				        			var str = "<input name='attribute' type='checkbox' value='"+modelId+"' data-id='"+row.modelId+"'/>"+row.modelChildList[i].modelTitle;
+				        			var str = "<input name='attribute' type='checkbox' value='"+modelId+"' data-ids='"+row.modelParentIds+"'/>"+row.modelChildList[i].modelTitle;
 				        			if(row.modelChildList[i].chick == 1){
-				        				str = "<input name='attribute' type='checkbox' checked='checked' value='"+modelId+"' data-id='"+row.modelId+"'/>"+row.modelChildList[i].modelTitle;
+				        				str = "<input name='attribute' type='checkbox' checked='checked' value='"+modelId+"' data-ids='"+row.modelChildList[i].modelParentIds+"'/>"+row.modelChildList[i].modelTitle;
 				        			}
 				        			if(attribute == ""){
 				        				attribute = str;
@@ -63,17 +63,16 @@
 		$("input[name=attribute]").each(function () {
 			if($(this).is(':checked')){
 				var modelId = $(this).val();
-			    var modelModelId = $(this).attr("data-id");
+			    var modelModelIds = $(this).attr("data-ids");
 			    ids.push(modelId);
-			    if($.inArray(modelModelId, ids) == -1){
-			    	ids.push(modelModelId);
+			    var parentIds = modelModelIds.split(",");
+			    for(var i=0;i<parentIds.length;i++){
+			    	if($.inArray(parentIds[i], ids) == -1){
+				    	ids.push(parentIds[i]);
+				    }
 			    }
 			}
 		});
-		if(ids.length == 0){
-			<@ms.notify msg= '最少选择一个栏目权限' type= "fail" />
-			return;
-		}
 		$.ajax({
 		 	type:"post",
 		 	url:"${managerPath}/basic/role/saveOrUpdateRole.do",

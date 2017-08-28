@@ -48,7 +48,7 @@ public interface IManagerBiz extends IBaseBiz {
 	 * 查询当前登录的管理员的所有子管理员
 	 * @return 返回管理员集合
 	 */
-	public List<BaseEntity> queryAllChildManager(int managerId);
+	public List<ManagerEntity> queryAllChildManager(int managerId);
 	
 	
 }

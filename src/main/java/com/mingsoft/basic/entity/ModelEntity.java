@@ -21,6 +21,7 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.entity;
 
+import com.mingsoft.base.constant.e.BaseEnum;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.constant.e.ModelEnum;
 
@@ -86,24 +87,27 @@ public class ModelEntity extends BaseEntity {
      */
     private List<ModelEntity> modelChildList;
     /**
+     * 是否是菜单
+     */
+    private int modelIsMenu;
+    /**
      * 选中状态，不参加表结构
      */
     private int chick;
-
+    /**
+     * 父级编号集合
+     * @return
+     */
+    private String modelParentIds;
+    
     public int getModelIsMenu() {
 		return modelIsMenu;
 	}
     
-    @Deprecated
 	public void setModelIsMenu(int modelIsMenu) {
 		this.modelIsMenu = modelIsMenu;
 	}
 	
-	public void setModelIsMenu(ModelEnum modelIsMenu) {
-		this.modelIsMenu = modelIsMenu.toInt();
-	}
-
-	private int modelIsMenu;
     
     /**
      * 获取modelCode
@@ -256,7 +260,29 @@ public class ModelEntity extends BaseEntity {
 	public void setChick(int chick) {
 		this.chick = chick;
 	}
-
 	
+	
+	public String getModelParentIds() {
+		return modelParentIds;
+	}
+
+	public void setModelParentIds(String modelParentIds) {
+		this.modelParentIds = modelParentIds;
+	}
+
+
+	public enum IsMenu implements BaseEnum{
+		NO(0),
+		YES(1);
+		private int id;
+		IsMenu(int id){
+			this.id = id;
+		}
+		@Override
+		public int toInt() {
+			// TODO Auto-generated method stub
+			return this.id;
+		}
+	}
 	
 }

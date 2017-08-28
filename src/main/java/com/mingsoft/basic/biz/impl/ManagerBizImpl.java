@@ -109,7 +109,7 @@ public class ManagerBizImpl extends BaseBizImpl implements IManagerBiz {
 	}
 	
 	@Override
-	public List<BaseEntity> queryAllChildManager(int managerId){
+	public List<ManagerEntity> queryAllChildManager(int managerId){
 		// TODO Auto-generated method stub
 		return managerDao.queryAllChildManager(managerId);
 	}

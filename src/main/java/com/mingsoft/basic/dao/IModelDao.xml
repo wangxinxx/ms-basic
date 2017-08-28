@@ -3,7 +3,7 @@
 <mapper namespace="com.mingsoft.basic.dao.IModelDao">
 	<!-- 表字段 -->
 	<sql id="column_list">
-		MODEL_ID,MODEL_TITLE,MODEL_CODE,MODEL_MODELID,MODEL_URL,MODEL_DATETIME,MODEL_ICON,MODEL_MODELMANAGERID,MODEL_ISMENU
+		MODEL_ID,MODEL_TITLE,MODEL_CODE,MODEL_MODELID,MODEL_URL,MODEL_DATETIME,MODEL_ICON,MODEL_MODELMANAGERID,MODEL_SORT,MODEL_ISMENU
 	</sql>
 	<resultMap id="resultMap" type="com.mingsoft.basic.entity.ModelEntity">
 		<id column="MODEL_ID" property="modelId" /><!--模块自增长id -->
@@ -16,6 +16,7 @@
 		<result column="MODEL_MODELMANAGERID" property="modelManagerId" /><!--模块关联的关联员id -->
 		<result column="MODEL_SORT" property="modelSort" /><!--模块的排序 -->
 		<result column="MODEL_ISMENU" property="modelIsMenu" /><!--模块是否是菜单 -->
+		<result column="MODEL_PARENT_IDS" property="modelParentIds" /><!--模块是否是菜单 -->
 	</resultMap>
 	
 	<!--保存-->	
@@ -32,6 +33,7 @@
 			<if test="modelManagerId != null">MODEL_MODELMANAGERID,</if>
 			<if test="modelSort != null">MODEL_SORT,</if>
 			<if test="modelIsMenu != null">MODEL_ISMENU,</if>
+			<if test="modelParentIds != null">MODEL_PARENT_IDS,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="modelTitle != null and modelTitle != ''">#{modelTitle},</if>
@@ -43,6 +45,7 @@
 			<if test="modelManagerId != null">#{modelManagerId},</if>
 			<if test="modelSort != null">#{modelSort},</if>
 			<if test="modelIsMenu != null">#{modelIsMenu},</if>
+			<if test="modelParentIds != null">#{modelParentIds},</if>
 		</trim>
 	</insert>
 	<!-- 新增结束 -->
@@ -103,8 +106,9 @@
 			<if test="modelDatetime != null">MODEL_DATETIME=#{modelDatetime},</if>
 			<if test="modelIcon != null">MODEL_ICON=#{modelIcon},</if>
 			<if test="modelManagerId != null">MODEL_MODELMANAGERID=#{modelManagerId},</if>
-			<if test="modelIsMenu != null">MODEL_ISMENU=#{modelIsMenu}</if>
-			<if test="modelSort != null">MODEL_SORT=#{modelSort}</if>
+			<if test="modelIsMenu != null">MODEL_ISMENU=#{modelIsMenu},</if>
+			<if test="modelSort != null">MODEL_SORT=#{modelSort},</if>
+			<if test="modelParentIds != null and modelParentIds != ''">MODEL_PARENT_IDS=#{modelParentIds} </if>
 		</set>
 		where model_id=#{modelId}
 	</update>
@@ -143,7 +147,8 @@
 				<if test="modelIcon != null and modelIcon != ''"> and MODEL_ICON=#{modelIcon} </if>				
 				<if test="modelManagerId &gt; 0"> and MODEL_MODELMANAGERID=#{modelManagerId} </if>				
 				<if test="modelSort &gt; 0"> and MODEL_SORT=#{modelSort} </if>				
-				<if test="modelIsMenu &gt; 0"> and MODEL_ISMENU=#{modelIsMenu} </if>				
+				<if test="modelIsMenu &gt; 0"> and MODEL_ISMENU=#{modelIsMenu} </if>
+				<if test="modelParentIds != null and modelParentIds != ''"> and MODEL_PARENT_IDS=#{modelParentIds} </if>	
 		</where>		
 		order by MODEL_ISMENU desc,MODEL_SORT,MODEL_ID
 	</select>

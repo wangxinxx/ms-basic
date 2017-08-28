@@ -93,7 +93,45 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 		List managerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(managerList,(int)BasicUtil.endPage(managerList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
 	}
-	
+	/**
+	 * 查询管理员列表,去掉当前管理员id，确保不能删除和修改自己
+	 * @param manager 管理员实体
+	 * <i>manager参数包含字段信息参考：</i><br/>
+	 * managerId 管理员ID(主键)<br/>
+	 * managerName 管理员用户名<br/>
+	 * managerNickname 管理员昵称<br/>
+	 * managerPassword 管理员密码<br/>
+	 * managerRoleid 角色编号<br/>
+	 * managerPeopleid 用户编号即商家编号<br/>
+	 * managerTime 管理员创建时间<br/>
+	 * managerSystemSkinId 管理员主界面样式<br/>
+	 * <dt><span class="strong">返回</span></dt><br/>
+	 * <dd>[<br/>
+	 * { <br/>
+	 * managerId: 管理员ID(主键)<br/>
+	 * managerName: 管理员用户名<br/>
+	 * managerNickname: 管理员昵称<br/>
+	 * managerPassword: 管理员密码<br/>
+	 * managerRoleid: 角色编号<br/>
+	 * managerPeopleid: 用户编号即商家编号<br/>
+	 * managerTime: 管理员创建时间<br/>
+	 * managerSystemSkinId: 管理员主界面样式<br/>
+	 * }<br/>
+	 * ]</dd><br/>	 
+	 */
+	@RequestMapping("/query")
+	@ResponseBody
+	public void query(@ModelAttribute ManagerEntity manager,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+		ManagerSessionEntity managerSession = getManagerBySession(request);
+		BasicUtil.startPage();
+		List<ManagerEntity> managerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
+		for(ManagerEntity _manager : managerList){
+			if(_manager.getManagerId() == managerSession.getManagerId()){
+				_manager.setManagerId(0);
+			}
+		}
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(managerList,(int)BasicUtil.endPage(managerList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
+	}
 	/**
 	 * 获取管理员
 	 * @param manager 管理员实体

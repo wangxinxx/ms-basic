@@ -179,7 +179,7 @@ public class LoginAction extends BaseAction {
 				if (website != null && urlWebsite != null && urlWebsite.getAppId() == website.getAppId()
 						&& _manager.getManagerRoleID() > Const.DEFAULT_SYSTEM_MANGER_ROLE_ID) {
 
-					List<BaseEntity> childManagerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
+					List childManagerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
 					managerSession.setBasicId(website.getAppId());
 					managerSession.setManagerParentID(role.getRoleManagerId());
 					managerSession.setManagerChildIDs(childManagerList);
