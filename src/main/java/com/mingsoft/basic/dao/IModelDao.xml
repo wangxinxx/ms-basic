@@ -3,7 +3,7 @@
 <mapper namespace="com.mingsoft.basic.dao.IModelDao">
 	<!-- 表字段 -->
 	<sql id="column_list">
-		MODEL_ID,MODEL_TITLE,MODEL_CODE,MODEL_MODELID,MODEL_URL,MODEL_DATETIME,MODEL_ICON,MODEL_MODELMANAGERID,MODEL_SORT,MODEL_ISMENU
+		MODEL_ID,MODEL_TITLE,MODEL_CODE,MODEL_MODELID,MODEL_URL,MODEL_DATETIME,MODEL_ICON,MODEL_MODELMANAGERID,MODEL_SORT,MODEL_ISMENU,MODEL_PARENT_IDS
 	</sql>
 	<resultMap id="resultMap" type="com.mingsoft.basic.entity.ModelEntity">
 		<id column="MODEL_ID" property="modelId" /><!--模块自增长id -->
