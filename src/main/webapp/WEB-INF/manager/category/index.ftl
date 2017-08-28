@@ -21,7 +21,7 @@
 			data-show-export="true"
 			data-method="post" 
 			data-pagination="true"
-			data-page-size="4"
+			data-page-size="10"
 			data-side-pagination="server">
 		</table>
 	</@ms.panel>
@@ -30,7 +30,7 @@
 		<@ms.modalBody>删除此数据
 			<@ms.modalButton>
 				<!--模态框按钮组-->
-				<@ms.button  value="确认删除？"  id="deleteCategoryBtn"  />
+				<@ms.button class="btn btn-danger rightDelete" id="deleteCategoryBtn" value="确定"/>
 			</@ms.modalButton>
 		</@ms.modalBody>
 	</@ms.modal>
