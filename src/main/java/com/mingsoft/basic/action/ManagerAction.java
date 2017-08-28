@@ -160,7 +160,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 		ManagerEntity newManager = new ManagerEntity();
 		newManager.setManagerName(manager.getManagerName());
 		//用户名是否存在
-		if(managerBiz.getEntity(newManager) == null){
+		if(managerBiz.getEntity(newManager) != null){
 			this.outJson(response, null,false,getResString("err.exist", this.getResString("manager.name")));
 			return;
 		}
@@ -274,7 +274,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("manager.password"), "1", "45"));
 			return;			
 		}
-		
+		manager.setManagerPassword(StringUtil.Md5(manager.getManagerPassword()));
 		managerBiz.updateEntity(manager);
 		this.outJson(response, JSONObject.toJSONString(manager));
 	}
