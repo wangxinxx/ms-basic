@@ -39,9 +39,9 @@
 				        		var attribute = "";
 				        		for(var i=0;i<row.modelChildList.length;i++){
 				        			var modelId = row.modelChildList[i].modelId;
-				        			var str = "<label style=' margin-top: 3px;  margin-right: 20px;' class='ms-check'><input type='checkbox'	data-ids='"+row.modelParentIds+"' value='"+modelId+"' name='attribute'/> "+row.modelChildList[i].modelTitle+"</label>"
+				        			var str = "<label style=' margin-top: 3px;  margin-right: 20px;' class='ms-check'><input type='checkbox'	data-ids='"+row.modelChildList[i].modelParentIds+"' value='"+modelId+"' name='attribute'/> "+row.modelChildList[i].modelTitle+"</label>"
 				        			if(row.modelChildList[i].chick == 1){
-				        				str = "<label style=' margin-top: 3px;  margin-right: 20px;' class='ms-check'><input type='checkbox' checked='checked' data-ids='"+row.modelParentIds+"' value='"+modelId+"' name='attribute'/> "+　row.modelChildList[i].modelTitle+"</label>";
+				        				str = "<label style=' margin-top: 3px;  margin-right: 20px;' class='ms-check'><input type='checkbox' checked='checked' data-ids='"+row.modelChildList[i].modelParentIds+"' value='"+modelId+"' name='attribute'/> "+　row.modelChildList[i].modelTitle+"</label>";
 				        			}
 				        			if(attribute == ""){
 				        				attribute = str;
