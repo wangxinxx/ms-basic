@@ -34,20 +34,20 @@
 		</table>
 	</@ms.panel>
 	
-	<@ms.modal  modalName="delManager" title="授权数据删除" >
-		<@ms.modalBody>删除此授权
+	<@ms.modal  modalName="delManager" title="管理员删除" >
+		<@ms.modalBody>删除此管理员
 			<@ms.modalButton>
 				<!--模态框按钮组-->
-				<@ms.button  value="确认删除？"  id="deleteManagerBtn"  />
+				<@ms.button  value="删除" class="btn btn-danger rightDelete" id="deleteManagerBtn"  />
 			</@ms.modalButton>
 		</@ms.modalBody>
 	</@ms.modal>
 	
-	<@ms.modal id="addManager" title="管理员编辑"  resetFrom=true size="M">
+	<@ms.modal id="addManager" title="管理员编辑"  resetFrom=true>
     <@ms.modalBody>
 		<@ms.form name="managerForm" isvalidation=true action="${managerPath}/basic/manager/save.do" redirect="${managerPath}/basic/manager/index.do">
 			<@ms.hidden name="managerId" value="0"/>
-			<@ms.text label="管理员用户名" name="managerName" value=""  width="240px;" placeholder="请输入管理员用户名" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员用户名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+			<@ms.text label="管理员名" name="managerName" value=""  width="240px;" placeholder="请输入管理员名" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员用户名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
 			<@ms.text label="管理员昵称" name="managerNickName" value=""  width="240px;" placeholder="请输入管理员昵称" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员昵称长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
 			<@ms.text label="管理员密码" name="managerPassword" value=""  width="240px;" placeholder="请输入管理员密码" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"管理员密码长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
 			<@ms.select id="managerRoleID"  name="managerRoleID" label="角色编号"/>	
