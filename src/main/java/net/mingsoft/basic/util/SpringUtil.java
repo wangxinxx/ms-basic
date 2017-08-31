@@ -59,8 +59,7 @@ public class SpringUtil {
 	 *            要读取的类名称
 	 * @return 返回获取到的对象。获取不到返回null
 	 */
-	public static Object getBean(Class cls) {
+	public static <T>T getBean(Class<T> cls) {
 		return WebApplicationContextUtils.getWebApplicationContext(SpringUtil.getRequest().getServletContext()).getBean(cls);
 	}
-
 }
