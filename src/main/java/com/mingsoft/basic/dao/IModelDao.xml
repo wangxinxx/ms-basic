@@ -33,7 +33,7 @@
 			<if test="modelManagerId != null">MODEL_MODELMANAGERID,</if>
 			<if test="modelSort != null">MODEL_SORT,</if>
 			<if test="modelIsMenu != null">MODEL_ISMENU,</if>
-			<if test="modelParentIds != null">MODEL_PARENT_IDS,</if>
+			<if test="modelParentIds != null and modelParentIds != ''">MODEL_PARENT_IDS,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="modelTitle != null and modelTitle != ''">#{modelTitle},</if>
@@ -45,7 +45,7 @@
 			<if test="modelManagerId != null">#{modelManagerId},</if>
 			<if test="modelSort != null">#{modelSort},</if>
 			<if test="modelIsMenu != null">#{modelIsMenu},</if>
-			<if test="modelParentIds != null">#{modelParentIds},</if>
+			<if test="modelParentIds != null and modelParentIds != ''">#{modelParentIds},</if>
 		</trim>
 	</insert>
 	<!-- 新增结束 -->

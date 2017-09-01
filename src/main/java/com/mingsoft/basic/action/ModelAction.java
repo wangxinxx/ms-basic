@@ -205,9 +205,11 @@ public class ModelAction extends BaseAction {
 		ModelEntity parent = (ModelEntity) modelBiz.getEntity(model.getModelModelId());
 		String parentIds="";
 		if(parent != null){
-			parentIds = parent.getModelParentIds()+","+model.getModelModelId();
-		}else if(model.getModelModelId() > 0){
-			parentIds = model.getModelModelId()+"";
+			if(parent.getModelParentIds() != null){
+				parentIds = parent.getModelParentIds()+","+model.getModelModelId();
+			}else{
+				parentIds = model.getModelModelId()+"";
+			}
 		}
 		model.setModelParentIds(parentIds);
 		modelBiz.saveEntity(model);
@@ -279,9 +281,11 @@ public class ModelAction extends BaseAction {
 		ModelEntity parent = (ModelEntity) modelBiz.getEntity(model.getModelModelId());
 		String parentIds="";
 		if(parent != null){
-			parentIds = parent.getModelParentIds()+","+model.getModelModelId();
-		}else if(model.getModelModelId() > 0){
-			parentIds = model.getModelModelId()+"";
+			if(parent.getModelParentIds() != null){
+				parentIds = parent.getModelParentIds()+","+model.getModelModelId();
+			}else{
+				parentIds = model.getModelModelId()+"";
+			}
 		}
 		model.setModelParentIds(parentIds);
 		modelBiz.updateEntity(model);		
