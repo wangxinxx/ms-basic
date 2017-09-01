@@ -14,18 +14,51 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.druid.util.StringUtils;
 import com.google.common.collect.Sets;
 
 import net.mingsoft.basic.util.SpringUtil;
 
-
+/**
+ * session会话持久化
+ * @author Administrator
+ *
+ */
 public class CacheSessionDAO extends EnterpriseCacheSessionDAO implements SessionDAO {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
     public CacheSessionDAO() {
         super();
+    }
+
+    @Override
+    protected Serializable doCreate(Session session) {
+		HttpServletRequest request = SpringUtil.getRequest();
+		if (request != null){
+			String uri = request.getServletPath();
+//			// 如果是静态文件，则不创建SESSION
+//			if (SpringUtil.isStaticFile(uri)){
+//		        return null;
+//			}
+		}
+		super.doCreate(session);
+		logger.debug("doCreate {} {}", session, request != null ? request.getRequestURI() : "");
+    	return session.getId();
+    }
+
+    @Override
+    protected void doDelete(Session session) {
+    	if (session == null || session.getId() == null) {  
+            return;
+        }
+    	
+    	super.doDelete(session);
+    	logger.debug("delete {} ", session.getId());
+    }
+
+    @Override
+    protected Session doReadSession(Serializable sessionId) {
+		return super.doReadSession(sessionId);
     }
 
     @Override
@@ -54,80 +87,50 @@ public class CacheSessionDAO extends EnterpriseCacheSessionDAO implements Sessio
 		}
     	super.doUpdate(session);
     }
-
-    @Override
-    protected void doDelete(Session session) {
-    	if (session == null || session.getId() == null) {  
-            return;
-        }
-    	
-    	super.doDelete(session);
-    	logger.debug("delete {} ", session.getId());
-    }
-
-    @Override
-    protected Serializable doCreate(Session session) {
-		HttpServletRequest request = SpringUtil.getRequest();
-		if (request != null){
-			String uri = request.getServletPath();
-//			// 如果是静态文件，则不创建SESSION
-//			if (SpringUtil.isStaticFile(uri)){
-//		        return null;
-//			}
-		}
-		super.doCreate(session);
-		logger.debug("doCreate {} {}", session, request != null ? request.getRequestURI() : "");
-    	return session.getId();
-    }
-
-    @Override
-    protected Session doReadSession(Serializable sessionId) {
-		return super.doReadSession(sessionId);
-    }
     
     @Override
-    public Session readSession(Serializable sessionId) throws UnknownSessionException {
-    	try{
-    		Session s = null;
-    		HttpServletRequest request = SpringUtil.getRequest();
-    		if (request != null){
-    			String uri = request.getServletPath();
-    			// 如果是静态文件，则不获取SESSION
-//    			if (SpringUtil.isStaticFile(uri)){
-//    				return null;
-//    			}
-    			s = (Session)request.getAttribute("session_"+sessionId);
-    		}
-    		if (s != null){
-    			return s;
-    		}
+	    public Session readSession(Serializable sessionId) throws UnknownSessionException {
+	    	try{
+	    		Session s = null;
+	    		HttpServletRequest request = SpringUtil.getRequest();
+	    		if (request != null){
+	    			String uri = request.getServletPath();
+	    			// 如果是静态文件，则不获取SESSION
+	//    			if (SpringUtil.isStaticFile(uri)){
+	//    				return null;
+	//    			}
+	    			s = (Session)request.getAttribute("session_"+sessionId);
+	    		}
+	    		if (s != null){
+	    			return s;
+	    		}
+	
+	    		Session session = super.readSession(sessionId);
+	    		//logger.debug("readSession {} {}", sessionId, request != null ? request.getRequestURI() : "");
+	    		
+	    		if (request != null && session != null){
+	    			request.setAttribute("session_"+sessionId, session);
+	    		}
+	    		
+	    		return session;
+	    	}catch (UnknownSessionException e) {
+				return null;
+			}
+	    }
 
-    		Session session = super.readSession(sessionId);
-    		//logger.debug("readSession {} {}", sessionId, request != null ? request.getRequestURI() : "");
-    		
-    		if (request != null && session != null){
-    			request.setAttribute("session_"+sessionId, session);
-    		}
-    		
-    		return session;
-    	}catch (UnknownSessionException e) {
-			return null;
-		}
-    }
-
-    /**
+	/**
 	 * 获取活动会话
-	 * @param includeLeave 是否包括离线（最后访问时间大于3分钟为离线会话）
+	 * @param includeLeave 是否包括离线
 	 * @return
 	 */
 	@Override
 	public Collection<Session> getActiveSessions(boolean includeLeave) {
 		return getActiveSessions(includeLeave, null, null);
 	}
-    
+
     /**
 	 * 获取活动会话
-	 * @param includeLeave 是否包括离线（最后访问时间大于3分钟为离线会话）
+	 * @param includeLeave 是否包括离线
 	 * @param principal 根据登录者对象获取活动会话
 	 * @param filterSession 不为空，则过滤掉（不包含）这个会话。
 	 * @return
