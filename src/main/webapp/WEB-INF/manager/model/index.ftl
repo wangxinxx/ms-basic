@@ -58,7 +58,7 @@
 	var postMessage;
 	$(function(){
 		$("#modelList").bootstrapTable({
-			url:"${managerPath}/mwebsite/model/list.do",
+			url:"${managerPath}/model/list.do",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
@@ -121,7 +121,7 @@
 	$("#addModelBtn").click(function(){
 		postMessage="保存成功！";
 		$("#addEditBtn").text("保存");
-		$("#addEditForm").attr("action","${managerPath}/mwebsite/model/save.do");
+		$("#addEditForm").attr("action","${managerPath}/model/save.do");
 		$("#addEditForm")[0].reset(); 
 		$(".addEditModel").modal();
 		$("input[name='modelSort']").val(0);
@@ -129,7 +129,7 @@
 	});
 	//编辑模块
 	function editModal(id){
-	var editUrl="${managerPath}/mwebsite/model/get.do?modelId="+id;
+	var editUrl="${managerPath}/model/get.do?modelId="+id;
 	$(this).request({url:editUrl,type:"json",method:"post",func:function(data){
 		var model = data.model;
 		// 给表单赋值
@@ -159,7 +159,7 @@
 			$("#addEditBtn").text("更新");
 			$("#hideModelId").attr("disabled",false);
 			$("#hideModelId").val(model.modelId);
-			$("#addEditForm").attr("action","${managerPath}/mwebsite/model/update.do");
+			$("#addEditForm").attr("action","${managerPath}/model/update.do");
 		}		
 	}});
 }
@@ -202,7 +202,7 @@
 		}
 		$.ajax({
 			type: "post",
-			url: "${managerPath}/mwebsite/model/delete.do?ids="+ids,
+			url: "${managerPath}/model/delete.do?ids="+ids,
 			dataType: "json",
 			contentType: "application/json",
 			success:function(msg) {
