@@ -204,9 +204,9 @@ public class ModelAction extends BaseAction {
 		//添加父级id集合
 		ModelEntity parent = (ModelEntity) modelBiz.getEntity(model.getModelModelId());
 		String parentIds="";
-		if(parent.getModelParentIds() != null){
+		if(parent != null){
 			parentIds = parent.getModelParentIds()+","+model.getModelModelId();
-		}else{
+		}else if(model.getModelModelId() > 0){
 			parentIds = model.getModelModelId()+"";
 		}
 		model.setModelParentIds(parentIds);
@@ -278,9 +278,9 @@ public class ModelAction extends BaseAction {
 		//添加父级id集合
 		ModelEntity parent = (ModelEntity) modelBiz.getEntity(model.getModelModelId());
 		String parentIds="";
-		if(parent.getModelParentIds() != null){
+		if(parent != null){
 			parentIds = parent.getModelParentIds()+","+model.getModelModelId();
-		}else{
+		}else if(model.getModelModelId() > 0){
 			parentIds = model.getModelModelId()+"";
 		}
 		model.setModelParentIds(parentIds);
