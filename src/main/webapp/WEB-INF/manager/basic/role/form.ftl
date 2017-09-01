@@ -21,7 +21,7 @@
 	$(function(){
 		//数据初始化
 		$("#modelList").bootstrapTable({
-			url:"${managerPath}/model/list.do?roleId=${roleEntity.roleId?default('')}",
+			url:"${managerPath}/model/modelList.do?roleId=${roleEntity.roleId?default('')}",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			idField: 'modelId',
