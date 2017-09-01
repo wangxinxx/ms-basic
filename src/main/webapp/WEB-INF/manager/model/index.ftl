@@ -29,8 +29,8 @@
 				<@ms.formRow label="父级菜单">
 					<@ms.treeInput treeId="modelInputTree" json="${parentModelList?default('')}" jsonId="modelId" jsonPid="modelModelId" jsonName="modelTitle"  addNodesName="顶级模块" buttonText="顶级模块" inputName="modelModelId" inputValue="0"  expandAll="true" showIcon="true"/>
 				</@ms.formRow>
-				<@ms.text name="modelTitle" label="标题" title="模块标题" placeholder="请输入模块标题" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块标题!"} />
-				<@ms.text name="modelCode"  label="编码" title="模块编码" placeholder="请输入模块编码" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块编码!"} />
+				<@ms.text name="modelTitle" label="标题" title="模块标题" placeholder="请输入模块标题" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块标题!","data-bv-stringlength":"true","minlength":"1","maxlength":"10","data-bv-stringlength-message":"模块标题为1-10个字符!"} />
+				<@ms.text name="modelCode"  label="编码" title="模块编码" placeholder="请输入模块编码" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块编码!","data-bv-stringlength":"true","minlength":"8","maxlength":"8","data-bv-stringlength-message":"模块编码为8位数字!","data-bv-regexp":"true","data-bv-regexp-regexp":'^[0-9]+$',"data-bv-regexp-message":"模块编码只能为数字!"} />
 				<@ms.text name="modelIcon"  label="图标" title="模块图标"  placeholder="请输入模块图标" value=""/>
 				<@ms.text name="modelUrl"  label="链接地址" title="模块链接地址"  placeholder="请输入模块链接地址" value=""/>
 				<#assign isMenu=[{"id":"0","name":"否"},{"id":"1","name":"是"}]>
@@ -119,6 +119,12 @@
 	})
 	//新增模块
 	$("#addModelBtn").click(function(){
+		$("#addEditForm").data("bootstrapValidator").validate();
+			var isValid = $("#addEditForm").data("bootstrapValidator").isValid();
+			if(!isValid) {
+				<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
+				return;
+		}
 		postMessage="保存成功！";
 		$("#addEditBtn").text("保存");
 		$("#addEditForm").attr("action","${managerPath}/model/save.do");
@@ -129,6 +135,12 @@
 	});
 	//编辑模块
 	function editModal(id){
+	$("#addEditForm").data("bootstrapValidator").validate();
+		var isValid = $("#addEditForm").data("bootstrapValidator").isValid();
+		if(!isValid) {
+			<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
+			return;
+	}
 	var editUrl="${managerPath}/model/get.do?modelId="+id;
 	$(this).request({url:editUrl,type:"json",method:"post",func:function(data){
 		var model = data.model;

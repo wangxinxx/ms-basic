@@ -184,18 +184,28 @@ public class ModelAction extends BaseAction {
 	@PostMapping("/save")
 	@ResponseBody
 	public void save(@ModelAttribute ModelEntity model, HttpServletResponse response, HttpServletRequest request) {
+		//模块标题验证
+		if(StringUtil.isBlank(model.getModelTitle())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.title")));
+			return;			
+		}
+		if(!StringUtil.checkLength(model.getModelTitle()+"", 1, 10)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("model.title"), "1", "10"));
+			return;			
+		}
+		//模块编码验证
+		if(StringUtil.isBlank(model.getModelCode())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.code")));
+			return;			
+		}
+		if(!StringUtil.checkLength(model.getModelCode()+"", 7, 9)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("model.code"), "7", "9"));
+			return;			
+		}
 		//获取管理员id并赋值给模块的id
 		model.setModelId(getManagerId(request));
 		// 获取模块保存时间
 		model.setModelDatetime(new Timestamp(System.currentTimeMillis()));
-		if (!StringUtil.checkLength(model.getModelTitle(), 1, 20) ) {
-			this.outJson(response,getResString("err.length",this.getResString("modelTitle"),"2","20"));
-			return;
-		}
-		if(!StringUtil.checkLength(model.getModelCode(), 1, 20)){
-			this.outJson(response,getResString("err.length",this.getResString("modelCode"),"2","20"));
-			return;
-		}
 		//判断图标是否为空，不为空去掉,图标地址中含有的“|”
 		//空值判断
 		if(!StringUtil.isBlank(model.getModelIcon())) {
@@ -268,10 +278,24 @@ public class ModelAction extends BaseAction {
 	@ResponseBody	 
 	public void update(@ModelAttribute ModelEntity model, HttpServletResponse response,
 			HttpServletRequest request) {
-		if (!StringUtil.checkLength(model.getModelTitle(), 2, 20)
-				|| !StringUtil.checkLength(model.getModelCode(), 2, 20)) {
-			return;
-		} 
+		//模块标题验证
+		if(StringUtil.isBlank(model.getModelTitle())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.title")));
+			return;			
+		}
+		if(!StringUtil.checkLength(model.getModelTitle()+"", 1, 10)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("model.title"), "1", "10"));
+			return;			
+		}
+		//模块编码验证
+		if(StringUtil.isBlank(model.getModelCode())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.code")));
+			return;			
+		}
+		if(!StringUtil.checkLength(model.getModelCode()+"", 7, 9)){
+			this.outJson(response, null, false, getResString("err.length", this.getResString("model.code"), "7", "9"));
+			return;			
+		}
 		//判断图标是否为空，不为空去掉,图标地址中含有的“|”
 		//空值判断
 		if(!StringUtil.isBlank(model.getModelIcon())) {
