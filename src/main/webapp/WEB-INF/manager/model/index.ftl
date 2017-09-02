@@ -155,11 +155,7 @@
 			}else{
 				$("#treeLabelmodelInputTree").text(data.parentModel.modelTitle);
 			}
-			if(model.modelIsMenu == 0){
-				$("select[name=modelIsMenu]").append("<option value = 0 selected='selected'>否</option>");	
-			}else{
-				$("select[name=modelIsMenu]").append("<option value = 1 selected='selected'>是</option>");	
-			}
+			$("#modelMenuSelect").get(0).selectedIndex = model.modelIsMenu;
 			$("input[name='modelTitle']").val(model.modelTitle);
 			$("input[name='modelSort']").val(model.modelSort);
 			$("input[name='modelCode']").val(model.modelCode);
