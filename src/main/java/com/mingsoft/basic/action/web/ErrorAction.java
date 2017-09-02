@@ -70,9 +70,9 @@ public class ErrorAction extends  BaseAction{
 		String tmpFilePath = this.getTemplatePath(req) + File.separator + code+".htm";
 		String content = 	FileUtil.readFile(tmpFilePath);
 		if (StringUtil.isBlank(content)) {
-			 content = FileUtil.readFile(this.getRealPath(req,"/errors/"+code+".htm"));
+			 content = FileUtil.readFile(this.getRealPath(req,"/error/"+code+".htm"));
 			 if (StringUtil.isBlank(content)) {
-				 content = FileUtil.readFile(this.getRealPath(req,"/errors/error.htm"));
+				 content = FileUtil.readFile(this.getRealPath(req,"/error/error.htm"));
 			 }
 			 content = content.replace("{code/}", code);
 		} else {

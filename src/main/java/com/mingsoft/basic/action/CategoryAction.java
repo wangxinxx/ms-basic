@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,7 +32,10 @@ import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
 import com.mingsoft.base.entity.BaseEntity;
 import net.mingsoft.basic.util.BasicUtil;
+import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.basic.bean.ListBean;
+import net.mingsoft.basic.security.session.CacheSessionDAO;
+
 import com.mingsoft.base.filter.DateValueFilter;
 import com.mingsoft.base.filter.DoubleValueFilter;
 import net.mingsoft.basic.bean.EUListBean;
@@ -58,6 +62,7 @@ public class CategoryAction extends com.mingsoft.basic.action.BaseAction{
 	 * 返回主界面index
 	 */
 	@RequestMapping("/index")
+	@RequiresPermissions("category:view")
 	public String index(HttpServletResponse response,HttpServletRequest request,ModelMap model){
 		String modelTitle = BasicUtil.getString("modelTitle");
 		int modelId =BasicUtil.getInt("modelId");
@@ -229,6 +234,7 @@ public class CategoryAction extends com.mingsoft.basic.action.BaseAction{
 	 * }</dd><br/>
 	 */
 	@PostMapping("/save")
+	@RequiresPermissions("category:save")
 	@ResponseBody
 	public void save(@ModelAttribute CategoryEntity category, HttpServletResponse response, HttpServletRequest request) {
 		//验证类别标题的值是否合法			
@@ -264,6 +270,7 @@ public class CategoryAction extends com.mingsoft.basic.action.BaseAction{
 	 *            }</dd>
 	 */
 	@RequestMapping("/delete")
+	@RequiresPermissions("category:delete")
 	@ResponseBody
 	public void delete(@RequestBody List<CategoryEntity> categorys,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[categorys.size()];
@@ -303,6 +310,7 @@ public class CategoryAction extends com.mingsoft.basic.action.BaseAction{
 	 * }</dd><br/>
 	 */
 	@PostMapping("/update")
+	@RequiresPermissions("category:update")
 	@ResponseBody	 
 	public void update(@ModelAttribute CategoryEntity category, HttpServletResponse response,
 			HttpServletRequest request) {
