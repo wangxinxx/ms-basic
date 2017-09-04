@@ -13,6 +13,9 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.mingsoft.base.entity.ResultJson;
+import com.mingsoft.basic.constant.Const;
 import com.mingsoft.basic.constant.e.SessionConstEnum;
 
 import net.mingsoft.basic.util.BasicUtil;
@@ -33,15 +36,16 @@ public class SimpleMappingExceptionResolver implements HandlerExceptionResolver 
 						&& request.getHeader("X-Requested-With").indexOf("XMLHttpRequest") > -1))) {
 			// 如果不是ajax，JSP格式返回
 			// 为安全起见，只有业务异常我们对前端可见，否则否则统一归为系统异常
+			
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("success", false);
+			map.put("result", false);
 			if (exception instanceof BusinessException) {
-				map.put("errorMsg", exception.getMessage());
+				map.put("resultMsg", exception.getMessage());
 			} else if (exception instanceof UnauthorizedException) {
-				map.put("errorMsg", exception.getMessage());
+				map.put("resultMsg",Const.RESOURCES.getString("err.not.permissions"));
 				return new ModelAndView("redirect:/error/403.do", map);
 			} else {
-				map.put("errorMsg", "系统异常！");
+				map.put("resultMsg", exception.getMessage());
 			}
 			BasicUtil.setSession(SessionConstEnum.EXCEPTOIN, exception);
 			return new ModelAndView("redirect:/error/500.do", map);
@@ -50,15 +54,17 @@ public class SimpleMappingExceptionResolver implements HandlerExceptionResolver 
 			try {
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("success", false);
+				ResultJson result = new ResultJson();
+				result.setResult(false);
 				// 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
 				if (exception instanceof BusinessException) {
-					map.put("errorMsg", exception.getMessage());
+					result.setResultMsg(exception.getMessage());
+				} else if (exception instanceof UnauthorizedException) {
+					result.setResultMsg(Const.RESOURCES.getString("err.not.permissions"));
 				} else {
-					map.put("errorMsg", "系统异常！");
+					result.setResultMsg("error");
 				}
-				writer.write(JSONUtils.toJSONString(map));
+				writer.write(JSONObject.toJSONString(result));
 				writer.flush();
 				writer.close();
 			} catch (IOException e) {

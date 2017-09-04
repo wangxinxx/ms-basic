@@ -49,7 +49,7 @@
   <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.validate.js"></script>
   <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.web.js"></script>
   <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.page.js"></script> 
-  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.manager.min.js"></script>
+  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.manager.js"></script>
   
   <!--easyUI-->
   <link rel="stylesheet" type="text/css" href="${static}/plugins/jquery.easyui/${easyui}/themes/default/easyui.css">

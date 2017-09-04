@@ -1,10 +1,5 @@
 <@ms.html5>
 	<@ms.nav title="模块表管理"></@ms.nav>
-	<@ms.searchForm name="searchForm" isvalidation=true>
-		<@ms.nodata style="text-align:left;" content="模块编码:8位整型组成，00-00-00-00-00,表示：项目-模块-子功能-CURDO(查:1 添:2 删:3 改:4 等其他)
-			<br/>
-			特别说明： 通用模块编号：分类(99) 文章(98) 订单(97) "/>
-	</@ms.searchForm>
 	<@ms.panel>
 		<div id="toolbar">
 			<@ms.panelNav>

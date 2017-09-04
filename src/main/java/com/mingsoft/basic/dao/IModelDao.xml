@@ -26,7 +26,7 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="modelTitle != null and modelTitle != ''">MODEL_TITLE,</if>
 			<if test="modelCode != null and modelCode != ''">MODEL_CODE,</if>
-			<if test="modelModelId != null">MODEL_MODELID,</if>
+			<if test="modelModelId &gt; 0">MODEL_MODELID,</if>
 			<if test="modelUrl != null and modelUrl != ''">MODEL_URL,</if>
 			<if test="modelDatetime != null">MODEL_DATETIME,</if>
 			<if test="modelIcon != null and modelIcon != ''">MODEL_ICON,</if>
@@ -38,7 +38,7 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="modelTitle != null and modelTitle != ''">#{modelTitle},</if>
 			<if test="modelCode != null and modelCode != ''">#{modelCode},</if>
-			<if test="modelModelId != null">#{modelModelId},</if>
+			<if test="modelModelId &gt; 0">#{modelModelId},</if>
 			<if test="modelUrl != null and modelUrl != ''">#{modelUrl},</if>
 			<if test="modelDatetime != null">#{modelDatetime},</if>
 			<if test="modelIcon != null and modelIcon != ''">#{modelIcon},</if>
@@ -101,7 +101,7 @@
 		<set>
 			<if test="modelTitle != null">MODEL_TITLE=#{modelTitle},</if>
 			<if test="modelCode != null">MODEL_CODE=#{modelCode},</if>
-			<if test="modelModelId != null">MODEL_MODELID=#{modelModelId},</if>
+			<if test="modelModelId  &gt; 0">MODEL_MODELID=#{modelModelId},</if>
 			<if test="modelUrl != null">MODEL_URL=#{modelUrl},</if>
 			<if test="modelDatetime != null">MODEL_DATETIME=#{modelDatetime},</if>
 			<if test="modelIcon != null">MODEL_ICON=#{modelIcon},</if>
