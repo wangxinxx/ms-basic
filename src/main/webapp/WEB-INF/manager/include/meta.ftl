@@ -78,7 +78,7 @@
     var basePath = "${basePath}";
     var base = "${base}";
     var managerPath = "${managerPath}";
-    var static = "http://localhost:8080/ms-mcms/static";
+    var static = "${static}";
     $(function() {
     			//启用工具提示
 		   //	$("[data-toggle='tooltip']").tooltip();
