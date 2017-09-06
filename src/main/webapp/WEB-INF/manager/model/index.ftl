@@ -1,5 +1,5 @@
 <@ms.html5>
-	<@ms.nav title="模块表管理"></@ms.nav>
+	<@ms.nav title="菜单管理"></@ms.nav>
 	<@ms.panel>
 		<div id="toolbar">
 			<@ms.panelNav>

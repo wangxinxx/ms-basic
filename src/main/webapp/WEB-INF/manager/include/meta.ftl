@@ -45,11 +45,9 @@
   <script type="text/javascript" src="${static}/plugins/jquery.swfupload/1.0.0/fileprogress.js"></script>
   <!--script type="text/javascript" src="${static}/plugins/plupload/2.2.1/plupload.full.min.js"></script-->
   
-  <!--后台UI-->
-  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.validate.js"></script>
-  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.web.js"></script>
-  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.page.js"></script> 
+  <!--后台UI--> 
   <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.manager.js"></script>
+  <script type="text/javascript" src="${static}/skin/manager/${manager_ui}/js/ms.web.js"></script>
   
   <!--easyUI-->
   <link rel="stylesheet" type="text/css" href="${static}/plugins/jquery.easyui/${easyui}/themes/default/easyui.css">
@@ -57,17 +55,17 @@
   <script type="text/javascript" src="${static}/plugins/jquery.easyui/${easyui}/jquery.easyui.min.js"></script>
 
   <!--bootstrap=table-->
-  <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table.min.css">
-  <script src="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table.js"></script>
-  <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table-tree-column.css">
-  <script src="${static}/plugins/bootstrap-table/1.11.0/bootstrap-table-tree-column.js"></script>
+  <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.1/bootstrap-table.min.css">
+  <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.1/extensions/tree-column/bootstrap-table-tree-column.css">
+  <script src="${static}/plugins/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script src="${static}/plugins/bootstrap-table/1.11.1/extensions/tree-column/bootstrap-table-tree-column.min.js"></script>
+   
+ 
   <script src="${static}/plugins//bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
   
   <!-- vue框架所需要的资源 -->
-  <script src="http://cdn.mingsoft.net/plugins/hammerjs/2.0.8/hammer.min.js"></script>
-  <script src="http://cdn.mingsoft.net/plugins/vue/2.3.3/vue.min.js"></script>
-  <!—基于vue的touch插件-->
-  <script src="http://cdn.mingsoft.net/plugins/vue.touch/2.0/vue-touch.js"></script>
+  <script src="${static}/plugins/hammerjs/2.0.8/hammer.min.js"></script>
+  <script src="${static}/plugins/vue/2.3.3/vue.min.js"></script>
 	
   <link rel="stylesheet" type="text/css" href="${static}/skin/manager/${manager_ui}/css/ms.manager.min.css" media="all" />
   <#assign skin_manager_logo="${static}/skin/manager/${manager_ui}/images/logo.png"/>  
@@ -80,7 +78,7 @@
     var basePath = "${basePath}";
     var base = "${base}";
     var managerPath = "${managerPath}";
-    var static = "http://cdn.mingsoft.net";
+    var static = "http://localhost:8080/ms-mcms/static";
     $(function() {
     			//启用工具提示
 		   //	$("[data-toggle='tooltip']").tooltip();
