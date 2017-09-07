@@ -83,8 +83,8 @@ public class FileAction extends BaseAction {
 		try {
 			PrintWriter out = res.getWriter();
 			String uploadPath = "";
-			uploadFloderPath = uploadFloderPath+Const.SEPARATOR+BasicUtil.getAppId()+Const.SEPARATOR;
-			String uploadFolder = BasicUtil.getRealPath(uploadFloderPath); // 上传的文件路径
+			String floderName = uploadFloderPath+Const.SEPARATOR+BasicUtil.getAppId()+Const.SEPARATOR;
+			String uploadFolder = BasicUtil.getRealPath(floderName); // 上传的文件路径
 			String isRename = req.getParameter("isRename");// 是否重命名 true:重命名
 			String _tempPath = req.getServletContext().getRealPath(TEMP);// 存放文件的临时目录路径
 			FileUtil.createFolder(_tempPath);
@@ -182,7 +182,7 @@ public class FileAction extends BaseAction {
 									destFile.renameTo(new File(uploadFolder, _fileName));
 								}
 								LOG.info("上传完成");
-								out.print(uploadFloderPath+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
+								out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
 								new File(folder).delete();
 							} else if (chunks == 0) {
 								String _fileName = fileName;
@@ -191,7 +191,7 @@ public class FileAction extends BaseAction {
 								}
 								destFile.renameTo(new File(uploadFolder, _fileName));
 								new File(folder).delete();
-								out.print(uploadFloderPath+Const.SEPARATOR+ uploadPath +Const.SEPARATOR + _fileName);
+								out.print(floderName+Const.SEPARATOR+ uploadPath +Const.SEPARATOR + _fileName);
 								LOG.info("上传完成");
 							} else {
 								LOG.info("还剩[" + (chunks - 1 - chunk) + "]个块文件");
