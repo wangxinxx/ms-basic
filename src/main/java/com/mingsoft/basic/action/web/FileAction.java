@@ -84,7 +84,7 @@ public class FileAction extends BaseAction {
 			PrintWriter out = res.getWriter();
 			String uploadPath = "";
 			String floderName = uploadFloderPath+Const.SEPARATOR+BasicUtil.getAppId();
-			String uploadFolder = BasicUtil.getRealPath(floderName); // 上传的文件路径
+			String uploadFolder = BasicUtil.getRealPath(floderName)+Const.SEPARATOR; // 上传的文件路径
 			String isRename = req.getParameter("isRename");// 是否重命名 true:重命名
 			String _tempPath = req.getServletContext().getRealPath(TEMP);// 存放文件的临时目录路径
 			FileUtil.createFolder(_tempPath);
