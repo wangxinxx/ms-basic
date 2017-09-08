@@ -27,7 +27,9 @@ import com.mingsoft.basic.entity.ModelEntity;
 import com.mingsoft.basic.interceptor.BaseInterceptor;
 import com.mingsoft.util.StringUtil;
 
-public class BasicUtil {
+import net.mingsoft.base.util.BaseUtil;
+
+public class BasicUtil extends BaseUtil{
 	/** Wap网关Via头信息中特有的描述信息 */
 	private static String mobileGateWayHeaders[] = new String[] { "ZXWAP", // 中兴提供的wap网关的via信息，例如：Via=ZXWAP
 																			// GateWayZTE

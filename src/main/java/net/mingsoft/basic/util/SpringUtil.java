@@ -10,7 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
-public class SpringUtil {
+public class SpringUtil extends net.mingsoft.base.util.SpringUtil{
 	
 	/**
 	 * 获取当前请求对象
