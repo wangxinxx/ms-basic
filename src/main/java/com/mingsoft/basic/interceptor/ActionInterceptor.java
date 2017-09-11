@@ -31,6 +31,8 @@ import com.mingsoft.base.constant.Const;
 import com.mingsoft.basic.constant.e.SessionConstEnum;
 import com.mingsoft.util.StringUtil;
 
+import net.mingsoft.base.util.SpringUtil;
+
 /**
  * 所有action的拦截器，主要是设置base与basepath
  * 
@@ -83,6 +85,7 @@ public class ActionInterceptor extends BaseInterceptor {
 				+ (request.getQueryString() == null ? "" : "?" + request.getQueryString()));
 		
 		request.setAttribute(PARAMS, assemblyRequestUrlParams(request));
+		SpringUtil.setResponse(response);
 		return true;
 	}
 	
