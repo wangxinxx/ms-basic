@@ -118,6 +118,7 @@ public class FileAction extends BaseAction {
 					if (fieldName.equals("uploadFloderPath")) {
 							uploadFloderPath = Streams.asString(input);
 							uploadFolder = BasicUtil.getRealPath(uploadFloderPath); // 上传的文件路径
+							floderName = uploadFloderPath;
 							LOG.info("uploadPath:" + uploadFloderPath);
 						} 					
 					if (fieldName.equals("uploadPath")) {

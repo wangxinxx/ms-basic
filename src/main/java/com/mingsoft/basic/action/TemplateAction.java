@@ -241,18 +241,20 @@ public class TemplateAction extends BaseAction {
 			} else {
 				// 若当前条目为文件则解压到相应目录
 				InputStream input = zipFile.getInputStream(entry);
-				OutputStream output = new FileOutputStream(
-						new File(unzipFile.getAbsolutePath() + File.separator + entryName));
-				byte[] buffer = new byte[1024 * 8];
-				int readLen = 0;
-				while ((readLen = input.read(buffer, 0, 1024 * 8)) != -1) {
-					output.write(buffer, 0, readLen);
+				File _file = new File(unzipFile.getAbsolutePath() + File.separator + entryName);
+				if(_file.exists()) {
+					OutputStream output = new FileOutputStream(_file);
+					byte[] buffer = new byte[1024 * 8];
+					int readLen = 0;
+					while ((readLen = input.read(buffer, 0, 1024 * 8)) != -1) {
+						output.write(buffer, 0, readLen);
+					}
+					output.flush();
+					output.close();
+					input.close();
+					input = null;
+					output = null;
 				}
-				output.flush();
-				output.close();
-				input.close();
-				input = null;
-				output = null;
 			}
 		}
 		zipFile.close();
