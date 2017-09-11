@@ -1,4 +1,4 @@
-package net.mingsoft.basic.security.session;
+package net.mingsoft.basic.shiro.session;
 
 import java.io.Serializable;
 import java.util.Collection;

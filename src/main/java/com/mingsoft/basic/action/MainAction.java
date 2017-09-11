@@ -51,6 +51,8 @@ import com.mingsoft.basic.entity.ManagerModelPageEntity;
 import com.mingsoft.basic.entity.ManagerSessionEntity;
 import com.mingsoft.basic.entity.ModelEntity;
 import com.mingsoft.util.StringUtil;
+
+import net.mingsoft.base.util.BaseUtil;
 /**
  * 主界面控制层
  * @author 张敏
@@ -83,6 +85,7 @@ public class MainAction extends BaseAction {
 	 */
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request) {
+//		System.out.println(request.getSession().getAttribute(SessionConstEnum.MANAGER_SESSION.toString()));
 		ManagerSessionEntity managerSession = (ManagerSessionEntity) getManagerBySession(request);
 		List<BaseEntity> modelList = new ArrayList<BaseEntity>();
 		ModelEntity model = new ModelEntity();

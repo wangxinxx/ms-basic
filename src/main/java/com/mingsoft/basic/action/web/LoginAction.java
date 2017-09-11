@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.action.BaseAction;
 import com.mingsoft.basic.biz.IAppBiz;
 import com.mingsoft.basic.biz.IManagerBiz;
@@ -55,7 +54,9 @@ import com.mingsoft.basic.entity.SystemSkinEntity;
 import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.StringUtil;
 
+import net.mingsoft.base.util.BaseUtil;
 import net.mingsoft.basic.util.BasicUtil;
+import net.mingsoft.basic.util.SpringUtil;
 
 /**
  * 登录的基础应用层
@@ -155,7 +156,7 @@ public class LoginAction extends BaseAction {
 		AppEntity urlWebsite = null;
 		urlWebsite = appBiz.getByUrl(this.getDomain(request)); // 根据url地址获取站点信息，主要是区分管理员对那些网站有权限
 		if (urlWebsite == null) {
-			this.outJson(response, ModelCode.ADMIN_LOGIN, false, this.getResString("err.not.exist",this.getResString("app")));
+			this.outJson(response, ModelCode.ADMIN_LOGIN, false, this.getResString("err.not.exist",this.getResString("app"),"!请尝试去文件 WEB-INF/ms.install.bak 后缀bak"));
 			return;
 		}
 		// 根据账号获取当前管理员信息
@@ -185,13 +186,13 @@ public class LoginAction extends BaseAction {
 					managerSession.setManagerChildIDs(childManagerList);
 					managerSession.setStyle(website.getAppStyle());
 					// 压入管理员seesion
-					setSession(request, SessionConstEnum.MANAGER_SESSION, managerSession);
+					BaseUtil.setSession(SessionConstEnum.MANAGER_SESSION, managerSession);
 				} else {
 					if (!(_manager.getManagerRoleID() == Const.DEFAULT_SYSTEM_MANGER_ROLE_ID)) {
 						LOG.debug("roleId: "+_manager.getManagerRoleID());
 						this.outJson(response, ModelCode.ADMIN_LOGIN, false, this.getResString("err.not.exist",this.getResString("manager")));
 					} else {
-						setSession(request, SessionConstEnum.MANAGER_SESSION, managerSession);
+						BaseUtil.setSession(SessionConstEnum.MANAGER_SESSION, managerSession);
 					}
 				} 
 				BeanUtils.copyProperties(_manager, managerSession);
