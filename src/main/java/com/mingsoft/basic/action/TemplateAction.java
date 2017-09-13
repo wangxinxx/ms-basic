@@ -31,13 +31,12 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -162,7 +161,8 @@ public class TemplateAction extends BaseAction {
 						_pathName = files(currFile, style, _pathName);
 						list.add(_pathName + currFile.getName());
 					}
-				} else if (currFile.isDirectory() && !currFile.getName().equalsIgnoreCase(IParserRegexConstant.MOBILE)) {
+				} else if (currFile.isDirectory()
+						&& !currFile.getName().equalsIgnoreCase(IParserRegexConstant.MOBILE)) {
 					files(list, currFile, style);
 				}
 			}
@@ -217,7 +217,8 @@ public class TemplateAction extends BaseAction {
 	 */
 	@RequestMapping("/unZip")
 	@ResponseBody
-	public String unZip(ModelMap model, HttpServletRequest request) throws ZipException, IOException {
+	public String unZip(ModelMap model, HttpServletRequest request) throws  IOException {
+		boolean hasDic = false;
 		String entryName = "";
 		String fileUrl = request.getParameter("fileUrl");
 		// 创建文件对象
@@ -228,33 +229,39 @@ public class TemplateAction extends BaseAction {
 		File unzipFile = new File(
 				this.getRealPath(request, fileUrl.substring(0, fileUrl.length() - file.getName().length())));
 		// 得到zip文件条目枚举对象
-		Enumeration<? extends ZipEntry> zipEnum = zipFile.entries();
+		Enumeration<? extends ZipEntry> zipEnum = zipFile.getEntries();
 		// 定义输入输出流对象
 		// 循环读取条目
 		while (zipEnum.hasMoreElements()) {
 			// 得到当前条目
 			ZipEntry entry = (ZipEntry) zipEnum.nextElement();
 			entryName = new String(entry.getName().getBytes("utf-8"));
+			File f = new File(unzipFile.getAbsolutePath() + File.separator + entryName);
+			if(f.getName().charAt(0)=='.') {
+				continue;
+			}
+			if(!hasDic) {
+				new File(unzipFile.getAbsolutePath() + File.separator + entryName).getParentFile().mkdirs();
+				hasDic = true;
+			}
 			// 若当前条目为目录则创建
 			if (entry.isDirectory()) {
 				new File(unzipFile.getAbsolutePath() + File.separator + entryName).mkdirs();
 			} else {
 				// 若当前条目为文件则解压到相应目录
 				InputStream input = zipFile.getInputStream(entry);
-				File _file = new File(unzipFile.getAbsolutePath() + File.separator + entryName);
-				if(_file.exists()) {
-					OutputStream output = new FileOutputStream(_file);
-					byte[] buffer = new byte[1024 * 8];
-					int readLen = 0;
-					while ((readLen = input.read(buffer, 0, 1024 * 8)) != -1) {
-						output.write(buffer, 0, readLen);
-					}
-					output.flush();
-					output.close();
-					input.close();
-					input = null;
-					output = null;
+				OutputStream output = new FileOutputStream(
+						new File(unzipFile.getAbsolutePath() + File.separator + entryName));
+				byte[] buffer = new byte[1024 * 8];
+				int readLen = 0;
+				while ((readLen = input.read(buffer, 0, 1024 * 8)) != -1) {
+					output.write(buffer, 0, readLen);
 				}
+				output.flush();
+				output.close();
+				input.close();
+				input = null;
+				output = null;
 			}
 		}
 		zipFile.close();
@@ -305,37 +312,41 @@ public class TemplateAction extends BaseAction {
 
 	/**
 	 * 显示子文件和子文件夹
-	 * @param response 响应
-	 * @param model 
-	 * @param request 请求
+	 * 
+	 * @param response
+	 *            响应
+	 * @param model
+	 * @param request
+	 *            请求
 	 * @return 返回文件名集合
 	 */
 	@RequestMapping("/showChildFileAndFolder")
-	public String showChildFileAndFolder(HttpServletResponse response, ModelMap model, HttpServletRequest request){
+	public String showChildFileAndFolder(HttpServletResponse response, ModelMap model, HttpServletRequest request) {
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		List<String> folderNameList = null;
-		String skinFolderName = request.getParameter("skinFolderName"); 
+		String skinFolderName = request.getParameter("skinFolderName");
 		File files[] = new File(this.getRealPath(request, skinFolderName)).listFiles();
-		if(!StringUtil.isBlank(files)){
+		if (!StringUtil.isBlank(files)) {
 			folderNameList = new ArrayList<String>();
 			List<String> fileNameList = new ArrayList<String>();
 			for (int i = 0; i < files.length; i++) {
 				File currFile = files[i];
-				String filter = BasicUtil.getRealPath(IParserRegexConstant.REGEX_SAVE_TEMPLATE+File.separator+this.getAppId(request));
-				LOG.debug("过滤路径"+ filter);
-				String temp = currFile.getPath().replace(filter,"");
-				if(currFile.isDirectory()){
+				String filter = BasicUtil.getRealPath(
+						IParserRegexConstant.REGEX_SAVE_TEMPLATE + File.separator + this.getAppId(request));
+				LOG.debug("过滤路径" + filter);
+				String temp = currFile.getPath().replace(filter, "");
+				if (currFile.isDirectory()) {
 					folderNameList.add(temp);
-				}else {
+				} else {
 					fileNameList.add(temp);
-				}			
+				}
 			}
 			folderNameList.addAll(fileNameList);
 			model.addAttribute("fileNameList", folderNameList);
 		}
-		String uploadFileUrl =   skinFolderName;
+		String uploadFileUrl = skinFolderName;
 		model.addAttribute("uploadFileUrl", uploadFileUrl);
-		model.addAttribute("websiteId",  managerSession.getBasicId());
+		model.addAttribute("websiteId", managerSession.getBasicId());
 		return view("/template/template_file_list");
 	}
 
