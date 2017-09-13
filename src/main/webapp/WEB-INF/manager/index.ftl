@@ -5,7 +5,7 @@
 <link rel="bookmark" href="favicon.ico"/> 
 <#include "${managerViewPath}/include/macro.ftl"/>
 <#include "${managerViewPath}/include/meta.ftl"/>
-<script src="http://cdn.mingsoft.net/plugins/ms/mstore/4.6.0/js/mstore-client.min.js"></script>	
+<script src="http://cdn.mingsoft.net/plugins/ms/mstore/4.6.0/js/mstore-client.min.js"></script>
 </head>
 <script type="text/javascript">
     $(function(){

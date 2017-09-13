@@ -86,6 +86,7 @@ public class ActionInterceptor extends BaseInterceptor {
 		
 		request.setAttribute(PARAMS, assemblyRequestUrlParams(request));
 		SpringUtil.setResponse(response);
+		SpringUtil.setResquest(request);
 		return true;
 	}
 	
