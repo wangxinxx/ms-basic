@@ -59,8 +59,17 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	@Override
 	public void deleteCategory(int categoryId) {
 		// TODO Auto-generated method stub
+		CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
+		//删除父类
 		categoryDao.deleteEntity(categoryId);
 		deleteEntity(categoryId);
+		List<CategoryEntity> childrenList = categoryDao.queryChildren(category);
+		for(int i = 0; i < childrenList.size(); i++){
+			//删除子类
+			int childrenId = childrenList.get(i).getCategoryId();
+			categoryDao.deleteEntity(childrenId);
+			deleteEntity(childrenId);
+		}
 	}
 
 	/**
