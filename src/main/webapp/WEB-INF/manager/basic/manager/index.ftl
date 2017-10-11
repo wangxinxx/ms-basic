@@ -141,12 +141,17 @@
 			success:function(data){
 				if(data.managerId > 0){
 					<@ms.notify msg= "保存或更新成功" type= "success" />
+					location.reload();
 				}else if(data.resultMsg == "管理员用户名已存在!"){
-					<@ms.notify msg= "管理员用户名已存在!" type= "fail" />
+					<@ms.notify msg= "管理员名已存在!" type= "fail" />
+					$("#saveOrUpdate").removeAttr("disabled");
+					$("#saveOrUpdate").text("保存");
 				}else{
 					<@ms.notify msg= "保存或更新失败" type= "fail" />
+					$("#saveOrUpdate").removeAttr("disabled");
+					$("#saveOrUpdate").text("保存");
 				}
-				location.reload();
+				
 			}
 		});
 	})
