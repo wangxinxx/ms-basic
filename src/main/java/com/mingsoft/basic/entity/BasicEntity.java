@@ -25,6 +25,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.util.StringUtil;
 
@@ -84,11 +87,15 @@ public class BasicEntity extends BaseEntity {
 	/**
 	 * 发布时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp basicDateTime;
 
 	/**
 	 * 更新时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date basicUpdateTime;
 
 	/**
