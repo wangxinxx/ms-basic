@@ -28,7 +28,7 @@
 			<if test="basicDescription != null">basic_description,</if>
 			<if test="basicThumbnails != null">basic_thumbnails,</if>
 			<if test="basicHit != null">basic_hit,</if>
-			<if test="basicCategoryId != null">BASIC_CATEGORYID,</if>
+			<if test="basicCategoryId != null and basicCategoryId &gt; 0">BASIC_CATEGORYID,</if>
 			<if test="basicPeopleId != null">BASIC_PEOPLEID,</if>
 			<if test="basicDateTime != null">BASIC_Datetime,</if>
 			<if test="basicUpdateTime != null">BASIC_updatetime,</if>
@@ -43,7 +43,7 @@
 			<if test="basicDescription != null">#{basicDescription},</if>
 			<if test="basicThumbnails != null">#{basicThumbnails},</if>
 			<if test="basicHit != null">#{basicHit},</if>
-			<if test="basicCategoryId != null">#{basicCategoryId},</if>
+			<if test="basicCategoryId != null and basicCategoryId &gt; 0">#{basicCategoryId},</if>
 			<if test="basicPeopleId != null">#{basicPeopleId},</if>
 			<if test="basicDateTime != null">#{basicDateTime},</if>
 			<if test="basicUpdateTime != null">#{basicUpdateTime},</if>
