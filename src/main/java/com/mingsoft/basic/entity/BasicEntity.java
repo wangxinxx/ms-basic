@@ -29,6 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.util.StringUtil;
 
@@ -88,17 +89,11 @@ public class BasicEntity extends BaseEntity {
 	/**
 	 * 发布时间
 	 */
-	@JsonIgnore
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp basicDateTime;
 
 	/**
 	 * 更新时间
 	 */
-	@JsonIgnore
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date basicUpdateTime;
 
 	/**
