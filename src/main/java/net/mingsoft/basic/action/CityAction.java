@@ -251,6 +251,41 @@ public class CityAction extends com.mingsoft.basic.action.BaseAction{
 		this.outJson(response, JSONObject.toJSONString(city));
 	}
 	
-		
-		
+	/**
+	 * 查询省列表
+	 * @param response
+	 * @param request
+	 */
+	@RequestMapping("/province")
+	@ResponseBody
+	public void province(HttpServletResponse response, HttpServletRequest request) {
+		List cityList = cityBiz.queryProvince();		
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(cityList));
+	}
+	
+	/**
+	 * 根据省id查询城市列表
+	 * @param city
+	 * @param response
+	 * @param request
+	 */
+	@RequestMapping("/city")
+	@ResponseBody
+	public void city(@ModelAttribute CityEntity city,HttpServletResponse response, HttpServletRequest request) {
+		List cityList = cityBiz.queryCity(city);		
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(cityList));
+	}
+	
+	/**
+	 * 根据城市id查询区域列表
+	 * @param city 
+	 * @param response
+	 * @param request
+	 */
+	@RequestMapping("/county")
+	@ResponseBody
+	public void county(@ModelAttribute CityEntity city,HttpServletResponse response, HttpServletRequest request) {
+		List cityList = cityBiz.queryCounty(city);		
+		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(cityList));
+	}
 }
