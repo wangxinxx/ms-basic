@@ -63,6 +63,7 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		//删除父类
 		categoryDao.deleteEntity(categoryId);
 		deleteEntity(categoryId);
+		category.setCategoryParentId(null);
 		List<CategoryEntity> childrenList = categoryDao.queryChildren(category);
 		for(int i = 0; i < childrenList.size(); i++){
 			//删除子类
