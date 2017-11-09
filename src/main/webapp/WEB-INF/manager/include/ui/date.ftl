@@ -54,7 +54,7 @@
     buttonClasses: ['btn btn-default'],
     applyClass: 'btn-small btn-primary',
     cancelClass: 'btn-small',
-    format: 'YYYY-MM-DD<#if time> hh:mm:ss</#if>',
+    format: 'YYYY-MM-DD<#if time> HH:mm:ss</#if>',
     separator: '至',
     locale: {
         applyLabel: '确认',

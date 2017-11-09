@@ -224,7 +224,7 @@
 			(
 			<if test="categoryParentId != null">
 				CATEGORY_PARENT_ID like
-				'%${categoryParentId}%'
+				'%${categoryId}%'
 			</if>
 			<if test="categoryParentId == null">
 				find_in_set('${categoryId}',CATEGORY_PARENT_ID)
