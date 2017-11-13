@@ -23,7 +23,7 @@
           		<@ms.textarea name="columnKeyword" width="600" label="${Session.model_title_session?default('栏目')}关键字" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}关键字，有助于搜索"   value="${column.columnKeyword?default('')}"  validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} /> 
           		<@ms.textarea name="columnDescrip" width="600" label="${Session.model_title_session?default('栏目')}描述" wrap="Soft" rows="4" placeholder="${Session.model_title_session?default('栏目')}描述，对${Session.model_title_session?default('栏目')}关键字的扩展"   value="${column.columnDescrip?default('')}" validation={"data-bv-stringlength":"true", "data-bv-stringlength-max":"200","data-bv-stringLength-message":"长度不能超过200个字符"} />
 				<@ms.formRow label="缩略图" width="400">
-					<@ms.uploadImg path="column" imgs="${(column.categorySmallImg)?default('')}" inputName="categorySmallImg" size="30" msg="提示：栏目缩略图,最多可上传30张"  maxSize="2"   />
+					<@ms.uploadImg path="column" imgs="${(column.categorySmallImg)?default('')}" inputName="categorySmallImg" size="1" msg="提示：栏目缩略图,最多可上传1张"  maxSize="2"   />
 				</@ms.formRow>
 				<#assign columnTypes=[{"id":"1","name":"列表"},{"id":"2","name":"封面"}]>
 				<@ms.radio name="columnType" label="${Session.model_title_session?default('栏目')}属性"  list=columnTypes listKey="id" listValue="name" value="${column.columnType?c?default(1)}" />
