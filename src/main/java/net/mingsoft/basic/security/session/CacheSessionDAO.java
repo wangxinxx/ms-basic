@@ -23,6 +23,7 @@ import net.mingsoft.basic.util.SpringUtil;
  * @author Administrator
  *
  */
+@Deprecated
 public class CacheSessionDAO extends EnterpriseCacheSessionDAO implements SessionDAO {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

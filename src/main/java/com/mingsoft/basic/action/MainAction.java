@@ -207,7 +207,6 @@ public class MainAction extends BaseAction {
 	@RequestMapping("/loginOut")
 	@ResponseBody
 	public boolean loginOut(HttpServletRequest request) {
-		removeSession(request, SessionConstEnum.MANAGER_SESSION);
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
 		return true;
