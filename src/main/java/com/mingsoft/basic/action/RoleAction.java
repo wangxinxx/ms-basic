@@ -81,12 +81,14 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 * roleId 角色ID，自增长<br/>
 	 * roleName 角色名<br/>
 	 * roleManagerid 角色管理员编号<br/>
+	 * appId 角色APPID<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>[<br/>
 	 * { <br/>
 	 * roleId: 角色ID，自增长<br/>
 	 * roleName: 角色名<br/>
 	 * roleManagerid: 角色管理员编号<br/>
+	 * appId: 角色APPID<br/>
 	 * }<br/>
 	 * ]</dd><br/>	 
 	 */
@@ -130,6 +132,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 * roleId: 角色ID，自增长<br/>
 	 * roleName: 角色名<br/>
 	 * roleManagerid: 角色管理员编号<br/>
+	 * appId: 角色APPID<br/>
 	 * }</dd><br/>
 	 */
 	@RequestMapping("/get")
@@ -150,11 +153,13 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 * roleId 角色ID，自增长<br/>
 	 * roleName 角色名<br/>
 	 * roleManagerid 角色管理员编号<br/>
+	 * appId 角色APPID<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * roleId: 角色ID，自增长<br/>
 	 * roleName: 角色名<br/>
 	 * roleManagerid: 角色管理员编号<br/>
+	 * appId: 角色APPID<br/>
 	 * }</dd><br/>
 	 */
 	@PostMapping("/saveOrUpdateRole")
@@ -163,6 +168,8 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		//组织角色属性，并对角色进行保存
 		RoleEntity _role = new RoleEntity();
 		_role.setRoleName(role.getRoleName());
+		//给角色添加APPID
+		role.setAppId(BasicUtil.getAppId());
 		//获取管理员id
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		role.setRoleManagerId(managerSession.getManagerId());

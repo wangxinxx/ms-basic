@@ -48,7 +48,11 @@ public class RoleEntity extends BaseEntity {
 	 */
 	private int roleManagerId;
 
-
+	/**
+	 *  该角色的APPID
+	 */
+	private int AppId;
+	
 	/**
 	 *获取 roleId
 	 * @return roleId
@@ -96,5 +100,20 @@ public class RoleEntity extends BaseEntity {
 	public void setRoleManagerId(int rolePeopleId) {
 		this.roleManagerId = rolePeopleId;
 	}
+	/**
+	 * 获取appId
+	 * @return
+	 */
+	public int getAppId() {
+		return AppId;
+	}
+	/**
+	 * 设置appId
+	 * @param appId
+	 */
+	public void setAppId(int appId) {
+		AppId = appId;
+	}
+	
 
 }

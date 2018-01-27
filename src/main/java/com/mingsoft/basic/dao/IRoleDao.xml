@@ -8,6 +8,7 @@
 		<id column="ROLE_ID" property="roleId"/><!-- 将实体的ID属性与表的ID字段对接 -->
 		<result column="ROLE_NAME" property="roleName"/><!-- 将实体的roleName属性与表的roleName字段对接 -->
 		<result column="ROLE_MANAGERID" property="roleManagerId"/><!-- 将实体的roleManagerId属性与表的roleManagerId字段对接 -->
+		<result column="APP_ID" property="appId"/><!-- 将实体的appId属性与表的appId字段对接 -->
 	</resultMap>
 	<!-- 将实体属性与表字段对接结束 -->
 	
@@ -16,11 +17,13 @@
 		insert into role
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="roleName != null">ROLE_NAME,</if>
-			<if test="roleManagerId != null">ROLE_MANAGERID</if>
+			<if test="roleManagerId != null">ROLE_MANAGERID,</if>
+			<if test="appId !=null">APP_ID</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="roleName != null">#{roleName},</if>
-			<if test="roleManagerId != null">#{roleManagerId}</if>
+			<if test="roleManagerId != null">#{roleManagerId},</if>
+			<if test="appId != null">#{appId}</if>
 		</trim>
 	</insert>
 	<!-- 新增角色结束 -->
@@ -35,7 +38,7 @@
 	<!-- 根据角色ID查询角色开始 -->
 	<select id="getEntity" resultMap="resultMap" parameterType="int">
 		select 
-			ROLE_ID,ROLE_NAME,ROLE_MANAGERID
+			ROLE_ID,ROLE_NAME,ROLE_MANAGERID,APP_ID
 		  		from role where ROLE_ID=#{roleId};
 	</select>
 	<!-- 根据角色ID查询角色结束 -->

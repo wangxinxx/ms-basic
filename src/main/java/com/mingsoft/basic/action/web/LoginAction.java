@@ -177,11 +177,12 @@ public class LoginAction extends BaseAction {
 				RoleEntity role = (RoleEntity) roleBiz.getEntity(_manager.getManagerRoleID());
 				website = (AppEntity) appBiz.getByManagerId(role.getRoleManagerId());
 				// 判断当前登录管理员是否为该网站的系统管理员，如果是，如果不是则判断是否为超级管理员
-				if (website != null && urlWebsite != null && urlWebsite.getAppId() == website.getAppId()
-						&& _manager.getManagerRoleID() > Const.DEFAULT_SYSTEM_MANGER_ROLE_ID) {
-
+				if ((website != null && urlWebsite != null && urlWebsite.getAppId() == website.getAppId()
+						&& _manager.getManagerRoleID() > Const.DEFAULT_SYSTEM_MANGER_ROLE_ID) 
+						||(role.getAppId()==this.getAppId(request))) {
+					website = BasicUtil.getApp();
 					List childManagerList = managerBiz.queryAllChildManager(managerSession.getManagerId());
-					managerSession.setBasicId(website.getAppId());
+					managerSession.setBasicId(website.getAppId());    
 					managerSession.setManagerParentID(role.getRoleManagerId());
 					managerSession.setManagerChildIDs(childManagerList);
 					managerSession.setStyle(website.getAppStyle());
