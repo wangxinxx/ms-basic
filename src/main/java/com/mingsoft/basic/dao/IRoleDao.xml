@@ -62,6 +62,7 @@
 	<select id="query" resultMap="resultMap">
 		select * from role  
 		<where>
+			APP_ID=#{appId}
 			<if test="roleName != null and roleName != ''">and ROLE_NAME like CONCAT('%',#{roleName},'%') </if>			
 			<if test="roleManagerId != null"> and ROLE_MANAGERID=#{roleManagerId} </if>	
 		</where>		
@@ -80,6 +81,7 @@
 	<select id="getByEntity" resultMap="resultMap" parameterType="com.mingsoft.basic.entity.RoleEntity">
 		select * from role 
 		<where>
+			APP_ID=#{appId}
 			<if test="roleName != null and roleName != ''"> and ROLE_NAME=#{roleName} </if>				
 			<if test="roleManagerId &gt; 0"> and ROLE_MANAGERID=#{roleManagerId} </if>				
 		</where>

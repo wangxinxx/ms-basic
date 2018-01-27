@@ -97,6 +97,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	public void list(@ModelAttribute RoleEntity role,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		role.setRoleManagerId(managerSession.getManagerId());
+		role.setAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
 		List roleList = roleBiz.query(role);
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(roleList,(int)BasicUtil.endPage(roleList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
