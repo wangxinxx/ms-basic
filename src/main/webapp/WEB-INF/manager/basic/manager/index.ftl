@@ -77,13 +77,19 @@
 	   		//使用select2插件
 	 		$("#managerRoleID").select2({width: "210px"});
 		}});
-			$("#managerList").bootstrapTable({
+		$("#managerList").bootstrapTable({
 			url:"${managerPath}/basic/manager/query.do",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
-	    	columns: [{ checkbox: true},
-				    	{
+	    	columns: [{ checkbox: true,
+		    			formatter: function (value, row, index){
+		    				//不能删除自己
+		    				if("${Session.manager_session.managerName}" == row.managerName){
+		    					return {disabled : true};
+		    				}
+		    			}
+	    				},{
 				        	field: 'managerName',
 				        	title: '账号',
 				        	align: 'center',
@@ -160,25 +166,11 @@
 	$("#delManagerBtn").click(function(){
 		//获取checkbox选中的数据
 		var rows = $("#managerList").bootstrapTable("getSelections");
-		var flag = true;
-		//循环遍历checkbox选中的数据并比较当前登录的管理员名是否相等，默认是true，
-		for(var i=0;i<rows.length;i++){
-			var temp = rows[i].managerName;
-			if("${Session.manager_session.managerName}"==temp){
-			    flag = false;
-				break;
-			}
-		}
 		//没有选中checkbox
 		if(rows.length <= 0){
 			<@ms.notify msg="请选择需要删除的记录" type="warning"/>
 		}else{
-			//flag是true可以删除，false是不能删除，表示选中的数据中包含当前登录管理员的
-			if(flag){
-				$(".delManager").modal();
-			}else{
-				<@ms.notify msg= "不能删除管理员：${Session.manager_session.managerName}" type= "warning" />
-			}
+			$(".delManager").modal();
 		}
 	})
 	
