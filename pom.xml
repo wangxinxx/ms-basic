@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.mingsoft</groupId>
 	<artifactId>ms-basic</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>ms-basic tools Library</description>
@@ -200,6 +200,7 @@
 					<encoding>UTF-8</encoding>
 					<docencoding>UTF-8</docencoding>
 					<javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 				<executions>
 					<execution>
