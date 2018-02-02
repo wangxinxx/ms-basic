@@ -2,7 +2,7 @@
 	<@ms.nav title="${modelTitle}"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
 			<@ms.searchFormButton>
-				<@ms.text label="类别标题" name="categoryTitle" value=""  width="240px;" placeholder="请输入类别标题" validation={"maxlength":"50","data-bv-stringlength-message":"类别标题长度不能超过五十个字符长度!"}/>
+				<@ms.text label="${modelTitle}标题" name="categoryTitle" value=""  width="240px;" placeholder="请输入类别标题" validation={"maxlength":"50","data-bv-stringlength-message":"${modelTitle}标题长度不能超过五十个字符长度!"}/>
 				<@ms.queryButton onclick="search()"/> 
 			</@ms.searchFormButton>			
 	</@ms.searchForm>
@@ -50,26 +50,19 @@
 	    	columns: [{ checkbox: true},
 				    	{
 				        	field: 'categoryId',
-				        	title: '类别ID',
+				        	title: '${modelTitle}编号',
 				        	align: 'center',
 				        	width:'120'
-				    	},							    	{
-				        	field: 'categorySmallImg',
-				        	title: '略缩图',
-				        	formatter:function(value,row,index) {
-				        		var url = "${base}"+value;
-				        		return "<img src=" +url+ " style='width: 25px;   height: 25px;'/>";
-				        	}
-				    	},							    	{
+				    	},{
 				        	field: 'categoryTitle',
-				        	title: '类别标题',
+				        	title: '${modelTitle}标题',
 				        	formatter:function(value,row,index) {
 				        		var url = "${managerPath}/category/form.do?categoryId="+row.categoryId+"&modelId=${modelId?default('0')}&modelTitle=${modelTitle?default('0')}" ;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 				        	}
 				    	},							    	{
 				        	field: 'categoryDescription',
-				        	title: '栏目描述'
+				        	title: '${modelTitle}描述'
 				    	}	]
 	    })
 	})

@@ -6,8 +6,8 @@
     	<@ms.form name="categoryForm" isvalidation=true>
     		<@ms.hidden name="categoryId" value="${categoryEntity.categoryId?default('')}"/>
 			<@ms.hidden name="categoryModelId" value="${modelId?default('0')}"/>
-			<@ms.text label="类别标题" name="categoryTitle" value="${categoryEntity.categoryTitle?default('')}"  width="240px;" placeholder="请输入类别标题" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"类别标题长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-			<@ms.text label="栏目描述" name="categoryDescription" value="${categoryEntity.categoryDescription?default('')}"  width="240px;" placeholder="请输入栏目描述" validation={"maxlength":"50","data-bv-stringlength-message":"栏目描述长度不能超过五十个字符长度!"}/>
+			<@ms.text label="${modelTitle}标题" name="categoryTitle" value="${categoryEntity.categoryTitle?default('')}"  width="240px;" placeholder="请输入类别标题" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"类别标题长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    		<@ms.textarea colSm="2" name="categoryDescription" label="${modelTitle}描述" wrap="Soft" rows="3"  size="" width="642px;" value="${categoryEntity.categoryDescription?default('')}" placeholder="${modelTitle}描述" validation={"maxlength":"50","data-bv-stringlength-message":"栏目描述长度不能超过五十个字符长度!"}/>
     		<@ms.formRow label="缩略图">
 				<@ms.uploadImg path="category" inputName="categorySmallImg" size="15" filetype="" msg=""  maxSize="1" imgs="${(category.categorySmallImg)?default('')}" />
     		</@ms.formRow>
