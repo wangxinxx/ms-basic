@@ -183,7 +183,11 @@ public class FileAction extends BaseAction {
 									destFile.renameTo(new File(uploadFolder, _fileName));
 								}
 								LOG.info("上传完成");
-								out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
+								if((uploadPath == "/") || (StringUtil.isBlank(uploadPath))){
+									out.print(floderName+Const.SEPARATOR + _fileName);
+								}else{
+									out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
+								}
 								new File(folder).delete();
 							} else if (chunks == 0) {
 								String _fileName = fileName;
@@ -192,7 +196,11 @@ public class FileAction extends BaseAction {
 								}
 								destFile.renameTo(new File(uploadFolder, _fileName));
 								new File(folder).delete();
-								out.print(floderName+Const.SEPARATOR+ uploadPath +Const.SEPARATOR + _fileName);
+								if((uploadPath == "/") || (StringUtil.isBlank(uploadPath))){
+									out.print(floderName+Const.SEPARATOR + _fileName);
+								}else{
+									out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
+								}
 								LOG.info("上传完成");
 							} else {
 								LOG.info("还剩[" + (chunks - 1 - chunk) + "]个块文件");
