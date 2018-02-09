@@ -51,9 +51,10 @@
 </div>
 <#if select2>
 	<script>
-	//	$(function() {
-	//		$("select[name='${name}']").select2().val("${value}").trigger("change");;
-	//	})
+		$(function() {
+			$("select[name='${name}']").select2({width: "${width}px"});
+			$("select[name='${name}']").select2().val("${value}").trigger("change");;
+		})
 	</script>	
 </#if>
 </#macro>
