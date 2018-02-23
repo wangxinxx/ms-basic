@@ -63,6 +63,7 @@ public class CategoryEntity extends BaseEntity {
 	/**
 	 * 类别发布时间
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp categoryDateTime;
 
 	/**
