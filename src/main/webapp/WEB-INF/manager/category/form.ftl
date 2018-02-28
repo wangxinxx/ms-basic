@@ -37,15 +37,13 @@
 			data:$("form[name = 'categoryForm']").serialize(),
 			url:url,
 			success: function(status) {
-				if(status == true) { 
+				if(status.categoryId != null) { 
 					<@ms.notify msg="保存或更新成功" type= "success" />
 					history.go(-1); 
 					location.reload();
 				}
 				else{
 					<@ms.notify msg= "保存或更新失败！" type= "fail" />
-					history.go(-1); 
-					location.reload();
 				}
 			}
 		})
