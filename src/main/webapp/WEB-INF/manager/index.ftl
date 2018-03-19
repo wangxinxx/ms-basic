@@ -54,9 +54,10 @@
 		
 		 //退出系统
 		$("#loginOutBtn").click(function() {	
-			$(this).request({func:function(data) {
-		 			location.reload();
-			}});	
+			//$(this).request({func:function(data) {
+		 	//		location.reload();
+			//}});
+			window.location.href="${managerPath}/logout"		
 		});
 	
 		$(".ms-menu-child li a").each(function() {
