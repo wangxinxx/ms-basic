@@ -183,7 +183,7 @@ public class FileAction extends BaseAction {
 									destFile.renameTo(new File(uploadFolder, _fileName));
 								}
 								LOG.info("上传完成");
-								if((uploadPath.equals("/")) || (StringUtil.isBlank(uploadPath))){
+								if(uploadPath.equals("/") || StringUtil.isBlank(uploadPath)){
 									out.print(floderName+Const.SEPARATOR + _fileName);
 								}else{
 									out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
@@ -196,7 +196,7 @@ public class FileAction extends BaseAction {
 								}
 								destFile.renameTo(new File(uploadFolder, _fileName));
 								new File(folder).delete();
-								if((uploadPath.equals("/")) || (StringUtil.isBlank(uploadPath))){
+								if(uploadPath.equals("/") || StringUtil.isBlank(uploadPath)){
 									out.print(floderName+Const.SEPARATOR + _fileName);
 								}else{
 									out.print(floderName+Const.SEPARATOR+uploadPath+Const.SEPARATOR + _fileName);
