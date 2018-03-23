@@ -98,3 +98,70 @@
 	<script type="text/javascript" charset="utf-8" src="${base}/static/plugins/ueditor/1.4.3.1/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${base}/static/plugins/ueditor/1.4.3.1/ueditor.all.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${base}/static/plugins/ueditor/1.4.3.1/lang/zh-cn/zh-cn.js"></script>
+
+	<script>		
+		$(function(){
+			$.extend($.fn.validatebox.defaults.rules, {
+				number: {
+				   validator: function (value, param) {
+				   		return /^[0-9]*$/.test(value);
+				   }, 
+				   message: '输入必须为整数'
+				  },
+				float: {
+				   validator: function (value, param) {
+				   		return /^([0-9]+[.0-9]{1,3})?$/.test(value);
+				   }, 
+				   message: '输入必须为数字'
+				  },
+				isName: {
+				   validator: function (value, param) {
+				   		return /^[\u0391-\uFFE5]+$/i.test(value) || /^[a-zA-Z]*$/i.test(value);
+				   }, 
+				   message: '只能输入中文或英文'
+				  },
+				unnormal: {
+				   validator: function (value, param) { 
+				   		return /^([\u4E00-\u9FA5]|\w)*$/.test(value); 
+				   }, 
+				   message: '含有非法字符'
+				  },
+				code: {
+				   validator: function (value, param) { 
+				   		return /^[a-zA-Z0-9]*$/.test(value); 
+				   }, 
+				   message: '编号不能有文字'
+				},
+				CHS: {  
+        			validator: function (value) {  
+            			return /^[\u0391-\uFFE5]+$/.test(value);  
+        			},  
+        			message: '只能输入汉字'  
+    			},
+    			smallerDate: {
+	                validator: function(value, param){
+	                    var d1 = $.fn.datebox.defaults.parser(param[0]);
+	                    var d2 = $.fn.datebox.defaults.parser(value);
+	                    param.push(d1);
+	                    return d2 <= d1;
+	                },
+	                message: '当前时间必须小于{1}'
+            	},
+            	biggerDate: {
+            		validator: function(value, param){
+	                    var d1 = $.fn.datebox.defaults.parser(param[0]);
+	                    var d2 = $.fn.datebox.defaults.parser(value);//当前时间框时间
+	                    param.push(d1);
+	                    return d2 >= d1;
+	                },
+	                message: '当前时间必须大于{1}'
+            	},
+            	greater : {
+					validator: function (value, param) { 
+					   	return Date.parse(value) > Date.parse($(param[0]).datebox('getValue'));
+					}, 
+					message: '结束时间必须大于开始时间'
+				}
+			});
+		})
+	</script>
