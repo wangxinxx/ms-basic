@@ -23,6 +23,7 @@ import com.mingsoft.basic.biz.IModelBiz;
 import com.mingsoft.basic.biz.IRoleModelBiz;
 import com.mingsoft.basic.constant.ModelCode;
 import com.mingsoft.basic.entity.ManagerEntity;
+import com.mingsoft.basic.entity.ManagerSessionEntity;
 import com.mingsoft.basic.entity.ModelEntity;
 import com.mingsoft.basic.entity.RoleModelEntity;
 import com.mingsoft.util.StringUtil;
@@ -368,14 +369,21 @@ public class ModelAction extends BaseAction {
 	@ResponseBody
 	public void modelList(@ModelAttribute ModelEntity modelEntity,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
 		int roleId = BasicUtil.getInt("roleId");
-		List<ModelEntity> modelList = modelBiz.query(modelEntity);
+		ManagerSessionEntity managerSession = this.getManagerBySession(request);
+		int currentRoleId = managerSession.getManagerRoleID();
+		//新增角色roleId为0，默认当前管理员的roleId
+		if(roleId == 0){
+			roleId = currentRoleId;
+		}
+		List<BaseEntity> modelList = modelBiz.queryModelByRoleId(currentRoleId);
 		List<ModelEntity> _modelList = new ArrayList<>();
 		List<RoleModelEntity> roleModelList = new ArrayList<>();
 		if(roleId>0){
 			roleModelList = roleModelBiz.queryByRoleId(roleId);
 		}
 		//组织子数据
-		for(ModelEntity _model : modelList){
+		for(BaseEntity base : modelList){
+			ModelEntity _model = (ModelEntity) base;
 			if(_model.getModelIsMenu() == 1){
 				_model.setModelChildList(new ArrayList<ModelEntity>());
 				_modelList.add(_model);
