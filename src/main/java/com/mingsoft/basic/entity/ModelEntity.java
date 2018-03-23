@@ -89,7 +89,7 @@ public class ModelEntity extends BaseEntity {
     /**
      * 是否是菜单
      */
-    private int modelIsMenu;
+    private Integer modelIsMenu;
     /**
      * 选中状态，不参加表结构
      */
@@ -100,11 +100,11 @@ public class ModelEntity extends BaseEntity {
      */
     private String modelParentIds;
     
-    public int getModelIsMenu() {
+    public Integer getModelIsMenu() {
 		return modelIsMenu;
 	}
     
-	public void setModelIsMenu(int modelIsMenu) {
+	public void setModelIsMenu(Integer modelIsMenu) {
 		this.modelIsMenu = modelIsMenu;
 	}
 	

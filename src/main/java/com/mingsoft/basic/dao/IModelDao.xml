@@ -147,7 +147,7 @@
 				<if test="modelIcon != null and modelIcon != ''"> and MODEL_ICON=#{modelIcon} </if>				
 				<if test="modelManagerId &gt; 0"> and MODEL_MODELMANAGERID=#{modelManagerId} </if>				
 				<if test="modelSort &gt; 0"> and MODEL_SORT=#{modelSort} </if>				
-				<if test="modelIsMenu &gt; 0"> and MODEL_ISMENU=#{modelIsMenu} </if>
+				<if test="modelIsMenu != null"> and MODEL_ISMENU=#{modelIsMenu} </if>
 				<if test="modelParentIds != null and modelParentIds != ''"> and MODEL_PARENT_IDS=#{modelParentIds} </if>	
 		</where>		
 		order by MODEL_ISMENU desc,MODEL_SORT,MODEL_ID
