@@ -101,7 +101,9 @@ public class ModelAction extends BaseAction {
 	@RequestMapping("/list")
 	@ResponseBody
 	public void list(@ModelAttribute ModelEntity modelEntity,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
-		List modelList = modelBiz.query(modelEntity);
+		ManagerSessionEntity managerSession = this.getManagerBySession(request);
+		int currentRoleId = managerSession.getManagerRoleID();
+		List<BaseEntity> modelList = modelBiz.queryModelByRoleId(currentRoleId);
 		EUListBean _list = new EUListBean(modelList, modelList.size());
 		this.outJson(response,net.mingsoft.base.util.JSONArray.toJSONString(_list));
 	}
