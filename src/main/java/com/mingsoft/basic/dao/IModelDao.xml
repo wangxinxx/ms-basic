@@ -88,7 +88,7 @@
 	<select id="queryModelByRoleId" resultMap="resultMap"
 		parameterType="int">
 		select
-		MODEL_ID,MODEL_TITLE,MODEL_MODELID,MODEL_URL,MODEL_ICON,MODEL_ISMENU
+		*
 		from model
 		where model_id in (select RM_MODELID from role_model where
 		RM_ROLEID=#{roleId})
