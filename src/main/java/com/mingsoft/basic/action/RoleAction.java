@@ -225,7 +225,13 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	@ResponseBody
 	public void delete(@RequestBody List<RoleEntity> roles,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[roles.size()];
+		ManagerSessionEntity managerSession = this.getManagerBySession(request);
+		int currentRoleId = managerSession.getManagerRoleID();
 		for(int i = 0;i<roles.size();i++){
+			if(currentRoleId == roles.get(i).getRoleId()){
+				//当前角色不能删除
+				continue ;
+			}
 			ids[i] = roles.get(i).getRoleId();
 		}
 		roleBiz.delete(ids);		
