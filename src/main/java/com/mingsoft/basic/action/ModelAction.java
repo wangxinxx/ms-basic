@@ -62,7 +62,9 @@ public class ModelAction extends BaseAction {
 	 */
 	@RequestMapping("/index")
 	public String index(HttpServletResponse response,HttpServletRequest request,ModelMap mode){
-		List<BaseEntity> parentModelList = modelBiz.queryAll();
+		ManagerSessionEntity managerSession = this.getManagerBySession(request);
+		int currentRoleId = managerSession.getManagerRoleID();
+		List<BaseEntity> parentModelList = modelBiz.queryModelByRoleId(currentRoleId);
 		mode.addAttribute("parentModelList", JSONArray.toJSONString(parentModelList));
 		return view ("/model/index");
 	}
@@ -226,6 +228,16 @@ public class ModelAction extends BaseAction {
 		}
 		model.setModelParentIds(parentIds);
 		modelBiz.saveEntity(model);
+		//保存成功后给当前管理就就加上对应的权限
+		if(model.getModelId() > 0){
+			ManagerSessionEntity managerSession = this.getManagerBySession(request);
+			List<RoleModelEntity> roleModels = new ArrayList<>(); 
+			RoleModelEntity rolemodel = new RoleModelEntity();
+			rolemodel.setModelId(model.getModelId());
+			rolemodel.setRoleId(managerSession.getManagerRoleID());
+			roleModels.add(rolemodel);
+			roleModelBiz.saveEntity(roleModels);
+		}
 		//返回模块id到页面
 		this.outJson(response, ModelCode.ROLE, true,String.valueOf(model.getModelId()));
 	}
