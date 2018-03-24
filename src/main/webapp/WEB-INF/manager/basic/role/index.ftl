@@ -43,8 +43,14 @@
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
-	    	columns: [{ checkbox: true},
-				    	{
+	    	columns: [{ checkbox: true,
+			    			formatter: function (value, row, index){
+			    				//不能删除自己
+			    				if("${Session.manager_session.managerRoleID}" == row.roleId){
+			    					return {disabled : true};
+			    				}
+			    			}
+	    				},{
 				        	field: 'roleId',
 				        	title: '编号',
 				        	align: 'center',
