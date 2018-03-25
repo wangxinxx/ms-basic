@@ -65,11 +65,15 @@
 				var modelId = $(this).val();
 			    var modelModelIds = $(this).attr("data-ids");
 			    ids.push(modelId);
-			    var parentIds = modelModelIds.split(",");
-			    for(var i=0;i<parentIds.length;i++){
-			    	if($.inArray(parentIds[i], ids) == -1){
-				    	ids.push(parentIds[i]);
-				    }
+			    if(modelModelIds!="") {
+				    var parentIds = modelModelIds.split(",");
+				    for(var i=0;i<parentIds.length;i++){
+				    	if(parentIds[i]!="") {
+					    	if($.inArray(parentIds[i], ids) == -1){
+						    	ids.push(parentIds[i]);
+						    }				    	
+				    	}
+				    }			    
 			    }
 			}
 		});
