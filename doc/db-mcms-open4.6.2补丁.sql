@@ -1,1 +1,0 @@
-alter table role change app_id app_id int null;
