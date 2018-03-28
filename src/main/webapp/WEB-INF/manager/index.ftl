@@ -188,7 +188,7 @@
 	
 	<@ms.modal id="loginOut" title="退出提示!">
 		  <@ms.modalBody>
-		  		确认退出？？
+		  		确认退出？
 	     </@ms.modalBody>
 		 <@ms.modalButton>
 		 	<@ms.button value="确认退出" id="loginOutBtn" url="${managerPath}/loginOut.do"/>
