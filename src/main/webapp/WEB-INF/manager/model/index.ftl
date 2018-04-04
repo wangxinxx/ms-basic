@@ -26,10 +26,10 @@
 				</@ms.formRow>
 				<@ms.text name="modelTitle" label="标题" title="模块标题" placeholder="请输入模块标题" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块标题!","data-bv-stringlength":"true","minlength":"1","maxlength":"10","data-bv-stringlength-message":"模块标题为1-10个字符!"} />
 				<@ms.text name="modelCode"  label="编码" title="模块编码" placeholder="请输入模块编码" value="" validation={"required":"true", "data-bv-notempty-message":"请输入模块编码!","data-bv-stringlength":"true","minlength":"8","maxlength":"8","data-bv-stringlength-message":"模块编码为8位数字!","data-bv-regexp":"true","data-bv-regexp-regexp":'^[0-9]+$',"data-bv-regexp-message":"模块编码只能为数字!"} />
-				<@ms.text name="modelIcon"  label="图标" title="模块图标"  placeholder="请输入模块图标" value=""/>
-				<@ms.text name="modelUrl"  label="链接地址" title="模块链接地址"  placeholder="请输入模块链接地址" value=""/>
+				<@ms.text name="modelIcon"  label="图标" title="模块图标"  placeholder="请输入模块图标" value="" validation={"maxlength":"20","data-bv-stringlength-message":"模块图标为1-20个字符!"}/>
+				<@ms.text name="modelUrl"  label="链接地址" title="模块链接地址"  placeholder="请输入模块链接地址" value="" validation={"maxlength":"255","data-bv-stringlength-message":"模块链接地址为1-255个字符!"}/>
 				<#assign isMenu=[{"id":"0","name":"否"},{"id":"1","name":"是"}]>
-				<@ms.number name="modelSort" label="排序" title="模块排序" value="" width="165px;" placeholder="请输入排序" validation={"required":"true","data-bv-notempty-message":"请输入模块的排序"}/>
+				<@ms.text name="modelSort" label="排序" title="模块排序" width="165px;" value="" placeholder="请输入排序" validation={"required":"true","maxlength":"5", "data-bv-notempty-message":"请输入模块排序!"}/>
 				<@ms.select name="modelIsMenu" style="width: 25%;" id="modelMenuSelect" list=isMenu  listKey="id" listValue="name" label="是否是菜单"  value="0" title="是否是菜单" />
 				<@ms.hidden name="modelId" value="" id="hideModelId"/>
 			</@ms.form>
