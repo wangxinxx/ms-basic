@@ -3,8 +3,8 @@
 		<@ms.saveButton id="save"/>
 	</@ms.nav>
 	<@ms.panel>
-		<@ms.form name="columnForm" isvalidation=true  action="" method="post" >
-			<@ms.text name="roleName" label="角色名称:" title="角色名称" value="${roleEntity.roleName?default('')}" width="300"  maxlength="30"  validation={"required":"true", "data-bv-notempty-message":"请填写标题"}/>
+		<@ms.form name="columnForm" isvalidation=true  action="" method="post" >                                                   
+			<@ms.text name="roleName" label="角色名称:" title="角色名称" value="${roleEntity.roleName?default('')}" width="300" validation={"required":"true","maxlength":"30","data-bv-notempty-message":"请填写标题"}/>
 			<@ms.formRow label="权限管理:">
 				<div>
 					<table id="modelList" 
@@ -84,7 +84,10 @@
 		 	data:{ids:ids,roleName:roleName,roleId:roleId,oldRoleName:oldRoleName},
 		 	success:function(data){
 		 		if(data.result == false) {
-					<@ms.notify msg= '角色名已存在' type= "fail" />
+					$('.ms-notifications').offset({top:43}).notify({
+					    type:'warning',
+					    message: { text:data.resultMsg }
+					 }).show();	
 				}else {
 					<@ms.notify msg= "操作成功" type= "success" />
 					location.href= "${managerPath}/basic/role/index.do";
