@@ -77,7 +77,10 @@
 			    }
 			}
 		});
-		$.ajax({
+		if(roleName == "" || roleName == null){
+			<@ms.notify msg= '角色名不能为空' type= "warning" />
+		}else{
+			$.ajax({
 		 	type:"post",
 		 	url:"${managerPath}/basic/role/saveOrUpdateRole.do",
 		 	dataType: "json",
@@ -94,5 +97,7 @@
 				}
 		 	}
 		});
+		}
+		
 	})
 </script>
