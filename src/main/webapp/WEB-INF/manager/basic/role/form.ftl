@@ -4,7 +4,7 @@
 	</@ms.nav>
 	<@ms.panel>
 		<@ms.form name="columnForm" isvalidation=true  action="" method="post" >                                                   
-			<@ms.text name="roleName" label="角色名称:" title="角色名称" value="${roleEntity.roleName?default('')}" width="300" validation={"required":"true","maxlength":"30","data-bv-notempty-message":"文章标题不"}/>
+			<@ms.text name="roleName" label="角色名称:" title="角色名称" value="${roleEntity.roleName?default('')}" width="300" validation={"required":"true","maxlength":"30","data-bv-notempty-message":"请填写标题"}/>
 			<@ms.formRow label="权限管理:">
 				<div>
 					<table id="modelList" 
