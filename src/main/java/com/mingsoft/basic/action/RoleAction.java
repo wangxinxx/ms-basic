@@ -174,6 +174,10 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		//获取管理员id
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		role.setRoleManagerId(managerSession.getManagerId());
+		if(role.getRoleName().equals(" ")){
+			this.outJson(response, ModelCode.ROLE, false, getResString("err.empty", this.getResString("rolrName")));	
+			return;
+		}
 		//通过角色id判断是保存还是修改
 		if(role.getRoleId()>0){
 			//若为更新角色，数据库中存在该角色名称且当前名称不为更改前的名称，则属于重名
@@ -207,7 +211,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 			roleModelBiz.deleteEntity(role.getRoleId());
 		}
 		
-		this.outJson(response, JSONObject.toJSONString(role));
+		this.outJson(response, null,true,null);
 	}
 	
 	/**
