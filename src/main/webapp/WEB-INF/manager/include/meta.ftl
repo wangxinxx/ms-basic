@@ -58,7 +58,8 @@
   <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.1/bootstrap-table.css">
   <link rel="stylesheet" href="${static}/plugins/bootstrap-table/1.11.1/extensions/tree-column/bootstrap-table-tree-column.css">
   <script src="${static}/plugins/bootstrap-table/1.11.1/bootstrap-table.js"></script>
-  <script src="${static}/plugins/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script src="${static}/plugins/bootstrap-table/1.11.1/extensions/tree-column/bootstrap-table-tree-column.min.js"></script>
+  <script src="${static}/plugins//bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
   
   <!-- vue框架所需要的资源 -->
   <script src="${static}/plugins/hammerjs/2.0.8/hammer.min.js"></script>
