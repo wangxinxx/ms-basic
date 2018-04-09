@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -174,7 +175,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		//获取管理员id
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		role.setRoleManagerId(managerSession.getManagerId());
-		if(StringUtil.isBlank(role.getRoleName())){
+		if(StringUtils.isEmpty(role.getRoleName())){
 			this.outJson(response, ModelCode.ROLE, false, getResString("err.empty", this.getResString("rolrName")));	
 			return;
 		}
