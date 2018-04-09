@@ -174,7 +174,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 		//获取管理员id
 		ManagerSessionEntity managerSession = getManagerBySession(request);
 		role.setRoleManagerId(managerSession.getManagerId());
-		if(role.getRoleName().equals(" ")){
+		if(StringUtil.isBlank(role.getRoleName())){
 			this.outJson(response, ModelCode.ROLE, false, getResString("err.empty", this.getResString("rolrName")));	
 			return;
 		}

@@ -49,7 +49,7 @@
 			<@ms.hidden name="managerId" value="0"/>
 			<@ms.text label="管理员名" name="managerName" value=""  width="240px;" placeholder="请输入管理员名" validation={"required":"true","maxlength":"15","data-bv-stringlength-message":"管理员用户名长度不能超过十五个字符长度!", "data-bv-notempty-message":"必填项目"}/>
 			<@ms.text label="管理员昵称" name="managerNickName" value=""  width="240px;" placeholder="请输入管理员昵称" validation={"required":"true","maxlength":"15","data-bv-stringlength-message":"管理员昵称长度不能超过十五个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-			<@ms.text label="管理员密码" name="managerPassword" value=""  width="240px;" placeholder="请输入管理员密码" validation={"required":"true","maxlength":"45","data-bv-stringlength-message":"管理员密码长度不能超过十五个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+			<@ms.text label="管理员密码" name="managerPassword" value=""  width="240px;" placeholder="请输入管理员密码" validation={"required":"true","maxlength":"45","data-bv-stringlength-message":"管理员密码长度不能超过四十五个字符长度!", "data-bv-notempty-message":"必填项目"}/>
 			<@ms.select id="managerRoleID"  name="managerRoleID" label="角色编号"/>	
     	</@ms.form>
     </@ms.modalBody>
