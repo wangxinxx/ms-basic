@@ -8,7 +8,11 @@
 <@ms.content>
 	<@ms.contentBody>
 		<@ms.nav title="栏目管理" back=true>
-			<@ms.saveButton  id="saveUpdate" value="" /> 
+		<#if column.categoryId == 0>
+	 		<@ms.saveButton id="saveUpdate" value="保存"/>
+	 	<#else>
+	 		<@ms.updateButton id="saveUpdate" value="更新"/>
+	 	</#if>
 		</@ms.nav>
 		<@ms.contentPanel>
 			<@ms.form name="columnForm" isvalidation=true  action="" method="post" >
@@ -39,13 +43,9 @@
 </body>
 <script>
 $(function(){
-	<#if column.categoryId==0>
-	$("#saveUpdate").text("保存");
-	<#else>
+
 	var columnContentModelId= "${column.columnContentModelId?default('')}"
 	$("select[name=columnContentModelId]").find("option[value="+columnContentModelId+"]").attr("selected","selected");
-	$("#saveUpdate").text("更新");
-	</#if>
 	<#if column.columnType == 0> 
 		  $("input:radio[name='columnType']:first").attr("checked",true);
 	</#if>
@@ -99,13 +99,17 @@ $(function(){
 	
 	//栏目保存提交事件
 	$("#saveUpdate").click(function(){
+		//加载状态
+		$(this).button('loading').delay(1000).queue(function() {
+             $(this).button('reset');
+             $(this).dequeue();
+          }); 
 		$("#columnForm").data("bootstrapValidator").validate();
 		var isValid = $("#columnForm").data("bootstrapValidator").isValid();
 		if(!isValid) {
 			<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
 			return;
 		}
-		var btnWord = $(this).text();
 		if($("#columnListUrlModel").find("option:selected").text()=="暂无文件"){
 			$("#columnListUrlModel").find("option:selected").text("");
 		}
@@ -136,7 +140,6 @@ $(function(){
 		   	dataType:"json",
 		   	beforeSend:function(){
 		   		$("#saveUpdate").attr("disabled",true);
-		   		$("#saveUpdate").text($("#saveUpdate").text()+"中")
 		   	},
 		   	success: function(msg){
 		    	if (msg.result) {
@@ -158,7 +161,6 @@ $(function(){
 	     			alert("更新失败");
 	     			</#if>
 	    			$("#saveUpdate").attr("disabled",false);
-	    			$("#saveUpdate").text(btnWord)
 	    		}
 		   	}
 		});
