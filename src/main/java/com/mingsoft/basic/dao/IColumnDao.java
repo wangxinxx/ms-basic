@@ -108,9 +108,4 @@ public interface IColumnDao extends IBaseDao {
 	 * @return 记录集合
 	 */
 	public List<ColumnEntity> queryByAppIdAndModelId(@Param("appId")int appId, @Param("modelId")int modelId);
-	/**
-	 * 查询除单页之外的栏目集合
-	 * @return
-	 */
-	public List<ColumnEntity> queryColumnList();
 }

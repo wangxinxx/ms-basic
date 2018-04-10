@@ -212,7 +212,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 			roleModelBiz.deleteEntity(role.getRoleId());
 		}
 		
-		this.outJson(response, null,true,null);
+		this.outJson(response, JSONObject.toJSONString(role));
 	}
 	
 	/**

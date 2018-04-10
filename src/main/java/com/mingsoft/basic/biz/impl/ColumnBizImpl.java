@@ -262,12 +262,5 @@ public class ColumnBizImpl extends CategoryBizImpl implements IColumnBiz {
 	public int queryColumnChildListCountByWebsiteId(int categoryCategoryId, int columnWebsiteId) {
 		return columnDao.queryColumnChildListCountByWebsiteId(categoryCategoryId, columnWebsiteId);
 	}
-	/**
-	 * 查询除单页之外的栏目集合
-	 * @return
-	 */
-	public List<ColumnEntity> queryColumnList() {
-		return columnDao.queryColumnList();
-	}
 
 }

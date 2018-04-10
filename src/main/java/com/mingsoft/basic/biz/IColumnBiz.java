@@ -137,10 +137,5 @@ public interface IColumnBiz extends ICategoryBiz {
 	 * @return 子栏目统计数目
 	 */
 	public int queryColumnChildListCountByWebsiteId(int categoryCategoryId,int columnWebsiteId);
-	/**
-	 * 查询除单页之外的栏目集合
-	 * @return
-	 */
-	public List<ColumnEntity> queryColumnList();
 
 }
