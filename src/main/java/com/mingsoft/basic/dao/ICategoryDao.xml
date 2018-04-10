@@ -321,9 +321,5 @@
 
 	</select>
 	<!-- 根据应用编号或模块编号查询分类结束 -->
-	<!-- 获取所有记录 -->
-	<select id="queryAll"  resultMap="resultMap" >
-		select * from category  order by category_id desc
-	</select>
 
 </mapper>
