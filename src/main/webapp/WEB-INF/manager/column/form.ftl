@@ -100,10 +100,12 @@ $(function(){
 	//栏目保存提交事件
 	$("#saveUpdate").click(function(){
 		//加载状态
-		$(this).button('loading').delay(1000).queue(function() {
-             $(this).button('reset');
-             $(this).dequeue();
-          }); 
+		var bottonValue = $(this).text();
+		$(this).attr("data-loading-text",bottonValue+"中");
+		 $(this).button('loading').delay(1000).queue(function() {
+			   $(this).button('reset');
+			   $(this).dequeue();
+		});
 		$("#columnForm").data("bootstrapValidator").validate();
 		var isValid = $("#columnForm").data("bootstrapValidator").isValid();
 		if(!isValid) {
