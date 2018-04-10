@@ -157,5 +157,11 @@
 		<include refid="column_list"/>
 		from basic_column co left join category ca on ca.category_id=co.column_category_id where ca.category_appId=#{appId} and ca.category_modelId=#{modelId}
 	</select>
+	<!-- 查询除单页之外的栏目集合 -->
+	<select id="queryByAppIdAndModelId"  resultMap="resultMap" >
+		select * from basic_column bc left join 
+		category cy on cy.category_id=bc.column_category_id 
+		where bc.column_type &lt;&gt;2 order by category_id desc 
+	</select>
 	
 </mapper>
