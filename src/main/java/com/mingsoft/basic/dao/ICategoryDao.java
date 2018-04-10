@@ -98,4 +98,6 @@ public interface ICategoryDao extends IBaseDao {
 	 * @return
 	 */
 	public List queryByDictId(CategoryEntity category);
+	@Override
+	List queryAll();
 }

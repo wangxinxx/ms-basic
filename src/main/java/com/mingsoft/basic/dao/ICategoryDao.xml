@@ -64,7 +64,7 @@
 			<if test="categoryDateTime != null">#{categoryDateTime},</if>
 			<if test="categoryManagerId &gt; 0">#{categoryManagerId},</if>
 			<if test="categoryModelId &gt; 0">#{categoryModelId},</if>
-			<if test="categoryCategoryId &gt; 0">#{categoryCategoryId},</if>
+			<if test="categoryCategoryId &gt; -1">#{categoryCategoryId},</if>
 			<if test="categorySmallImg != null">#{categorySmallImg},</if>
 			<if test="categoryAppId &gt; 0">#{categoryAppId},</if>
 			<if test="categoryDescription != null">#{categoryDescription},</if>
@@ -86,7 +86,7 @@
 			<if test="categorySort &gt; -1">category_sort=#{categorySort},</if>
 			<if test="categoryDateTime != null">category_datetime=#{categoryDateTime},</if>
 			<if test="categoryManagerId &gt; 0">category_managerid=#{categoryManagerId},</if>
-			<if test="categoryCategoryId &gt; 0">category_categoryid=#{categoryCategoryId},</if>
+			<if test="categoryCategoryId &gt; -1">category_categoryid=#{categoryCategoryId},</if>
 			<if test="categorySmallImg != null">category_smallimg=#{categorySmallImg},</if>
 			<if test="categoryDescription != null">category_description=#{categoryDescription},</if>
 			<if test="categoryParentId != null">category_parent_id=#{categoryParentId},</if>
@@ -321,6 +321,9 @@
 
 	</select>
 	<!-- 根据应用编号或模块编号查询分类结束 -->
-
+	<!-- 获取所有记录 -->
+	<select id="queryAll"  resultMap="resultMap" >
+		select * from category  order by category_id desc
+	</select>
 
 </mapper>
