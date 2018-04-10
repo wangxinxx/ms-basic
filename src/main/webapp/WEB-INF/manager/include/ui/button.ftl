@@ -61,7 +61,6 @@ onclick="" click="" url="" toggle="tooltip" target="bottom" icon="" title="" pla
 	<#if id!=""> id="${id}"</#if><#rt/>
 	<#if url!=""> data-ajax-url="${url}"</#if><#rt/>
 	<#if placement!=""> data-placement="${placement}"</#if><#rt/>
-	<#if value!="">data-loading-text="${value}中"</#if>
 	>
 	<#if value!="">${value}<#else>按钮</#if>
 	<#if icon!=""> <span class="glyphicon glyphicon-${icon}" <#if value?trim !="" >style="margin-right:5px"</#if>></span></#if>
