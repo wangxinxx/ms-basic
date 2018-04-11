@@ -25,7 +25,7 @@ onclick="" click=""
 	<#include "common-attributes.ftl"/><#rt/>
 	<#if id!=""> id="${id}"</#if><#rt/>
 	>
-	<#if value!="">${value}<#else>保存</#if><#rt/>
+	<#if value!="">${value}<#else>保存</#if>
 	</button><#rt/>
 		<#if click?? && click!="" && id?? && id!="">
 		<script>
@@ -61,9 +61,11 @@ onclick="" click="" url="" toggle="tooltip" target="bottom" icon="" title="" pla
 	<#if id!=""> id="${id}"</#if><#rt/>
 	<#if url!=""> data-ajax-url="${url}"</#if><#rt/>
 	<#if placement!=""> data-placement="${placement}"</#if><#rt/>
-	><#rt/>
-	<#if value!="">${value}<#else>按钮</#if><#rt/>
-	<#if icon!=""><span class="glyphicon glyphicon-${icon}" <#if value?trim !="" >style="margin-right:5px"</#if>></span></#if><#rt/>
+	
+	>
+	<#if value!="">${value}<#else>按钮</#if>
+	<#if icon!=""> <span class="glyphicon glyphicon-${icon}" <#if value?trim !="" >style="margin-right:5px"</#if>></span></#if>
+	
 	</button><#rt/>
 	<#if click?? && click!="" && id?? && id!="">
 		<script>
@@ -196,7 +198,7 @@ onclick="" click="" url="" toggle="tooltip" target="bottom" icon="" title="" pla
 </#macro>
 <#--保存-->
 <#macro saveButton value="保存" icon="floppy-saved" class="default" id="saveButton${.now?date?string('yyyyMMddhhmmss')}" onclick="" title="保存" postForm="" postBefor="" postAfter="">
-	<@ms.button icon="${icon}" class="btn btn-success" value="${value}" icon="${icon}" id="${id}"   onclick="${onclick}" title="${title}" />
+	<@ms.button icon="${icon}" class="btn btn-success" value="${value} " icon="${icon}" id="${id}"   onclick="${onclick}" title="${title}" />
 	<@ms.event postForm="${postForm}"  postBefor="${postBefor}" postAfter="${postBefor}" id="${id}"/>
 </#macro>
 <#macro updateButton value="更新" icon="open" class="default" id="updateButton" onclick="" title="更新"  postForm="" postBefor="" postAfter="" postForm="" postBefor="" postAfter="">

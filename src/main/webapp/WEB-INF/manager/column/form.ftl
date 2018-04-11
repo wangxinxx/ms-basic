@@ -43,7 +43,6 @@
 </body>
 <script>
 $(function(){
-
 	var columnContentModelId= "${column.columnContentModelId?default('')}"
 	$("select[name=columnContentModelId]").find("option[value="+columnContentModelId+"]").attr("selected","selected");
 	<#if column.columnType == 0> 
@@ -100,9 +99,9 @@ $(function(){
 	//栏目保存提交事件
 	$("#saveUpdate").click(function(){
 		//加载状态
-		var bottonValue = $(this).text();
-		$(this).attr("data-loading-text",bottonValue+"中");
-		 $(this).button('loading').delay(1000).queue(function() {
+		var bottonText = $(this).text().trim();
+		$(this).attr("data-loading-text",bottonText+"中");
+		$(this).button('loading').delay(1000).queue(function() {
 			   $(this).button('reset');
 			   $(this).dequeue();
 		});
