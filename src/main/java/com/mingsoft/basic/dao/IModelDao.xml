@@ -91,7 +91,7 @@
 		*
 		from model
 		where model_id in (select RM_MODELID from role_model where
-		RM_ROLEID=#{roleId})
+		RM_ROLEID=#{roleId}) order by MODEL_SORT,MODEL_ID desc
 	</select>
 	<!--根据角色id查询model结束 -->
 
