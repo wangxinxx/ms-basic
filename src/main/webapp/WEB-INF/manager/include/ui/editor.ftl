@@ -24,7 +24,11 @@
         	maxImageSideLength:2000,
 			maximumWords: 80000,
 		});
-                                                                
+		//重新设置编辑器的style
+		ue.ready(function () {
+        	$(".edui-editor-bottomContainer").height(30);
+   	    });   
+   	                                                       
 	</script>
 	</div>
 </div>
