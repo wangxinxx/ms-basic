@@ -98,10 +98,19 @@ $(function(){
 	
 	//栏目保存提交事件
 	$("#saveUpdate").click(function(){
+		//获取按钮值
+		var bottonText = $("#saveUpdate").text().trim();
+		//设置按钮加载状态值
+		$("#saveUpdate").attr("data-loading-text",bottonText+"中");
+		//执行加载状态
+		$("#saveUpdate").button('loading');
+
 		$("#columnForm").data("bootstrapValidator").validate();
 		var isValid = $("#columnForm").data("bootstrapValidator").isValid();
 		if(!isValid) {
 			<@ms.notify msg= "数据提交失败，请检查数据格式！" type= "warning" />
+			//设定时间为1秒之后启用按钮
+			setTimeout(function () { $("#saveUpdate").button('reset'); },1000);
 			return;
 		}
 		if($("#columnListUrlModel").find("option:selected").text()=="暂无文件"){
@@ -124,7 +133,8 @@ $(function(){
 		if(isNaN($("input[name=categorySort]").val())){
 			alert("自定义排序必须是数字");
 			$("input[name=categorySort]").val(0);
-			$("#saveUpdate").css("disabled",false);
+			//设定时间为1秒之后启用按钮
+			setTimeout(function () { $("#saveUpdate").button('reset'); },1000);
 			return;
 		}
 		$.ajax({
@@ -142,6 +152,8 @@ $(function(){
 	     			<#else>
 	     			alert("更新成功");
 	     			</#if>
+	     			//设定时间为1秒之后启用按钮
+					setTimeout(function () { $("#saveUpdate").button('reset'); },1000);
 	     			var modelId = ${Session.model_id_session?default(0)};
 	     			if(modelId == 96){
 	     				location.href="${managerPath}/mall/column/index.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
@@ -154,7 +166,8 @@ $(function(){
 	     			<#else>
 	     			alert("更新失败");
 	     			</#if>
-	    			$("#saveUpdate").attr("disabled",false);
+	    			//设定时间为1秒之后启用按钮
+					setTimeout(function () { $("#saveUpdate").button('reset'); },1000);
 	    		}
 		   	}
 		});
