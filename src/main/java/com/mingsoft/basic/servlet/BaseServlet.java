@@ -54,10 +54,10 @@ import com.mingsoft.util.StringUtil;
 
 /**
  * 基础通用servlet
- * @author 王天培QQ:78750478
+ * @author 铭飞开发团队
  * @version 
  * 版本号：100-000-000<br/>
- * 创建日期：2012-03-15<br/>
+ * 创建日期：2018年4月13日<br/>
  * 历史修订：<br/>
  */
 @SuppressWarnings("serial")

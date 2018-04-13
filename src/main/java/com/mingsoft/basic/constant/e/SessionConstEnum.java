@@ -21,7 +21,6 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.constant.e;
 
-import com.mingsoft.base.constant.e.BaseEnum;
 import com.mingsoft.base.constant.e.BaseSessionEnum;
 
 /**
