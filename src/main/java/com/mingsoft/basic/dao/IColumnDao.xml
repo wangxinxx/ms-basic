@@ -125,9 +125,15 @@
 	<select id="queryColumnByCategoryIdAndWebsiteIdAndModelId" resultMap="resultMap" >
 		select
 		<include refid="column_list"/>
-		from basic_column co left join category ca on co.column_category_id=ca.category_id where ca.category_appid=#{appId}  and ca.category_categoryid=#{categoryCategoryId}
+		from basic_column co left join category ca on co.column_category_id=ca.category_id where ca.category_appid=#{appId}
 		<if test="modelId!=null">
 		 and ca.category_modelId=#{modelId}
+		</if> 
+		<if test="categoryCategoryId > 0">
+		  and ca.category_categoryid=#{categoryCategoryId}
+		</if> 
+		<if test="categoryCategoryId == 0">
+		  and ca.category_categoryid is null or ca.category_categoryid=#{categoryCategoryId}
 		</if> 
 		order by ca.CATEGORY_SORT desc,ca.category_id desc
 		<if test="size!=null">
