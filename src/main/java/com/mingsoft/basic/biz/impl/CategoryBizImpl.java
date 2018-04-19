@@ -21,18 +21,24 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.biz.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Basic;
 import com.mingsoft.base.biz.impl.BaseBizImpl;
 import com.mingsoft.base.dao.IBaseDao;
 import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.biz.ICategoryBiz;
 import com.mingsoft.basic.dao.ICategoryDao;
 import com.mingsoft.basic.entity.CategoryEntity;
+import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
+
+import net.mingsoft.basic.util.BasicUtil;
 
 /**
  * 类别业务层实现类，继承IBaseBiz，实现ICategoryBiz接口
@@ -55,26 +61,40 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		// TODO Auto-generated method stub
 		return categoryDao.count(category);
 	}
-
+	/**
+	 * 递归返回生成静态页面的路径
+	 * @param categoryId
+	 * @return
+	 */
+    public String getGenerateFilePath(int categoryId,String categoryIds){
+    	CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
+    	int parentId = category.getCategoryCategoryId();
+    	if (parentId != 0) {
+    		categoryIds=parentId+File.separator+categoryIds;
+    		return getGenerateFilePath(parentId,categoryIds);
+    	}else{	
+    	    String path="html"+File.separator+BasicUtil.getAppId()+File.separator+categoryIds;
+    	    return path;
+    	}
+    }
 	@Override
 	public void deleteCategory(int categoryId) {
 		// TODO Auto-generated method stub
 		CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
 		//删除父类
 		if(category != null){
-			categoryDao.deleteEntity(categoryId);
+			//删除生成的html文件（递归方法获得文件路径）
+            FileUtil.delFolders(BasicUtil.getRealPath(getGenerateFilePath(categoryId,categoryId+"")));
 			deleteEntity(categoryId);
 			category.setCategoryParentId(null);
 			List<CategoryEntity> childrenList = categoryDao.queryChildren(category);
 			for(int i = 0; i < childrenList.size(); i++){
 				//删除子类
 				int childrenId = childrenList.get(i).getCategoryId();
-				categoryDao.deleteEntity(childrenId);
 				deleteEntity(childrenId);
 			}
 		}
 	}
-
 	/**
 	 * 获取类别持久化层
 	 * 
