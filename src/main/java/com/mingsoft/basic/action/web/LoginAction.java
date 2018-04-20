@@ -110,32 +110,30 @@ public class LoginAction extends BaseAction {
 			return "redirect:"+managerPath+"/index.do";
 		}
 		// 根据请求地址来显示标题
-		AppEntity app = this.getApp(request);
+		AppEntity app = BasicUtil.getApp();
 		// 判断应用实体是否存在
 		if (app != null) {
 			// 检测应用是否有自定义界面b
 			if (!StringUtil.isBlank(app.getAppLoginPage())) {
+				LOG.debug("跳转自定义登录界面");
 				return "redirect:/" + app.getAppLoginPage();
 			}
+			
 		} else {
-
 			File file = new File(this.getRealPath(request, "WEB-INF/ms.install"));
+			//存在安装文件
 			if (file.exists()) {
 				String defaultId = FileUtil.readFile(this.getRealPath(request, "WEB-INF/ms.install")).trim();
 				if (!StringUtil.isBlank(defaultId)) {
 					app = (AppEntity) appBiz.getEntity(Integer.parseInt(defaultId));
 					app.setAppUrl(this.getUrl(request));
 					appBiz.updateEntity(app);
-					// 获取tomcat下面默认的manager文件夹
-					File managerFile = new File(request.getSession().getServletContext().getRealPath("/"));
-					new File(managerFile.getParent() + File.separator + "/manager").delete();
 					FileUtil.writeFile(defaultId, this.getRealPath(request, "WEB-INF/ms.install.bak"), com.mingsoft.base.constant.Const.UTF8);
 					file.delete();
 				}
-			}
+			} 
 
 		}
-		LOG.debug("login path");
 		request.setAttribute("app", app);
 		return view("/login");
 	}
