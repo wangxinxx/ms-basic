@@ -21,10 +21,9 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package com.mingsoft.basic.action;
 
-import java.io.File;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,19 +31,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.mingsoft.basic.action.BaseAction;
-import com.mingsoft.base.entity.BaseEntity;
+
 import com.mingsoft.basic.biz.IAppBiz;
-import com.mingsoft.basic.biz.IManagerBiz;
-import com.mingsoft.basic.constant.Const;
 import com.mingsoft.basic.constant.ModelCode;
 import com.mingsoft.basic.constant.e.CookieConstEnum;
-import com.mingsoft.basic.constant.e.SessionConstEnum;
 import com.mingsoft.basic.entity.AppEntity;
 import com.mingsoft.basic.entity.ManagerEntity;
-import com.mingsoft.parser.IParserRegexConstant;
-import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
+
+import net.mingsoft.basic.util.BasicUtil;
 
 /**
  * 网站基本信息控制层
@@ -78,8 +73,18 @@ public class AppAction extends BaseAction {
 	@RequestMapping(value = "/{appId}/edit")
 	public String edit(ModelMap mode, @PathVariable int appId, HttpServletRequest request) {
 		AppEntity app = null;
+		//若有appid直接根据appid查询
 		if (appId < 0) {
-			app = this.getApp(request);
+			app = BasicUtil.getApp();
+			if(app!=null) {
+				//防止session再次压入appid
+				if(BasicUtil.getSession("addAppId")==null){
+					BasicUtil.setSession("addAppId",app.getAppId());
+				}
+			} else {
+				appId = (int) BasicUtil.getSession("addAppId");
+				app = (AppEntity) appBiz.getEntity(appId);
+			}
 		} else {
 			app = (AppEntity) appBiz.getEntity(appId);
 		}
@@ -123,8 +128,6 @@ public class AppAction extends BaseAction {
 		if (!this.isSystemManager(request)) {
 			app.setAppPayDate(null);
 			app.setAppPay(null);
-			// 设置当前的站点id
-			app.setAppId(this.getAppId(request));
 		}
 		int managerRoleID = managerSession.getManagerRoleID();
 		// 判断站点数据的合法性
