@@ -73,16 +73,16 @@ public class AppAction extends BaseAction {
 	@RequestMapping(value = "/{appId}/edit")
 	public String edit(ModelMap mode, @PathVariable int appId, HttpServletRequest request) {
 		AppEntity app = null;
-		//若有appid直接根据appid查询
+		//若有appid直接根据appId查询
 		if (appId < 0) {
 			app = BasicUtil.getApp();
 			if(app!=null) {
-				//防止session再次压入appid
-				if(BasicUtil.getSession("addAppId")==null){
-					BasicUtil.setSession("addAppId",app.getAppId());
+				//防止session再次压入appId
+				if(BasicUtil.getSession("appId")==null){
+					BasicUtil.setSession("appId",app.getAppId());
 				}
 			} else {
-				appId = (int) BasicUtil.getSession("addAppId");
+				appId = (int) BasicUtil.getSession("appId");
 				app = (AppEntity) appBiz.getEntity(appId);
 			}
 		} else {
