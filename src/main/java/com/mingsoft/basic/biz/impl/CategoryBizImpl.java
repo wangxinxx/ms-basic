@@ -32,6 +32,7 @@ import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.biz.ICategoryBiz;
 import com.mingsoft.basic.dao.ICategoryDao;
 import com.mingsoft.basic.entity.CategoryEntity;
+import com.mingsoft.parser.IParserRegexConstant;
 import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
@@ -70,10 +71,10 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
     	CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
     	int parentId = category.getCategoryCategoryId();
     	if (parentId != 0) {
-    		categoryIds=parentId+File.separator+categoryIds;
-    		return getGenerateFilePath(parentId,categoryIds);
+    		categoryIds = parentId+File.separator + categoryIds;
+    		return getGenerateFilePath(parentId, categoryIds);
     	}else{	
-    	    String path="html"+File.separator+BasicUtil.getAppId()+File.separator+categoryIds;
+    	    String path = IParserRegexConstant.HTML_SAVE_PATH+File.separator+BasicUtil.getAppId()+File.separator+categoryIds;
     	    return path;
     	}
     }
