@@ -67,7 +67,7 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 	 * @param categoryId
 	 * @return
 	 */
-    public String getGenerateFilePath(int categoryId,String categoryIds){
+    private String getGenerateFilePath(int categoryId,String categoryIds){
     	CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
     	int parentId = category.getCategoryCategoryId();
     	if (parentId != 0) {
