@@ -100,7 +100,7 @@ public class BasicAction extends BaseAction {
 			return;
 		}
 		String str = this.getCookie(request, CookieConstEnum.BASIC_HIT);
-		if (StringUtil.isBlank(str) || Integer.parseInt(str) != basicId) {
+		//if (StringUtil.isBlank(str) || Integer.parseInt(str) != basicId) {
 			// 更新点击量
 			BasicLogEntity basicLog = new BasicLogEntity();
 			basicLog.setBasicLogAppId(this.getAppId(request));
@@ -117,11 +117,11 @@ public class BasicAction extends BaseAction {
 			}
 			basicBiz.updateHit(basicId, basic.getBasicHit() + 1);
 			basicLogBiz.saveEntity(basicLog);
-			this.setCookie(request, response, CookieConstEnum.BASIC_HIT, basicId + "");
+			//this.setCookie(request, response, CookieConstEnum.BASIC_HIT, basicId + "");
 			this.outString(response, "document.write(" + (basic.getBasicHit() + 1) + ")");
-		} else {
-			this.outString(response, "document.write(" + basic.getBasicHit() + ")");
-		}
+		//} else {
+		//	this.outString(response, "document.write(" + basic.getBasicHit() + ")");
+		//}
 
 	}
 }

@@ -24,16 +24,20 @@
 </style>
 <body>
 	<div class="page-container">
-        <h1><#if app?has_content>${app.appName}</#if></h1>
-        <div class="row" style="margin:0px;">
-	        <form class="form-horizontal" id="loginForm" action="${managerPath}/checkLogin.do">
-	            <input type="text" name="managerName" class="managerName"  placeholder="用户名" value="" autofocus/>
-                <div style="color:#F00; margin-top:10px; display:none;" id="show">用户名不能为空</div>
-	            <input type="password" name="managerPassword" style="  margin-top: 10px;" class="managerPassword" placeholder="密&nbsp;&nbsp;&nbsp;&nbsp;码"  value=""/>
-	            <div style="color:#F00; margin-top:10px; display:none;" id="show1">密码不能为空</div>
-	            <button id="loginBtn" type="button">登录</button>
-	        </form>
-        </div>
+		<#if app?has_content>
+	        <h1>${app.appName}</h1>
+	        <div class="row" style="margin:0px;">
+		        <form class="form-horizontal" id="loginForm" action="${managerPath}/checkLogin.do">
+		            <input type="text" name="managerName" class="managerName"  placeholder="用户名" value="" autofocus/>
+	                <div style="color:#F00; margin-top:10px; display:none;" id="show">用户名不能为空</div>
+		            <input type="password" name="managerPassword" style="  margin-top: 10px;" class="managerPassword" placeholder="密&nbsp;&nbsp;&nbsp;&nbsp;码"  value=""/>
+		            <div style="color:#F00; margin-top:10px; display:none;" id="show1">密码不能为空</div>
+		            <button id="loginBtn" type="button">登录</button>
+		        </form>
+	        </div>
+        <#else>
+        	<h1>系统配置异常，请手动去掉WEB-INF/ms.install.bak文件的后缀.bak，再重启系统进入登录界面进行初始化</h1>
+        </#if>
     </div>
 	
 	<script type="text/javascript">    	
