@@ -34,10 +34,12 @@ import com.mingsoft.base.entity.BaseEntity;
 import com.mingsoft.basic.biz.ICategoryBiz;
 import com.mingsoft.basic.dao.ICategoryDao;
 import com.mingsoft.basic.entity.CategoryEntity;
+import com.mingsoft.parser.IParserRegexConstant;
 import com.mingsoft.util.FileUtil;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
 
+import net.mingsoft.base.util.BaseUtil;
 import net.mingsoft.basic.util.BasicUtil;
 
 /**
@@ -61,19 +63,20 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		// TODO Auto-generated method stub
 		return categoryDao.count(category);
 	}
+
 	/**
 	 * 递归返回生成静态页面的路径
 	 * @param categoryId
 	 * @return
 	 */
-    public String getGenerateFilePath(int categoryId,String categoryIds){
+    private String getGenerateFilePath(int categoryId,String categoryIds){
     	CategoryEntity category = (CategoryEntity) categoryDao.getEntity(categoryId);
     	int parentId = category.getCategoryCategoryId();
     	if (parentId != 0) {
-    		categoryIds=parentId+File.separator+categoryIds;
-    		return getGenerateFilePath(parentId,categoryIds);
+    		categoryIds = parentId+File.separator + categoryIds;
+    		return getGenerateFilePath(parentId, categoryIds);
     	}else{	
-    	    String path="html"+File.separator+BasicUtil.getAppId()+File.separator+categoryIds;
+    	    String path = IParserRegexConstant.HTML_SAVE_PATH+File.separator+BasicUtil.getAppId()+File.separator+categoryIds;
     	    return path;
     	}
     }
@@ -84,7 +87,8 @@ public class CategoryBizImpl extends BaseBizImpl implements ICategoryBiz {
 		//删除父类
 		if(category != null){
 			//删除生成的html文件（递归方法获得文件路径）
-            FileUtil.delFolders(BasicUtil.getRealPath(getGenerateFilePath(categoryId,categoryId+"")));
+			FileUtil.delFolders(BaseUtil.getRealPath(getGenerateFilePath(categoryId, categoryId+"")));
+			categoryDao.deleteEntity(categoryId);
 			deleteEntity(categoryId);
 			category.setCategoryParentId(null);
 			List<CategoryEntity> childrenList = categoryDao.queryChildren(category);

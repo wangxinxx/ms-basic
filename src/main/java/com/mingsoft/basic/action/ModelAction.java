@@ -395,25 +395,32 @@ public class ModelAction extends BaseAction {
 		if(roleId>0){
 			roleModelList = roleModelBiz.queryByRoleId(roleId);
 		}
-		//组织子数据
+		List<ModelEntity> childModelList = new ArrayList<>();
+		//将菜单和功能区分开
 		for(BaseEntity base : modelList){
 			ModelEntity _model = (ModelEntity) base;
 			if(_model.getModelIsMenu() == 1){
 				_model.setModelChildList(new ArrayList<ModelEntity>());
 				_modelList.add(_model);
 			}else if(_model.getModelIsMenu() == 0){
-				for(ModelEntity _modelEntity : _modelList){
-					if(_model.getModelModelId() == _modelEntity.getModelId()){
-						for(RoleModelEntity roleModelEntity : roleModelList){
-							if(roleModelEntity.getModelId() == _model.getModelId()){
-								_model.setChick(1);
-							}
-						}
-						_modelEntity.getModelChildList().add(_model);
-					}
-				}
+				childModelList.add(_model);
 			}
 		}
+		//菜单和功能一一匹配
+		for(ModelEntity _modelEntity : _modelList){
+			for(ModelEntity childModel : childModelList){
+				if(childModel.getModelModelId() == _modelEntity.getModelId()){
+					_modelEntity.getModelChildList().add(childModel);
+					//选中状态
+					for(RoleModelEntity roleModelEntity : roleModelList){
+						if(roleModelEntity.getModelId() == childModel.getModelId()){
+							childModel.setChick(1);
+						}
+					}
+					
+				}
+			}
+		} 
 		EUListBean _list = new EUListBean(_modelList, _modelList.size());
 		this.outJson(response,net.mingsoft.base.util.JSONArray.toJSONString(_list));
 	}
