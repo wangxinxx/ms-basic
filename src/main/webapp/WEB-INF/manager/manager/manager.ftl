@@ -254,7 +254,7 @@
 				   }
 				});
 			 } else {
-				alert("删除失败，请先选择管理员");
+			 	<@ms.notify msg= "删除失败，请先选择管理员" type= "warning" />
 				$(".deleteAll").modal("hide");
 			 }
 		 });
