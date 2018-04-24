@@ -51,7 +51,7 @@
 				   url: base+"${baseManager}/template/unZip.do",
 				   data: "fileUrl=" + fileUrl,
 				   success: function(msg){ 
-				   		alert("模版上传成功!");
+				   		<@ms.notify msg= "模版上传成功!" type= "success" />
 				     	location.href=base+"${baseManager}/template/queryTemplateSkin.do"
 				   }
 			  });            	   
@@ -70,10 +70,10 @@
 			$(this).text("删除中");
 			$(this).request({url:URL,data:DATA,type:"json",method:"post",func:function(msg) {
 				if(msg){
-			      	alert("删除模版成功");
+			      	<@ms.notify msg= "删除模版成功" type= "success" />
 			      	location.href=base+"${baseManager}/template/queryTemplateSkin.do"
 			      } else {
-			      	alert("删除模版失败");
+			      	<@ms.notify msg= "删除模版失败" type= "warning" />
 			      	$("#deleteButton").attr("disabled",false);
 					$("#deleteButton").text("删除");
 			      }

@@ -51,7 +51,7 @@
 		
 	   var interval;  
        function refresh(e){
-        alert("上传成功");
+        <@ms.notify msg= "上传成功!" type= "success" />
        	location.reload();
 	   }
        function chat() {  
@@ -90,11 +90,11 @@
 			var DATA = "fileName=" + fileName;
 			$(this).request({url:URL,data:DATA,type:"json",method:"post",func:function(msg) {
 					if(msg != 0) {
-						alert("删除模版文件成功");
+						<@ms.notify msg= "删除模版文件成功" type= "success" />
 						location.reload();
 			    	} else {
-						alert("删除模版文件失败");
-			    	}
+			    		<@ms.notify msg= "删除模版文件失败" type= "warning" />
+			   	  	}
 			}});
 			
 		});

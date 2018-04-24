@@ -172,7 +172,10 @@
 		if(vobj.isValid()){
 			$(this).postForm("#addEditForm",{func:function(msg) {
 				if(msg.result){
-					alert(postMessage);
+					$('.ms-notifications').offset({top:43}).notify({
+					    type:'success',
+					    message: { text:postMessage }
+					 }).show();	
 			    	location.reload();
 				}
 			}});
