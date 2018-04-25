@@ -108,7 +108,7 @@
 					    	}
 					    	$("#save").removeAttr("disabled");
 					   },error: function(){
-					   	  	<@ms.notify msg= "操作失败" type= "warning" />
+					   	  	<@ms.notify msg= "操作失败" type= "danger" />
 					   		$("#save").removeAttr("disabled");
 					   	  	location.href = "${managerPath}/role/queryList.do";
 					   }

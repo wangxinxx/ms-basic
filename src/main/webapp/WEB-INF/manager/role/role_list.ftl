@@ -128,7 +128,7 @@
 						location.href = base+"${baseManager}/role/queryList.do?pageNo="+msg;
 					}
 		    	} else {
-		    		<@ms.notify msg= "删除失败" type= "warning"/>
+		    		<@ms.notify msg= "删除失败" type= "danger"/>
 		    	}
 		    	location.reload();
 			}});
@@ -156,7 +156,7 @@
 							location.href = base+"${baseManager}/role/queryList.do?pageNo="+msg;
 						}
 			   		} else {
-			    		<@ms.notify msg= "删除角色失败" type= "warning"/>
+			    		<@ms.notify msg= "删除角色失败" type= "danger"/>
 			    		$("#deleteButtonAll").text("删除");
 						$("#deleteButtonAll").attr("disabled",false);
 						$(".deleteAll").modal("hide");

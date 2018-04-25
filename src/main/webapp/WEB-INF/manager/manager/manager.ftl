@@ -176,7 +176,7 @@
 					   			$("#updateButton").attr("disabled",false);
 					   		}
 					   },error: function(){
-					   	  <@ms.notify msg= "数据请求失败，请检查请求地址和参数是否正确" type= "warning" />
+					   	  <@ms.notify msg= "数据请求失败，请检查请求地址和参数是否正确" type= "danger" />
 					   	  location.href = base+"${baseManager}/role/add.do";
 					   }
 				});
@@ -205,7 +205,7 @@
 			   		$("select[name=managerRoleID]").find("option[value="+msg.manager.managerRoleID+"]").attr("selected",true);
 		   		}
 		   },error: function(){
-		   	  <@ms.notify msg= "系统异常" type= "warning" />
+		   	  <@ms.notify msg= "系统异常" type= "danger" />
 		   }
 		});
 		URL = "${managerPath}/manager/update.do?managerId="+managerId;
@@ -249,12 +249,12 @@
 				     		location.href = base+"${baseManager}/manager/queryList.do?pageNo="+msg;
 						}
 				   },error: function(){
-				   	  <@ms.notify msg= "批量删除管理员失败" type= "warning" />
+				   	  <@ms.notify msg= "批量删除管理员失败" type= "danger" />
 				      $(".deleteAll").modal("hide");
 				   }
 				});
 			 } else {
-			 	<@ms.notify msg= "删除失败，请先选择管理员" type= "warning" />
+			 	<@ms.notify msg= "删除失败，请先选择管理员" type= "danger" />
 				$(".deleteAll").modal("hide");
 			 }
 		 });
@@ -282,11 +282,11 @@
 							location.href = base+"${baseManager}/manager/queryList.do?pageNo="+msg;
 						}
 			    	} else {
-						<@ms.notify msg= "删除管理员失败" type= "warning" />
+						<@ms.notify msg= "删除管理员失败" type= "danger" />
 				    	$(".closeModal").click();
 			    	}
 			   },error: function(){
-			   	  <@ms.notify msg= "系统异常" type= "warning" />
+			   	  <@ms.notify msg= "系统异常" type= "danger" />
 			   }
 			});
 		 });
