@@ -157,7 +157,7 @@ $(function(){
 	//获取内容模型列表
 	$.ajax({
 		type: "post",
-		url: "${managerPath}/mdiy/contentModel/list.do",
+		url: "${managerPath}/mdiy/contentModel/list.do?pageSize=100",
 		dataType: "json",
 		contentType: "application/json",
 		success:function(data) {
