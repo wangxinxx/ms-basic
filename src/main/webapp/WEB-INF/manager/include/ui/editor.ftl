@@ -12,7 +12,7 @@
 		//实例化编辑器
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 		//  var ue = UE.getEditor('editor_${name}');
-       var URL = window.UEDITOR_HOME_URL || "${basePath}/static/plugins/ueditor/1.4.3.1/";
+       var URL = window.UEDITOR_HOME_URL || "${base}/static/plugins/ueditor/1.4.3.1/";
 	   var ue = UE.getEditor('editor_${name}', {
        		imageScaleEnabled :true,
        		// 服务器统一请求接口路径
