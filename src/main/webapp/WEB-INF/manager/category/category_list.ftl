@@ -66,10 +66,10 @@ $(function(){
 		$(this).request({url: base+"${baseManager}/category/"+categoryId+"/delete.do",type:"json",method:"post",func:function(msg) {
 			var columnJson = $.parseJSON(msg.resultMsg);
 			if(columnJson==false){
-				alert("请先删除子栏目");
+				<@ms.notify msg= "请先删除子栏目" type= "warning" />
 				$(".delete").modal("hide");
 			}else{
-				alert("删除成功");
+				<@ms.notify msg= "删除成功" type= "success" />
 				location.reload();
 			}
 		}});

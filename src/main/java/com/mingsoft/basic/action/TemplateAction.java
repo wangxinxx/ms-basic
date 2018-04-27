@@ -35,6 +35,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -217,6 +218,7 @@ public class TemplateAction extends BaseAction {
 	 */
 	@RequestMapping("/unZip")
 	@ResponseBody
+	@RequiresPermissions("template:upload")
 	public String unZip(ModelMap model, HttpServletRequest request) throws  IOException {
 		boolean hasDic = false;
 		String entryName = "";
@@ -280,6 +282,7 @@ public class TemplateAction extends BaseAction {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("template:del")
 	public boolean delete(HttpServletRequest request) {
 		String fileName = request.getParameter("fileName");
 		String path = this.getRealPath(request, IParserRegexConstant.REGEX_SAVE_TEMPLATE + File.separator
@@ -359,6 +362,7 @@ public class TemplateAction extends BaseAction {
 	 * @return 返回文件内容
 	 */
 	@RequestMapping("/readFileContent")
+	@RequiresPermissions("template:update")
 	public String readFileContent(ModelMap model, HttpServletRequest request) {
 		String fileName = request.getParameter("fileName");
 		if (!StringUtil.isBlank(fileName)) {

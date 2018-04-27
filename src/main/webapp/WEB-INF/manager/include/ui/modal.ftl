@@ -117,7 +117,7 @@
 					message.show();
 				}
 			} catch(e){
-				alert("文本");
+				<@ms.notify msg= "文本" type= "warning" />
 			}	
 			$("#${modalName}Body ").html(message);
 			$('#${modalName}Dialog').modal();

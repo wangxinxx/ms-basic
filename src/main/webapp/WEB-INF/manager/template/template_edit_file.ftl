@@ -27,9 +27,9 @@
 				$(this).request({url:URL,type:"json",method:"post",data:formData+"&oldFileName="+oldFileName+"&fileNamePrefix="+fileNamePrefix,func:function(msg) {
 					//回调处理方式
 					if(msg.result){
-			    		alert("修改模版文件成功");
+			    		<@ms.notify msg= "修改模版文件成功" type= "success" />
 			    	} else {
-			    		alert("修改模版文件失败");
+			    		<@ms.notify msg= "修改模版文件失败" type= "warning" />
 			   	  	}
 			   	  	var fileNameUrl = $(".fileNamePrefix").val();
 			   	  	$("#update").text("修改");

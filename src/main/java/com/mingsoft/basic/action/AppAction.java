@@ -24,6 +24,7 @@ package com.mingsoft.basic.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -114,6 +115,7 @@ public class AppAction extends BaseAction {
 	 *            相应对象
 	 */
 	@RequestMapping("/update")
+	@RequiresPermissions("app:update")
 	public void update(ModelMap mode, @ModelAttribute AppEntity app, HttpServletRequest request,
 			HttpServletResponse response) {
 		mode.clear();

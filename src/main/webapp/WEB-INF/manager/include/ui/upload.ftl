@@ -62,7 +62,7 @@
 				.bind('fileQueued', function (event, file) {	
 				   if ($("#ms__uploadPic_${inputName} .msUploadImgs").children().length>=${size?default("5")}) {
 						  $(this).swfupload('cancelUpload');
-						  alert("最多上传${size}个文件!");
+						  <@ms.notify msg= "最多上传${size}个文件!" type= "warning" />
 					} else {
 					    var listitem = '<li id="' + file.id + '"><div class="displayimg"><img src="'+static+'/plugins/jquery.swfupload/1.0.0/load.gif" /></div><span class="front-cover">0%</span></li>';
 			            $('#ms__uploadPic_${inputName} ul').append(listitem);
@@ -72,11 +72,11 @@
 				})
 				.bind('fileQueueError', function (event, file, errorCode, message) {
 				    if (errorCode==-130) {
-				    	alert('文件类型错误!');
+				    	<@ms.notify msg= "文件类型错误!" type= "warning" />
 				    } else if (errorCode==-100) {
-				    	alert("最多上传${size}个文件!");
+				    	<@ms.notify msg= "最多上传${size}个文件!" type= "warning" />
 				    } else {
-				    	alert('上传图片过多或上传图片过大!');
+				    	<@ms.notify msg= "上传图片过多或上传图片过大!" type= "warning" />
 				    }
 				})
 				.bind('uploadStart', function (event, file) {
@@ -228,7 +228,7 @@
 				.bind('fileQueued', function (event, file) {	
 				   if ($("#ms__uploadPic_${inputName} .msUploadImgs").children().length>=${size?default("5")}) {
 						  $(this).swfupload('cancelUpload');
-						  alert("最多上传${size}个文件!");
+						  <@ms.notify msg= "上传图片过多或上传图片过大!" type= "warning" />
 					} else {
 					    $(this).swfupload('startUpload');
 				    }
@@ -236,12 +236,12 @@
 				})
 				.bind('fileQueueError', function (event, file, errorCode, message) {
 				    if (errorCode==-130) {
-				    	alert('文件类型错误!');
+				    	<@ms.notify msg= "文件类型错误!" type= "warning" />
 				    } else if (errorCode==-100) {
-				    	alert("最多上传${size}个文件!");
+				    	<@ms.notify msg= "最多上传${size}个文件!" type= "warning" />
 				    } else {
 				    	//alert(errorCode+'上传图片过多或上传图片过大!');
-				    	alert('上传文件过大!');
+				    	<@ms.notify msg= "上传文件过大!" type= "warning" />
 				    }
 				    <#if callBack!=""> 
 				    	eval("${callBack}(errorCode)");
@@ -258,7 +258,7 @@
 						<#if callBack!=""> 
 							eval("${callBack}(serverData)");
 						<#else>
-							alert("上传成功");
+							<@ms.notify msg= "上传成功" type= "success" />
 						</#if>
 				})
 				.bind('uploadComplete', function (event, file) {
@@ -329,7 +329,10 @@
 			$('#${imgId}').attr('src', '${basePath}/' + imgUrl);
 		}
 		else{
-			alert('上传失败，请求返回码:' + result.status);
+			$('.ms-notifications').offset({top:43}).notify({
+				type:'success',
+				message: { text:'上传失败，请求返回码:' + result.status }
+			}).show();
 		}
 		
 		<#if callback != "" > 

@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh">
- <head>
-<#include "${managerViewPath}/include/macro.ftl"/>
-<#include "${managerViewPath}/include/meta.ftl"/>
-</head>
-<body>	
-<@ms.content>
-	<@ms.contentBody>
-		<@ms.nav title="栏目管理" back=true>
+<@ms.html5>
+	<@ms.nav title="栏目管理" back=true>
 		<#if column.categoryId == 0>
 	 		<@ms.saveButton id="saveUpdate" value="保存"/>
 	 	<#else>
 	 		<@ms.updateButton id="saveUpdate" value="更新"/>
 	 	</#if>
 		</@ms.nav>
-		<@ms.contentPanel>
-			<@ms.form name="columnForm" isvalidation=true  action="" method="post" >
+	<@ms.panel>
+		<@ms.form name="columnForm" isvalidation=true  action="" method="post" >
 				<#if column.categoryId!=0>
 					<@ms.hidden name="categoryId" value="${column.categoryId?c?default(0)}" />
 				</#if>
@@ -37,10 +29,8 @@
 				<@ms.select name="columnUrl" width="300" id="columnUrlModel" default="暂无文件"  list=columnModelUrls  listKey="id" listValue="name" label="内容模版"  value="${column.columnUrl?default('')}"  select2=true/>
 				<@ms.hidden name="modelId"  value="${Session.model_id_session?default('0')}" />
 			</@ms.form>
-		</@ms.contentPanel>
-	</@ms.contentBody>
-</@ms.content>    
-</body>
+	</@ms.panel>
+</@ms.html5>	
 <script>
 $(function(){
 
@@ -123,7 +113,7 @@ $(function(){
 		URL = "${managerPath}/column/update.do?modelId=${Session.model_id_session?default(0)}&modelTitle=${Session.model_title_session?default('')}";
 		</#if>
 		if(isNaN($("input[name=categorySort]").val())){
-			alert("自定义排序必须是数字");
+			<@ms.notify msg= "自定义排序必须是数字" type= "warning" />
 			$("input[name=categorySort]").val(0);
 			return;
 		}
@@ -143,9 +133,9 @@ $(function(){
 		   	success: function(msg){
 		    	if (msg.result) {
 	     			<#if column.categoryId==0>
-	     			alert("保存成功");
+	     				<@ms.notify msg= "保存成功" type= "success" />
 	     			<#else>
-	     			alert("更新成功");
+	     				<@ms.notify msg= "更新成功" type= "success" />	
 	     			</#if>
 	     			var modelId = ${Session.model_id_session?default(0)};
 	     			if(modelId == 96){
@@ -155,9 +145,9 @@ $(function(){
 	     			}
 	    		}else{
 	    			<#if column.categoryId==0>
-	     			alert("保存失败");
+	     				<@ms.notify msg= "保存失败" type= "warning" />
 	     			<#else>
-	     			alert("更新失败");
+	     				<@ms.notify msg= "更新失败" type= "warning" />
 	     			</#if>
 	    		}
 	    		$("#saveUpdate").button('reset')
@@ -167,7 +157,7 @@ $(function(){
 	//获取内容模型列表
 	$.ajax({
 		type: "post",
-		url: "${managerPath}/mdiy/contentModel/list.do",
+		url: "${managerPath}/mdiy/contentModel/list.do?pageSize=100",
 		dataType: "json",
 		contentType: "application/json",
 		success:function(data) {
@@ -194,10 +184,9 @@ function clickZtreeId(event,treeId,treeNode){
 		var nodes = zTreeObjinputTree.getNodesByParam("categoryId", treeNode.categoryId, nodeParam[0]);
 		if(nodes.length>0 || treeNode.categoryId == nodeParam[0].categoryId){
 			booleanClick=false;
-			alert("不能选择该栏目作为父栏目")
+			<@ms.notify msg= "不能选择该栏目作为父栏目" type= "warning" />
 		}
 		return booleanClick;
 	</#if>
 } 
 </script>
-</html>

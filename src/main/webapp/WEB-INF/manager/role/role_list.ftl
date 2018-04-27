@@ -121,14 +121,14 @@
 				//回调处理方式
 				if(msg != 0) {
 			    	$("input[name="+roleId+"]").parent().remove();
-		    		alert("删除角色成功");
+		    		<@ms.notify msg= "删除角色成功!" type= "success" />
 		    		if($("tbody tr").length==0 && msg != 1){
 		    			location.href = base+"${baseManager}/role/queryList.do?pageNo="+(msg-1);
 					}else{
 						location.href = base+"${baseManager}/role/queryList.do?pageNo="+msg;
 					}
 		    	} else {
-					alert("删除失败");
+		    		<@ms.notify msg= "删除失败" type= "danger"/>
 		    	}
 		    	location.reload();
 			}});
@@ -149,21 +149,21 @@
 				$("#deleteButtonAll").attr("disabled",true);
 				$(this).request({url:URL,data:ids,type:"json",method:"post",func:function(msg) {
                 	if(msg != 0) {
-			   			alert("批量删除成功");
+			   			<@ms.notify msg= "批量删除成功" type= "success" />
 			   			if($("tbody tr").length == count && msg != 1){
 		    				location.href = base+"${baseManager}/role/queryList.do?pageNo="+(msg-1);
 						}else{
 							location.href = base+"${baseManager}/role/queryList.do?pageNo="+msg;
 						}
 			   		} else {
-			    		alert("删除角色失败");
+			    		<@ms.notify msg= "删除角色失败" type= "danger"/>
 			    		$("#deleteButtonAll").text("删除");
 						$("#deleteButtonAll").attr("disabled",false);
 						$(".deleteAll").modal("hide");
 			    	}
 				}});
 			 } else {
-				alert("删除失败，请先选择管理员");
+				<@ms.notify msg= "删除失败，请先选择管理员" type= "warning" />
 				$(".deleteAll").modal("hide");
 			 }
 		}

@@ -4,8 +4,8 @@
 		<div id="toolbar">
 			<@ms.panelNav>
 				<@ms.buttonGroup>
-					<@ms.addButton id="addModelBtn"/>
-					<@ms.delButton id="delModelBtn"/>
+					<@shiro.hasPermission name="model:save"><@ms.panelNavBtnAdd title="" id="addModelBtn"/></@shiro.hasPermission> 
+					<@shiro.hasPermission name="model:del"><@ms.panelNavBtnDel title="" id="delModelBtn"/></@shiro.hasPermission> 
 				</@ms.buttonGroup>
 			</@ms.panelNav>
 		</div>
@@ -77,7 +77,13 @@
 				        	field: 'modelTitle',
 				        	title: '模块标题',
 				        	formatter:function(value,row,index) {
-				        		return "<a style='cursor:pointer;text-decoration:none;' onclick='editModal("+row.modelId+")'>" + value + "</a>";
+				        		<@shiro.hasPermission name="model:update">	        
+					        	return "<a style='cursor:pointer;text-decoration:none;' onclick='editModal("+row.modelId+")'>" + value + "</a>";
+					    		</@shiro.hasPermission> 
+					    		<@shiro.lacksPermission name="model:update">
+					    			return value;
+					    		</@shiro.lacksPermission>
+				        		
 				        	}
 				    	},{
 				        	field: 'modelCode',
@@ -172,7 +178,10 @@
 		if(vobj.isValid()){
 			$(this).postForm("#addEditForm",{func:function(msg) {
 				if(msg.result){
-					alert(postMessage);
+					$('.ms-notifications').offset({top:43}).notify({
+					    type:'success',
+					    message: { text:postMessage }
+					 }).show();	
 			    	location.reload();
 				}
 			}});
@@ -212,7 +221,7 @@
 				if(msg.result == true) {
 					<@ms.notify msg= "删除成功" type= "success" />
 				}else {
-					<@ms.notify msg= "删除失败" type= "fail" />
+					<@ms.notify msg= "删除失败" type= "danger" />
 				}
 				location.reload();
 			}

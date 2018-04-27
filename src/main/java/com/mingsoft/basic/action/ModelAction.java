@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -188,6 +190,7 @@ public class ModelAction extends BaseAction {
 	 */
 	@PostMapping("/save")
 	@ResponseBody
+	@RequiresPermissions("model:save")
 	public void save(@ModelAttribute ModelEntity model, HttpServletResponse response, HttpServletRequest request) {
 		//模块标题验证
 		if(StringUtil.isBlank(model.getModelTitle())){
@@ -255,6 +258,7 @@ public class ModelAction extends BaseAction {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("model:del")
 	public void delete(HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = BasicUtil.getInts("ids", ",");
 		modelBiz.delete(ids);		
@@ -290,6 +294,7 @@ public class ModelAction extends BaseAction {
 	 * }</dd><br/>
 	 */
 	@PostMapping("/update")
+	@RequiresPermissions("model:update")
 	@ResponseBody	 
 	public void update(@ModelAttribute ModelEntity model, HttpServletResponse response,
 			HttpServletRequest request) {

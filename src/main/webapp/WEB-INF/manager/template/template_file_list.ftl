@@ -1,34 +1,37 @@
 <@ms.html5>
 	<@ms.nav title="文件列表1" back=true></@ms.nav>
 	<@ms.panel>
-					<@ms.uploadFile uploadFloderPath="${uploadFileUrl}" path="" inputName="file" size="20" filetype="*.htm;*.html;*.jpg;*.gif;*.png;*.css;*.js;*.ico;*.swf" msg="建议上传5M以下htm/html/css/js/jpg/gif/png/swf文件"  maxSize="5" callBack="refresh" isRename="false"/>
-
-					
-					<@ms.table head=['<th class="text-center">图标</th>','模板名称',"<th style='width:20%;text-align:center'>类型</th>","<th class='text-center' style='width:10%;'>操作</th>"]>
-						<#if fileNameList?has_content>
-			           		<#list fileNameList as fileName>
-					        	<tr> 
-						            <td style="width:10%" class="pic text-center"></td>
-						            <td style="width:35%" class="name">${fileName?replace("\\","/")}</td>
-						            <td class="text-center type"></td>
-						            <td style="width:10%;text-align:center">			      
-				                    	<a class="btn btn-xs tooltips deleteIcon" data-toggle="tooltip" data-title="${fileName?replace("\\","/")}" data-original-title="删除">
-					                        <i class="glyphicon glyphicon-trash" style="color:#428BCA"></i>
-					                    </a>
-					                    <a class="btn btn-xs tooltips editFileBtn" data-toggle="tooltip" data-title="templets/${websiteId}/${fileName?replace("\\","/")}" data-original-title="编辑">
-				                     		<i class="glyphicon glyphicon-pencil" style="color:#428BCA"></i>
-				                    	</a>			                    	
-									</td>
-						        </tr>
-				        	</#list>	  
-			        	<#else>         	
-			           		<tr>
-					            <td colspan="5" class="text-left">
-					            	<@ms.nodata/>
-								</td>
-				          	</tr>
-						</#if>
-					</@ms.table>
+			<@shiro.hasPermission name="template:upload"><@ms.uploadFile uploadFloderPath="${uploadFileUrl}" path="" inputName="file" size="20" filetype="*.htm;*.html;*.jpg;*.gif;*.png;*.css;*.js;*.ico;*.swf" msg="建议上传5M以下htm/html/css/js/jpg/gif/png/swf文件"  maxSize="5" callBack="refresh" isRename="false"/></@shiro.hasPermission> 
+			<@ms.table head=['<th class="text-center">图标</th>','模板名称',"<th style='width:20%;text-align:center'>类型</th>","<th class='text-center' style='width:10%;'>操作</th>"]>
+				<#if fileNameList?has_content>
+	           		<#list fileNameList as fileName>
+			        	<tr> 
+				            <td style="width:10%" class="pic text-center"></td>
+				            <td style="width:35%" class="name">${fileName?replace("\\","/")}</td>
+				            <td class="text-center type"></td>
+				            <td style="width:10%;text-align:center">	
+				            	<@shiro.hasPermission name="template:del">	        
+					        	<a class="btn btn-xs tooltips deleteIcon" data-toggle="tooltip" data-title="${fileName?replace("\\","/")}" data-original-title="删除">
+			                        <i class="glyphicon glyphicon-trash" style="color:#428BCA"></i>
+			                    </a>
+					    		</@shiro.hasPermission> 
+		                    	<@shiro.hasPermission name="template:update">	        
+					        	 <a class="btn btn-xs tooltips editFileBtn" data-toggle="tooltip" data-title="templets/${websiteId}/${fileName?replace("\\","/")}" data-original-title="编辑">
+		                     		<i class="glyphicon glyphicon-pencil" style="color:#428BCA"></i>
+		                    	</a>
+					    		</@shiro.hasPermission> 
+			                   			                    	
+							</td>
+				        </tr>
+		        	</#list>	  
+	        	<#else>         	
+	           		<tr>
+			            <td colspan="5" class="text-left">
+			            	<@ms.nodata/>
+						</td>
+		          	</tr>
+				</#if>
+			</@ms.table>
 	</@ms.panel>
 </@ms.html5>	
 	<!--=================模态框部分开始=================-->
@@ -51,7 +54,7 @@
 		
 	   var interval;  
        function refresh(e){
-        alert("上传成功");
+        <@ms.notify msg= "上传成功!" type= "success" />
        	location.reload();
 	   }
        function chat() {  
@@ -90,11 +93,11 @@
 			var DATA = "fileName=" + fileName;
 			$(this).request({url:URL,data:DATA,type:"json",method:"post",func:function(msg) {
 					if(msg != 0) {
-						alert("删除模版文件成功");
+						<@ms.notify msg= "删除模版文件成功" type= "success" />
 						location.reload();
 			    	} else {
-						alert("删除模版文件失败");
-			    	}
+			    		<@ms.notify msg= "删除模版文件失败" type= "warning" />
+			   	  	}
 			}});
 			
 		});

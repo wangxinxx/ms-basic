@@ -43,7 +43,7 @@
 					   data: "roleName=" + roleName,
 					   success: function(msg){
 					     	if(msg){
-					     		alert("该角色名称已存在，请再次输入");
+					     		<@ms.notify msg= "该角色名称已存在，请再次输入" type= "warning" />
 					     		$("input[name='roleName']").val(null);
 					     	} 
 					   }
@@ -79,7 +79,7 @@
 						modelId[i] = nodes[i].modelId;
 					}
 					if(modelId==""||modelId==null||modelId==undefined){
-						alert("请选择功能模块！");
+						<@ms.notify msg= "请选择功能模块！" type= "warning"/>
 						$("#save").removeAttr("disabled");
 						return;
 					}
@@ -94,14 +94,21 @@
 					   },
 					   success: function(msg){
 					     	if(msg.result){
-					     		alert("<#if flag == true>保存<#else>更新</#if>成功");
+					     		<#if flag == true>
+					     			<@ms.notify msg= "保存成功" type= "success" />
+					     		<#else>
+					     			<@ms.notify msg= "更新成功" type= "warning" />
+					     		</#if>
 					   			location.href = "${managerPath}/role/queryList.do";
 					    	} else {
-					    	    alert(msg.resultMsg);
+					    	    $('.ms-notifications').offset({top:43}).notify({
+					    			type:'warning',
+					    			message: { text:msg.resultMsg }
+					 			}).show();	
 					    	}
 					    	$("#save").removeAttr("disabled");
 					   },error: function(){
-					   	  	alert("操作失败");
+					   	  	<@ms.notify msg= "操作失败" type= "danger" />
 					   		$("#save").removeAttr("disabled");
 					   	  	location.href = "${managerPath}/role/queryList.do";
 					   }

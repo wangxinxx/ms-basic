@@ -162,15 +162,21 @@
 					   },
 					   success: function(msg){ 
 					   		if(msg.result==true){
-					   			alert(buttonHtml+"成功");
+					   			$('.ms-notifications').offset({top:43}).notify({
+									type:'success',
+									message: { text:buttonHtml+"成功" }
+								}).show();
 					   			location.reload();
 					   		}else{
-					   			alert(msg.resultMsg);
+					   			$('.ms-notifications').offset({top:43}).notify({
+									type:'warning',
+									message: { text:msg.resultMsg }
+								}).show();
 					   			$("#updateButton").text(buttonHtml);
 					   			$("#updateButton").attr("disabled",false);
 					   		}
 					   },error: function(){
-					   	  alert("数据请求失败，请检查请求地址和参数是否正确");
+					   	  <@ms.notify msg= "数据请求失败，请检查请求地址和参数是否正确" type= "danger" />
 					   	  location.href = base+"${baseManager}/role/add.do";
 					   }
 				});
@@ -199,7 +205,7 @@
 			   		$("select[name=managerRoleID]").find("option[value="+msg.manager.managerRoleID+"]").attr("selected",true);
 		   		}
 		   },error: function(){
-		   	  alert("系统异常");
+		   	  <@ms.notify msg= "系统异常" type= "danger" />
 		   }
 		});
 		URL = "${managerPath}/manager/update.do?managerId="+managerId;
@@ -211,7 +217,7 @@
 		if(radioData!=""){
 			$(".deleteAll").modal();//打开
 		}else{
-			alert("请选择需要删除的管理员！");
+			<@ms.notify msg= "请选择需要删除的管理员！" type= "warning" />
 		}
 	 });
 	 
@@ -236,19 +242,19 @@
 				   		$("#deleteButton").attr("disabled",true);
 				   },
 				   success: function(msg){
-				   		alert("删除管理员成功");
+				   		<@ms.notify msg= "删除管理员成功" type= "success" />
 				   		if($("tbody tr").length == count && msg != 1){
 				     		location.href = base+"${baseManager}/manager/queryList.do?pageNo="+(msg-1);
 						}else{
 				     		location.href = base+"${baseManager}/manager/queryList.do?pageNo="+msg;
 						}
 				   },error: function(){
-				   	  alert("批量删除管理员失败");
+				   	  <@ms.notify msg= "批量删除管理员失败" type= "danger" />
 				      $(".deleteAll").modal("hide");
 				   }
 				});
 			 } else {
-				alert("删除失败，请先选择管理员");
+			 	<@ms.notify msg= "删除失败，请先选择管理员" type= "danger" />
 				$(".deleteAll").modal("hide");
 			 }
 		 });
@@ -269,18 +275,18 @@
 			   data: "managerId=" + radioManagerId,
 			   success: function(msg){
 			    	if(msg != 0) {
-						alert("删除管理员成功");
+			    		<@ms.notify msg= "删除管理员成功" type= "success" />
 			    		if($("tbody tr").length==0 && msg != 1){
 			    			location.href = base+"${baseManager}/manager/queryList.do?pageNo="+(msg-1);
 						}else{
 							location.href = base+"${baseManager}/manager/queryList.do?pageNo="+msg;
 						}
 			    	} else {
-						alert("删除管理员失败");
+						<@ms.notify msg= "删除管理员失败" type= "danger" />
 				    	$(".closeModal").click();
 			    	}
 			   },error: function(){
-			   	  alert("系统异常");
+			   	  <@ms.notify msg= "系统异常" type= "danger" />
 			   }
 			});
 		 });
@@ -343,7 +349,7 @@
 				},
 				success: function(msg){
 					if(msg){
-			     		alert("保存成功");
+			     		<@ms.notify msg= "保存成功!" type= "success" />
 			     		location.href = base+"${baseManager}/manager/queryList.do";
 			     	} 
 			   	}

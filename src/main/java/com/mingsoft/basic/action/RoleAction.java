@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -166,6 +167,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@PostMapping("/saveOrUpdateRole")
 	@ResponseBody
+	@RequiresPermissions("role:save")
 	public void saveOrUpdateRole(@ModelAttribute RoleEntity role,@RequestParam(value="ids[]",required=false) List<Integer> ids, HttpServletResponse response, HttpServletRequest request) {
 		//组织角色属性，并对角色进行保存
 		RoleEntity _role = new RoleEntity();
@@ -228,6 +230,7 @@ public class RoleAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("role:del")
 	public void delete(@RequestBody List<RoleEntity> roles,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[roles.size()];
 		ManagerSessionEntity managerSession = this.getManagerBySession(request);
