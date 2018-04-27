@@ -18,8 +18,8 @@
 		<div id="toolbar">
 			<@ms.panelNav>
 				<@ms.buttonGroup>
-					<@ms.addButton id="addManagerBtn"/>
-					<@ms.delButton id="delManagerBtn"/>
+					<@shiro.hasPermission name="manager:save"><@ms.panelNavBtnAdd title="" id="addManagerBtn"/></@shiro.hasPermission> 
+					<@shiro.hasPermission name="manager:del"><@ms.panelNavBtnDel title="" id="delManagerBtn"/></@shiro.hasPermission> 
 				</@ms.buttonGroup>
 			</@ms.panelNav>
 		</div>
@@ -97,7 +97,13 @@
 				        		if(row.managerId == 0){
 				        			return value;
 				        		}else{
-				        			return "<a onclick='updateSearch("+row.managerId+")' style='cursor:pointer;text-decoration:none;' >" + value + "</a>";
+				        			<@shiro.hasPermission name="manager:update">	        
+						        	return "<a onclick='updateSearch("+row.managerId+")' style='cursor:pointer;text-decoration:none;' >" + value + "</a>";
+						    		</@shiro.hasPermission> 
+						    		<@shiro.lacksPermission name="manager:update">
+						    			return value;
+						    		</@shiro.lacksPermission>
+				        			
 				        		}
 				        	}
 				    	},							    	{

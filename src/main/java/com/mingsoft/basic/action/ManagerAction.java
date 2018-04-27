@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -194,6 +195,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
+	@RequiresPermissions("manager:save")
 	public void save(@ModelAttribute ManagerEntity manager, HttpServletResponse response, HttpServletRequest request) {
 		ManagerEntity newManager = new ManagerEntity();
 		newManager.setManagerName(manager.getManagerName());
@@ -248,6 +250,7 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("manager:del")
 	public void delete(@RequestBody List<ManagerEntity> managers,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[managers.size()];
 		for(int i = 0;i<managers.size();i++){
@@ -282,7 +285,8 @@ public class ManagerAction extends com.mingsoft.basic.action.BaseAction{
 	 * }</dd><br/>
 	 */
 	@PostMapping("/update")
-	@ResponseBody	 
+	@ResponseBody
+	@RequiresPermissions("manager:update")
 	public void update(@ModelAttribute ManagerEntity manager, HttpServletResponse response,
 			HttpServletRequest request) {
 		//验证管理员用户名的值是否合法			

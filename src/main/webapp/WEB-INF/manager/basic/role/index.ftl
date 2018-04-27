@@ -10,8 +10,8 @@
 		<div id="toolbar">
 			<@ms.panelNav>
 				<@ms.buttonGroup>
-					<@ms.addButton id="addRoleBtn"/>
-					<@ms.delButton id="delRoleBtn"/>
+					<@shiro.hasPermission name="role:save"><@ms.panelNavBtnAdd title="" id="addRoleBtn"/></@shiro.hasPermission> 
+					<@shiro.hasPermission name="role:del"><@ms.panelNavBtnDel title="" id="delRoleBtn"/></@shiro.hasPermission> 
 				</@ms.buttonGroup>
 			</@ms.panelNav>
 		</div>
