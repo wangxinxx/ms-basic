@@ -1,6 +1,6 @@
 <@ms.html5>
 	<@ms.nav title="应用设置">
-		<@shiro.hasPermission name="app:update"><@ms.panelNavBtnAdd title="" postForm="appForm"/></@shiro.hasPermission> 
+		<@shiro.hasPermission name="app:update"><@ms.saveButton title="" postForm="appForm"/></@shiro.hasPermission> 
 	</@ms.nav>
 	<@ms.panel>
 		<@ms.form isvalidation=true name="appForm"  action="${managerPath}/app/update.do">
