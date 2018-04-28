@@ -59,8 +59,12 @@
 				        	field: 'roleName',
 				        	title: '角色名',
 				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/basic/role/form.do?roleId="+row.roleId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+				        		if("${Session.manager_session.managerRoleID}" == row.roleId){
+					        		return  value ;
+					        	}else{
+					        		var url = "${managerPath}/basic/role/form.do?roleId="+row.roleId;
+					        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+					        	}
 				        	}
 				    	}]
 	    })

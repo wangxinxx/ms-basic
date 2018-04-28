@@ -390,8 +390,10 @@ public class ModelAction extends BaseAction {
 		int roleId = BasicUtil.getInt("roleId");
 		ManagerSessionEntity managerSession = this.getManagerBySession(request);
 		int currentRoleId = managerSession.getManagerRoleID();
+		boolean updateFalg = true;
 		//新增角色roleId为0，默认当前管理员的roleId
 		if(roleId == 0){
+			updateFalg = false;
 			roleId = currentRoleId;
 		}
 		List<BaseEntity> modelList = modelBiz.queryModelByRoleId(currentRoleId);
@@ -418,7 +420,7 @@ public class ModelAction extends BaseAction {
 					_modelEntity.getModelChildList().add(childModel);
 					//选中状态
 					for(RoleModelEntity roleModelEntity : roleModelList){
-						if(roleModelEntity.getModelId() == childModel.getModelId()){
+						if(roleModelEntity.getModelId() == childModel.getModelId() && updateFalg){
 							childModel.setChick(1);
 						}
 					}
